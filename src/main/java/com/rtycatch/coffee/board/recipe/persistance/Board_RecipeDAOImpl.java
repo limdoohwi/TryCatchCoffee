@@ -16,7 +16,7 @@ public class Board_RecipeDAOImpl implements Board_RecipeDAO {
 	
 	private static final String NAMESPACE = "com.trycatch.coffee.mappers.board_recipeMapper";
 
-
+     
 	@Override
 	public void insertBoard_Recipe(Board_RecipeDTO dto) throws Exception {
 		// TODO Auto-generated method stub
