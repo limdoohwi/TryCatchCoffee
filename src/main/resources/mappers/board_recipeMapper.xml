@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.board_recipeMapper">
+
+	<insert id="insertBoard_Recipe" parameterType="Board_RecipeDTO">
+		insert into board_recipe()
+		values()
+	</insert>
+	
+	<select id="board_recipe_list" resultType="Board_RecipeDTO">
+		select * from board_recipe where bno>0 order by bno desc
+	</select>
+	
+</mapper>
