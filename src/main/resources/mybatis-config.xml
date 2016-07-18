@@ -7,5 +7,6 @@
 <configuration>
 	<typeAliases>
 		<package name="com.trycatch.coffee.member.domain" />
+		<package name="com.trycatch.coffee.board.client.domain" />
 	</typeAliases>
 </configuration>
