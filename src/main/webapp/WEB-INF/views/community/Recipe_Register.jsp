@@ -1,7 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +30,7 @@
 			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div>
 			<div class="panel-body">${boardRecipeDTO.board_recipe_content}</div>
 			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div>
-			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify?board_recipe_no=${boardRecipeDTO.board_recipe_no}">register</a>/&nbsp;<a href="/communty.recipe_delete?board_recipe_no=${boardRecipeDTO.board_recipe_no}">delete</a>/&nbsp;<a href="/community/Recipe_List">list</a>&nbsp;
+			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify">수정</a>/&nbsp;<a href="#">삭제</a>/&nbsp;<a href="#">목록으로</a>&nbsp;
 		</div>
 		
 		
@@ -44,6 +41,3 @@
 <jsp:include page="/WEB-INF/views/layout/Footer.jsp" />	
 </body>
 </html>
-
-
-<jsp:include page="/WEB-INF/views/layout/Footer.jsp" />
