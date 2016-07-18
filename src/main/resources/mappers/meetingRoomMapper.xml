@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.meetingRoomMapper"> 
+	<select id="getMeetingRoomList_withStore_no" parameterType="int" resultType="MeetingRoomDTO">
+		select * from meeting_room where store_no = #{store_no}
+	</select>
+	<select id="getMeetingRoomList_withReservation_date" resultType="MeetingRoomReservationDTO">
+		select * from meeting_reservation where meeting_no = #{meeting_no} and meeting_reservation_date = #{meeting_reservation_date}
+	</select>
+	<select id="getMeetingRoomList_isFull" resultType="int,String">
+		select count(*), meeting_reservation_date from meeting_reservation  where curdate() <= meeting_reservation_date group by meeting_reservation_date;
+	</select>
+	<insert id="insertMeetingRoomReservation">
+		INSERT INTO MEETING_RESERVATION(MEETING_NO, MEMBER_NO, MEETING_RESERVATION_TIME, MEETING_RESERVATION_DATE) VALUES(#{meeting_no}, #{member_no}, #{meeting_reservation_time}, #{meeting_reservation_date})
+	</insert>
+</mapper>

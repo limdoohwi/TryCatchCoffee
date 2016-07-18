@@ -25,7 +25,7 @@
 					var wX = screen.availWidth;
 					var wY = screen.availHeight;
 					wY = (wY - 38);
-					var url = 'front?cmd=meeting_room_popup';
+					var url = '/meeting_room.order';
 					var popOption = 'width=' + wX + ', height=' + wY
 							+ ', resizable=no, scrollbars=no, status=no;';
 					window.open(url, '', popOption);

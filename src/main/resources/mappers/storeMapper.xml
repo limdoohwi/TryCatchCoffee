@@ -21,6 +21,7 @@
     <select id="getStore_meeting_room_count" resultType="int">
            select count(*) from meeting_room where store_no = store_no;
     </select>
+ 
     <insert id="insertStore">
         insert into store(store_name, store_addr, member_no, meeting_room, store_ip) values(#{store_name}, #{store_addr}, #{member_no}, #{meeting_room}, #{store_ip})
     </insert>
