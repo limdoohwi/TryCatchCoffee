@@ -58,16 +58,18 @@
 <!-- Header -->
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 
-		<!-- Member -->
-		<jsp:include page="Member_Management.jsp" />
-
-	
-		<%-- Store --%>
-		<jsp:include page="Store_Management.jsp" />
-
-
-		<%-- Menu --%>
+<c:if test="${check == 'member'}">
+	<!-- Member -->
+	<jsp:include page="Member_Management.jsp" />
+</c:if>
+<c:if test="${check == 'store'}">
+	<%-- Store --%>
+	<jsp:include page="Store_Management.jsp" />
+</c:if>
+<c:if test="${check == 'menu'}">
+	<%-- Menu --%>
 		<jsp:include page="Menu_Management.jsp" />
+</c:if>
 
 <!-- Footer -->
 <jsp:include page="/WEB-INF/views/layout/Footer.jsp" />

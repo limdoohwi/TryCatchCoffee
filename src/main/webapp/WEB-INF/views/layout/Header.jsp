@@ -253,6 +253,30 @@ h2 {
 						name="Board-Manage" role="menuitem" tabindex="-1" href="#">게시판
 						관리</a><br /> <a name="Menu-Manage" role="menuitem" tabindex="-1"
 						href="front?cmd=manager&check=menu">메뉴 관리</a><br />
+				<!-- dropdown menu -->
+				<div style="padding-top: 40px; display:inline-block; margin-left: 115px">
+					<!-- TryCoffee Menu -->
+					<div style="display: inline-block;">
+						<a name="Company" role="menuitem" tabindex="-1" href="front?cmd=trycoffee&check=company">회사소개</a><br /> 
+						<a name="Ceo" role="menuitem" tabindex="-1" href="front?cmd=trycoffee&check=ceo">CEO 인사말</a><br /> 
+					</div>
+					<!-- Order Menu -->
+					<div style="display: inline-block; margin-left: 15px">
+						<a name="Drink" role="menuitem" tabindex="-1" href="front?cmd=order&check=drink">음료 주문 예약</a><br />
+						<a name="MeetingRoom" id="MeetingRoom-Btn" role="menuitem" tabindex="-1" href="#">미팅룸 예약</a><br />
+					</div>
+					<!-- Community Menu -->
+					<div style="display: inline-block; margin-left: 13px">
+						<a name="Recipe" role="menuitem" tabindex="-1" href="#">Recipe<br/>Contest</a><br />
+						<a name="Client" role="menuitem" tabindex="-1" href="#">고객의 소리</a><br />
+					</div>
+					<!-- Manager Menu -->
+					<div  style="display: inline-block; margin-left: 30px">
+						<a name="Member-Manage" role="menuitem" tabindex="-1" href="member.manager">회원 관리</a><br /> <a
+							name="Store-Manage" role="menuitem" tabindex="-1" href="store.manager">매장 관리</a><br /> <a
+							name="Board-Manage" role="menuitem" tabindex="-1" href="board.manager">게시판 관리</a><br /> <a
+							name="Menu-Manage" role="menuitem" tabindex="-1" href="menu.manager">메뉴 관리</a><br />
+					</div>
 				</div>
 			</div>
 		</ul>

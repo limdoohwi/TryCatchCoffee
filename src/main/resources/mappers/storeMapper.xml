@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.storeMapper"> 
+     
+    <select id="getStore_store_no" resultType="StoreDTO">
+          select store_no, store_name, store_addr, store.member_no, member_name, meeting_room, store_ip from store join member on store.member_no = member.member_no where store.store_no = #{store_no};
+    </select>
+    <select id="getStoreList" resultType="StoreDTO">
+       select store_no, store_name, store_addr, member_name, meeting_room, store_ip from store  join member on store.member_no = member.member_no order by store.store_no desc;
+    </select>
+    <select id="getStoreList_every_column" parameterType="String" resultType="StoreDTO">
+       select store_no, store_name, store_addr, member_name, meeting_room, store_ip from store  join member on store.member_no = member.member_no 
+       where store_no like concat("%", #{search_store_value}, "%") or store_name like concat("%", #{search_store_value}, "%") or store_addr like concat("%", #{search_store_value}, "%") or member_name like concat("%", #{search_store_value}, "%")
+       or meeting_room like concat("%", #{search_store_value}, "%") or store_ip like concat("%", #{search_store_value}, "%") 
+       order by store.store_no desc;
+    </select>    
+    <select id="getStore_meeting_room_count" resultType="int">
+           select count(*) from meeting_room where store_no = store_no;
+    </select>
+    <insert id="insertStore">
+        insert into store(store_name, store_addr, member_no, meeting_room, store_ip) values(#{store_name}, #{store_addr}, #{member_no}, #{meeting_room}, #{store_ip})
+    </insert>
+    <update id="updateStore">
+        update store set store_name = #{store_name}, store_addr = #{store_addr}, member_no = #{member_no}, meeting_room = #{meeting_room}, store_ip = #{store_ip} where store_no = #{store_no}
+    </update>
+    <delete id="deleteStore">
+        delete from store where store_no = #{store_no}
+    </delete>
+    <insert id="insertMeetingRoomStore">
+        insert into meeting_room(store_no) values(#{store_no})
+    </insert>
+    <delete id="deleteMeetingRoomStore">
+        delete from meeting_room where store_no = #{store_no}
+    </delete>
+    
+</mapper>
