@@ -27,10 +27,13 @@ PRIMARY KEY(MENU_NUM),
 FOREIGN KEY(MENU_CATEGORY_NUM) REFERENCES MENU_CATEGORY(MENU_CATEGORY_NUM)
 );
 
-select * from member;
-
-delete from member where member_no=6;
-
-select * from menu_category;
-
-select * from menu;
+CREATE TABLE STORE(
+STORE_NO int not null auto_increment,
+STORE_NAME varchar(20) not null,
+STORE_ADDR varchar(80) not null,
+MEMBER_NO int not null,
+MEETING_ROOM int not null,
+STORE_IP varchar(20)
+PRIMARY KEY(STORE_NO),
+FOREIGN KEY(MEMBER_NO) REFERENCES MEMBER(MEMBER_NO)
+);
