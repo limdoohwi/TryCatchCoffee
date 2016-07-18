@@ -19,19 +19,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberDTO login(String member_email, String member_pw) throws Exception{
-		MemberDTO dto =dao.getMember_email(member_email);
-		if(dto!=null){
-				if(dto.getMember_pw().equals(member_pw)){
-					return dto;
-				}
-				else{
-					return null;
-				}
-		}
-		else{
-			return null;
-		}
-		
+		MemberDTO dto =dao.getMember_WithPW(member_email, member_pw);
+		return dto;
 	}
 
 }

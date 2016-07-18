@@ -1,7 +1,9 @@
 package com.trycatch.coffee.member.persitance;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -61,6 +63,19 @@ public class MemberDAOImpl implements MemberDAO {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public MemberDTO getMember_WithPW(String member_email, String member_pw) {
+		try{
+			Map<String, Object> map = new HashMap<>();
+			map.put("member_email", member_email);
+			map.put("member_pw", member_pw);
+			return sqlSession.selectOne("getMember_WithPW",map);
+		}
+		catch(Exception err){
+			return null;
+		}
 	}
 
 }

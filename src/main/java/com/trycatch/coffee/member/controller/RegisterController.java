@@ -23,7 +23,7 @@ public class RegisterController {
 	}
 	@RequestMapping(value="/register.member", method = RequestMethod.POST)
 	public ModelAndView requestPost(@ModelAttribute MemberDTO dto) throws Exception{
-		ModelAndView view = new ModelAndView("Main");
+		ModelAndView view = new ModelAndView("redirect:/");
 		boolean register_success = service.register(dto);
 		view.addObject("register_success",register_success);
 		return view;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.menuMapper">  
+    <insert id="insertMenucategory">
+        insert into menu_category(menu_category_name) values(#{menu_category_name})
+    </insert>
+    <select id="getMenucategorynum" resultType="int">
+        select menu_category_num from menu_category where menu_category_name = #{menu_category_name}
+    </select>
+    <insert id="insertMenu">
+        insert into menu(menu_name,menu_price,menu_category_num,menu_image) values(#{menu_name},#{menu_price},#{menu_category_num},#{menu_image})
+    </insert>
+    
+</mapper>
