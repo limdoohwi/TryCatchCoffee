@@ -1,4 +1,4 @@
-package com.trycatch.coffee.manager.persitance;
+package com.trycatch.coffee.menu.persitance;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.trycatch.coffee.manager.domain.MenuDTO;
+import com.trycatch.coffee.menu.domain.MenuDTO;
 
 @Repository
 public class MenuDAOImpl implements MenuDAO {

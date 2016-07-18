@@ -1,4 +1,4 @@
-package com.trycatch.coffee.manager.controller;
+package com.trycatch.coffee.menu.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.trycatch.coffee.manager.domain.MenuDTO;
-import com.trycatch.coffee.manager.service.MenuService;
+import com.trycatch.coffee.menu.domain.MenuDTO;
+import com.trycatch.coffee.menu.service.MenuService;
 
 @Controller
 public class InsertMenuController {

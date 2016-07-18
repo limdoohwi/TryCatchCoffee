@@ -1,4 +1,4 @@
-package com.trycatch.coffee.manager.service;
+package com.trycatch.coffee.menu.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.trycatch.coffee.manager.domain.MenuDTO;
-import com.trycatch.coffee.manager.persitance.MenuDAO;
+import com.trycatch.coffee.menu.domain.MenuDTO;
+import com.trycatch.coffee.menu.persitance.MenuDAO;
 @Service
 public class MenuServiceImpl implements MenuService {
 	@Inject

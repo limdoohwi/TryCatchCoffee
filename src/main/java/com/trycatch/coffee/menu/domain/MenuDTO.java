@@ -1,4 +1,4 @@
-package com.trycatch.coffee.manager.domain;
+package com.trycatch.coffee.menu.domain;
 
 public class MenuDTO {
 	private int menu_num;
