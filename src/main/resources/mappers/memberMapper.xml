@@ -11,4 +11,13 @@
     <select id="getMember_email" resultType="MemberDTO">
         select * from member where member_email=#{member_email}
     </select>
+    <select id="getMemberList" resultType="MemberDTO">
+        select * from member
+    </select>
+    <select id="getMember_email_like" resultType="MemberDTO">
+        select * from member where member_email like concat(#{member_email}, "%")
+    </select>
+    <select id="getCreate_owner" resultType="MemberDTO">
+        select * from member where member_code = 2 order by member_regdate desc
+    </select>
 </mapper>

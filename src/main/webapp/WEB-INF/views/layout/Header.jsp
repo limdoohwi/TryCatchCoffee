@@ -225,10 +225,10 @@ h2 {
 					</div>
 					<!-- Manager Menu -->
 					<div  style="display: inline-block; margin-left: 30px">
-						<a name="Member-Manage" role="menuitem" tabindex="-1" href="front?cmd=manager&check=member">회원 관리</a><br /> <a
-							name="Store-Manage" role="menuitem" tabindex="-1" href="front?cmd=manager&check=store">매장 관리</a><br /> <a
-							name="Board-Manage" role="menuitem" tabindex="-1" href="#">게시판 관리</a><br /> <a
-							name="Menu-Manage" role="menuitem" tabindex="-1" href="front?cmd=manager&check=menu">메뉴 관리</a><br />
+						<a name="Member-Manage" role="menuitem" tabindex="-1" href="member.manager">회원 관리</a><br /> <a
+							name="Store-Manage" role="menuitem" tabindex="-1" href="store.manager">매장 관리</a><br /> <a
+							name="Board-Manage" role="menuitem" tabindex="-1" href="board.manager">게시판 관리</a><br /> <a
+							name="Menu-Manage" role="menuitem" tabindex="-1" href="menu.manager">메뉴 관리</a><br />
 					</div>
 				</div>
 			</ul>

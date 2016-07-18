@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.trycatch.coffee.member.domain.MemberDTO;
@@ -42,8 +44,11 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public List<MemberDTO> getMemberList() {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			return sqlSession.selectList(NAMESPACE + ".getMemberList");
+		}catch(Exception err){
+			return null;
+		}
 	}
 
 	@Override
@@ -55,7 +60,7 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public MemberDTO getMember_email(String member_email) {
 		try{
-			return sqlSession.selectOne("getMember_email",member_email);
+			return sqlSession.selectOne(NAMESPACE + ".getMember_email", member_email);
 		}
 		catch(Exception err){
 			return null;
@@ -63,4 +68,25 @@ public class MemberDAOImpl implements MemberDAO {
 		
 	}
 
+	@Override
+	public List<MemberDTO> getMember_email_like(String member_email) {
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getMember_email_like", member_email);
+		}
+		catch (Exception err) {
+			return null;
+		}
+	}
+
+	@Override
+	public MemberDTO getCreate_owner() {
+		try {
+			List<MemberDTO> list = sqlSession.selectList(NAMESPACE + ".getCreate_owner");
+			MemberDTO dto = list.get(0);
+			return dto;
+		} 
+		catch (Exception err) {
+			return null;
+		}
+	}
 }
