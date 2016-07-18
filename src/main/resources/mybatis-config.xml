@@ -9,5 +9,6 @@
 		<package name="com.trycatch.coffee.member.domain" />
 		<package name="com.trycatch.coffee.manager.domain" />
 		<package name="com.trycatch.coffee.store.domain" />
+		<package name="com.trycatch.coffee.board.recipe.domain" />
 	</typeAliases>
 </configuration>

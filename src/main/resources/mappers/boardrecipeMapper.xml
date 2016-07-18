@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.boardrecipeMapper">
+
+	<insert id="boardrecipeinsert" parameterType="BoardRecipeDTO">
+		insert into board_recipe(board_recipe_title, board_recipe_content, board_recipe_writer, board_recipe_date)
+		values(#{board_recipe_title},#{board_recipe_content},#{board_recipe_writer},sysdate())
+		
+	</insert>
+	
+	<select id="boardrecipelist" resultType="BoardRecipeDTO">
+		select * from board_recipe where board_recipe_no>0 order by board_recipe_no desc
+	</select>
+	
+	<select id="boardreciperead" resultType="BoardRecipeDTO">
+		select * from board_recipe where board_recipe_no=#{board_recipe_no}
+	</select>
+	
+	<update id="boardrecipemodify">
+		update board_recipe set  board_recipe_title = #{board_recipe_title}, board_recipe_content = #{board_recipe_content} where board_recipe_no = #{board_recipe_no}
+	</update>
+	
+	<delete id="boardrecipedelete">
+		delete from board_recipe where board_recipe_no = #{board_recipe_no}
+	</delete>
+	
+</mapper>
