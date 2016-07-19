@@ -55,7 +55,7 @@ public class BoardController {
 	//수정 페이지로 이동
 	@RequestMapping("/update.client.board")
 	public String update_page(BoardDTO board, Model model) throws Exception{
-		model.addAttribute("board", board);
+		model.addAttribute("board", service.read(board.getBoard_num()));
 		return "/board/update";
 	}
 	
