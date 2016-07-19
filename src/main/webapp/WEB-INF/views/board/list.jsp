@@ -101,51 +101,63 @@
 						<c:if test="${board.board_depth ==0 }">
 							<c:if test="${board.board_password==''}">
 								<tr align=center >
-								<td class="board_num_td" width="10%">${board.board_num }</td>
-								<td>${member_dto.member_name }</td>
-								<td class="board_subject_td" width="25%" style="cursor:pointer;">${board.board_subject}</td>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
-								<td width="10%">${board.board_hits }</td>
+									<td class="board_num_td" width="10%">${board.board_num }</td>
+									<td>${member_dto.member_name }</td>
+									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+									<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 							<c:if test="${board.board_password !=''}">
-								<tr align=center >
-								<td class="pass_board_num_td" width="10%">${board.board_num }</td>
-								<td>${member_dto.member_name }</td>
 								<c:if test="${member_dto.member_code ==1}">
-									<td class="board_password_td" width="25%" style="cursor:pointer;">비밀글 입니다.</td>
+									<tr align=center >
+										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
+										<td>${member_dto.member_name }</td>
+										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left">비밀글 입니다.</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
+									</tr>
 								</c:if>
 								<c:if test="${member_dto.member_code ==2 || member_dto.member_code ==3 }">
-									<td class="board_subject_td" width="25%" style="cursor:pointer;">${board.board_subject }</td>						
+									<tr align=center >
+										<td class="board_num_td" width="10%">${board.board_num }</td>
+										<td>${member_dto.member_name }</td>
+										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>						
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
+									</tr>	
 								</c:if>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
-								<td width="10%">${board.board_hits }</td>
-								</tr>
 							</c:if>
 						</c:if>
 						<c:if test="${board.board_depth !=0 }">
 							<c:if test="${board.board_password eq null}">
 								<tr align=center >
-								<td class="board_num_td" width="10%">${board.board_num }</td>
-								<td>${member_dto.member_name }</td>
-								<td class="board_subject_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gi"/>${board.board_subject}</td>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
-								<td width="10%">${board.board_hits }</td>
+									<td class="board_num_td" width="10%">${board.board_num }</td>
+									<td>${member_dto.member_name }</td>
+									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif"/>${board.board_subject}</td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+									<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 							<c:if test="${board.board_password ne null }">
-								<tr align=center >
-								<td class="pass_board_num_td" width="10%">${board.board_num }</td>
-								<td>${member_dto.member_name }</td>
 								<c:if test="${member_dto.member_code==1 }">
-									<td class="board_password_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gif">비밀글 답변 입니다.</td>
+									<tr align=center >
+										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
+										<td>${member_dto.member_name }</td>
+										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">비밀글 답변 입니다.</td>				
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
+									</tr>
 								</c:if>
 								<c:if test="${member_dto.member_code==2 || member_dto.member_code==3 }">
-									<td class="board_subject_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gif">${board.board_subject}</td>
+									<tr align=center >
+										<td class="board_num_td" width="10%">${board.board_num }</td>
+										<td>${member_dto.member_name }</td>
+										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">${board.board_subject}</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
+									</tr>
 								</c:if>
-								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
-								<td width="10%">${board.board_hits }</td>
-								</tr>
 							</c:if>
 						</c:if>		
 					</c:forEach>
