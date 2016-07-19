@@ -49,18 +49,19 @@
 	}
 	
 		$(function(){
-			$("#board_subject_td").click(
+			$(".board_subject_td").click(
 				function(){
-					var a = $("#board_subject_td").index(this);
-					$("#board_num").val($("#board_num_td").eq(a).text());
-					$("#board_read_form").submit();
+					var a = $(".board_subject_td").index(this);
+					$("#post_board_num").val($(".board_num_td").eq(a).text());
+					$(".board_read_form").submit();
 				}		
 			);
-			$("#board_passsword_td").click(
+			
+			$(".board_password_td").click(
 					function(){
-						var a = $("#board_password_td").index(this);
-						$("#board_num").val($("#board_num_td").eq(a).text());
-						$("#board_password_form").submit();
+						var a = $(".board_password_td").index(this);
+						$("#pass_board_num").val($(".pass_board_num_td").eq(a).text());
+						$(".board_password_form").submit();
 					}		
 				);
 		}		
@@ -85,6 +86,7 @@
 		<table class=table>
 			<tr align=center bgcolor=#D0D0D0 height=120%>
 				<td> 번호 </td>
+				<td>작성자</td>
 				<td> 제목 </td>
 				<td> 날짜 </td>
 				<td> 조회수 </td>
@@ -97,48 +99,66 @@
 				<c:if test="${totalRecord_Board != 0 }" >
 					<c:forEach items="${list}"  var="board">
 						<c:if test="${board.board_depth ==0 }">
-							<c:if test="${board.board_password==null }">
+							<c:if test="${board.board_password==''}">
 								<tr align=center >
-								<td id="board_num_td" width="10%">${board.board_num }</td>
-								<td id="board_subject_td" width="25%" style="cursor:pointer;">${board.board_subject}</td>
-								<td width="10%">${board.board_date}</td>
+								<td class="board_num_td" width="10%">${board.board_num }</td>
+								<td>${member_dto.member_name }</td>
+								<td class="board_subject_td" width="25%" style="cursor:pointer;">${board.board_subject}</td>
+								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
 								<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
-							<c:if test="${board.board_password !=null }">
+							<c:if test="${board.board_password !=''}">
 								<tr align=center >
-								<td id="board_num_td" width="10%">${board.board_num }</td>
-								<td id="board_password_td" width="25%" style="cursor:pointer;">비밀글 입니다.</td>
-								<td width="10%">${board.board_date}</td>
+								<td class="pass_board_num_td" width="10%">${board.board_num }</td>
+								<td>${member_dto.member_name }</td>
+								<c:if test="${member_dto.member_code ==1}">
+									<td class="board_password_td" width="25%" style="cursor:pointer;">비밀글 입니다.</td>
+								</c:if>
+								<c:if test="${member_dto.member_code ==2 || member_dto.member_code ==3 }">
+									<td class="board_subject_td" width="25%" style="cursor:pointer;">${board.board_subject }</td>						
+								</c:if>
+								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
 								<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 						</c:if>
 						<c:if test="${board.board_depth !=0 }">
-							<c:if test="${board.board_password==null }">
+							<c:if test="${board.board_password eq null}">
 								<tr align=center >
-								<td id="board_num_td" width="10%">${board.board_num }</td>
-								<td id="board_subject_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gi"/>${board.board_subject}</td>
-								<td width="10%">${board.board_date}</td>
+								<td class="board_num_td" width="10%">${board.board_num }</td>
+								<td>${member_dto.member_name }</td>
+								<td class="board_subject_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gi"/>${board.board_subject}</td>
+								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
 								<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
-							<c:if test="${board.board_password !=null }">
+							<c:if test="${board.board_password ne null }">
 								<tr align=center >
-								<td id="board_num_td" width="10%">${board.board_num }</td>
-								<td id="board_password_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gif">비밀글 답변 입니다.</td>
-								<td width="10%">${board.board_date}</td>
+								<td class="pass_board_num_td" width="10%">${board.board_num }</td>
+								<td>${member_dto.member_name }</td>
+								<c:if test="${member_dto.member_code==1 }">
+									<td class="board_password_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gif">비밀글 답변 입니다.</td>
+								</c:if>
+								<c:if test="${member_dto.member_code==2 || member_dto.member_code==3 }">
+									<td class="board_subject_td" width="25%" style="cursor:pointer;"><img src="/WEB-INF/img/re.gif">${board.board_subject}</td>
+								</c:if>
+								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
 								<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 						</c:if>		
 					</c:forEach>
 				</c:if>
-			<form method="post" action="read.client.board" id="board_read_form">
-				<input type="hidden" id="board_num" name="board_num"/>		
+			<form method="post" action="/read.client.board" class="board_read_form">
+				<input type="hidden" id="post_board_num" name="board_num"/>
+				<input type="hidden" name="board_password" value="${board.board_password }"/>
+				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>		
 			</form>
-			<form method="post" action="pass.client.board" id="board_password_form">
-				<input type="hidden" id="board_num" name="board_num"/>			
+			<form method="post" action="/pass.client.board" class="board_password_form">
+				<input type="hidden" id="pass_board_num" name="board_num"/>
+				<input type="hidden" name="board_password" value="${board.board_password }"/>
+				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>			
 			</form>
 		</table>
 	</td>
@@ -149,9 +169,9 @@
 <tr>
 	<td align="left">Go to Page </td>
 	<td align=right>
-	<form method="post" action="insert.client.board" id="post_form">
+	<form method="post" action="/insert.client.board" id="post_form">
 		<button type="submit" id="post_button" class ="btn add-on">글쓰기<i class="icon-pencil"></i></button>
-	<!--  <a href="javascript:list()">[처음으로]</a> -->
+		<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
 	</form>	
 	</td>
 </tr>

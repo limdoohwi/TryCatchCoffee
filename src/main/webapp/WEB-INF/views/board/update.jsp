@@ -32,24 +32,14 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="/resources/bootstrab/js/freelancer.js"></script>
-<script>
-$(
-		function(){
-			$("#update_submit_button").click(
-				function(){
-					$("#form").submit();
-				}		
-			);
-		}
-	);	
-</script>
+
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 <div class="panel panel-default panel-table" style="width:70%; " align="center">
 	<div class="panel-head" style="background-color: orange">
 		<h3>수정하기</h3>
 	</div>
 	<div class="panel-body">
-		<form id=form method=post action="update.submit.client.board" >
+		<form id=form method=post action="/update.submit.client.board" >
 			<table class="table" style="border: none;">
 			<tr>
 		     <td width=10%>제 목</td>
@@ -64,7 +54,7 @@ $(
 		    </tr>
 		    <tr align="right">
 		     <td colspan=2 >
-			  <button class="btn btn-primary" id="update_submit_button">수정 완료</button>
+			  <button type="submit" class="btn btn-primary" id="update_submit_button">수정 완료</button>
 			  <input type="hidden" name="board_num" value="${board.board_num}" /> 
 			  <input type="hidden" name="board_password" value="${board.board_password }" />
 		      <button class="btn btn-warning" onClick="history.back()">뒤로</button>

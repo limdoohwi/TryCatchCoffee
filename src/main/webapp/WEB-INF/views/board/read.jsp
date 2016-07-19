@@ -53,7 +53,8 @@ $(document).ready(function(){
 	});
 	
 	$(".btn-primary").on("click", function(){
-		self.location = "/board/List";
+		formObj.attr("action", "/board/list");
+		formObj.submit();
 	});
 	
 	$(".btn-success").on("click", function(){
@@ -75,13 +76,14 @@ $(document).ready(function(){
 	<div class="panel-body">
 	<form role="form" method="post">
 		<input type='hidden' name='board_num' value="${board.board_num}">
-		<input type='hidden' id='board_password' value="${board.board_password }"/>
+		<input type='hidden' name='board_password' value="${board.board_password }"/>
+		<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
 		 <tr>
 		  <td colspan=4>
 		   <table class="table"> 
 		    <tr> 
 			 <td align=center bgcolor=#dddddd width=10%> 이 름 </td>
-			 <td bgcolor=#ffffe8>${param.member_name }</td>
+			 <td bgcolor=#ffffe8>${member_dto.member_name }</td>
 			 <td align=center bgcolor=#dddddd width=15%> 등록날짜 </td>
 			 <td bgcolor=#ffffe8>${board.board_date}</td>
 			</tr>

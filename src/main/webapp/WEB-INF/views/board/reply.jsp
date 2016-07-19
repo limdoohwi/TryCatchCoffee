@@ -40,7 +40,9 @@
 		 </tr>
 		</table>
 		<table class=table>
-			<form name="reply_form" method="post" action="insert.reply.client.board" >
+			<form name="reply_form" method="post" action="/insert.reply.client.board" >
+			<input type="hidden" name="board_password" value="${board_password}"/>
+			<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
 			 <tr>
 			  <td align=center>
 			   <table class="table">

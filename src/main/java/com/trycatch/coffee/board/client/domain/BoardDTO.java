@@ -2,7 +2,8 @@ package com.trycatch.coffee.board.client.domain;
 
 import java.util.Date;
 
-public class BoardVO {
+public class BoardDTO {
+	
 	private int board_num;
 	private int board_hits;
 	private int board_category;
@@ -13,6 +14,8 @@ public class BoardVO {
 	private Date board_date;
 	private String board_subject;
 	private String board_password;
+	private int member_no;
+	
 	
 	
 	public int getBoard_num() {
@@ -74,6 +77,9 @@ public class BoardVO {
 	}
 	public void setBoard_password(String board_password) {
 		this.board_password = board_password;
+	}
+	public int getMember_no() {
+		return member_no;
 	}
 	
 	

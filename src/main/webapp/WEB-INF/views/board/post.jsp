@@ -43,7 +43,8 @@
 	</div>
 	<div class=panel-body>
 		<table class="table table-striped table-bordered table-list">
-			<form name="post_form" method="post" action="post.client.board" >
+			<form name="post_form" method="post" action="/post.client.board" >
+			<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
 				 <tr>
 				  <td align=center>
 					   <table class=table>

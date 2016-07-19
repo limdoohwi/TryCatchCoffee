@@ -41,11 +41,11 @@
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 <body>
 <br><br>
-	
-<div class="span 5">
-	<form name="board_password_form" method="post" action="board/passcheck">
+<div class="span 5" align="center">
+	<form name="board_password_form" method="post" action="/password.check.client.board">
 		<input type="hidden" name="board_num" value="${board.board_num}"/>
-		<input type="password" id="password_text" name="password_text" />
+		<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
+		<input type="password" id="password_text" name="board_password" />
 		<button type="submit" class="btn btn-primary">비밀번호 입력완료</button>
 	</form>
 </div>

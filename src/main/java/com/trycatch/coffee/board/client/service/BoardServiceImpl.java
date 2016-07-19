@@ -6,26 +6,26 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.trycatch.coffee.board.client.domain.BoardVO;
+import com.trycatch.coffee.board.client.domain.BoardDTO;
 import com.trycatch.coffee.board.client.persistance.BoardDAO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Inject
-	BoardDAO dao;
+	BoardDAO dao; //member_dto.member_name
 	
 	@Override
-	public void insert(BoardVO board) throws Exception {
-		dao.insert(board);
+	public void insert(BoardDTO board, int member_no) throws Exception {
+		dao.insert(board, member_no);
 	}
 
 	@Override
-	public BoardVO read(Integer board_num, String board_password) throws Exception {
-		return dao.read(board_num, board_password);
+	public BoardDTO read(Integer board_num) throws Exception {
+		return dao.read(board_num);
 	}
 
 	@Override
-	public void update(BoardVO board) throws Exception {
+	public void update(BoardDTO board) throws Exception {
 		dao.update(board);
 	}
 
@@ -35,18 +35,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardVO> listAll() throws Exception {
+	public List<BoardDTO> listAll() throws Exception {
 		return dao.listAll();
 	}
 
 	@Override
-	public void reply(BoardVO board) throws Exception {
-		dao.reply(board);
+	public void reply(BoardDTO board, int member_no) throws Exception {
+		dao.reply(board, member_no);
 	}
 
-//	@Override
-//	public BoardVO check_pass(Integer board_num, String board_password) throws Exception {
-//		return dao.check_pass(board_num, board_password);
-//	}
+	@Override
+	public BoardDTO check_password(BoardDTO board) throws Exception{
+		return dao.check_password(board);
+	}
 
 }
