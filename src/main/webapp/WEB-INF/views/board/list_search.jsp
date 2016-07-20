@@ -53,7 +53,6 @@
 				function(){
 					var a = $(".board_subject_td").index(this);
 					$("#post_board_num").val($(".board_num_td").eq(a).text());
-					$("#board_hits").val($(".board_hits_td").eq(a).text());
 					$(".board_read_form").submit();
 				}		
 			);
@@ -62,7 +61,6 @@
 					function(){
 						var a = $(".board_password_td").index(this);
 						$("#pass_board_num").val($(".pass_board_num_td").eq(a).text());
-						$("#pass_board_hits").val($(".pass_board_hits_td").eq(a).text());
 						$(".board_password_form").submit();
 					}		
 				);
@@ -136,8 +134,8 @@
 									<td class="board_num_td" width="10%">${board.board_num }</td>
 									<td>${member_dto.member_name }</td>
 									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-									<td class="board_hits_td" width="10%">${board.board_hits }</td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+									<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 							<c:if test="${board.board_password !=''}">
@@ -146,8 +144,8 @@
 										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left">비밀글 입니다.</td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-										<td class="pass_board_hits_td" width="10%">${board.board_hits }</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>
 								<c:if test="${member_dto.member_code ==2 || member_dto.member_code ==3 }">
@@ -155,8 +153,8 @@
 										<td class="board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>						
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-										<td class="board_hits_td" width="10%">${board.board_hits }</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
 									</tr>	
 								</c:if>
 							</c:if>
@@ -166,9 +164,9 @@
 								<tr align=center >
 									<td class="board_num_td" width="10%">${board.board_num }</td>
 									<td>${member_dto.member_name }</td>
-									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img width="2px" src="/WEB-INF/views/img/re.gif"/>${board.board_subject}</td>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-									<td class="board_hits_td"width="10%">${board.board_hits }</td>
+									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif"/>${board.board_subject}</td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+									<td width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
 							<c:if test="${board.board_password ne null }">
@@ -177,8 +175,8 @@
 										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">비밀글 답변 입니다.</td>				
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-										<td class="pass_board_hits_td" width="10%">${board.board_hits }</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>
 								<c:if test="${member_dto.member_code==2 || member_dto.member_code==3 }">
@@ -186,8 +184,8 @@
 										<td class="board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">${board.board_subject}</td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
-										<td class="board_hits_td" width="10%">${board.board_hits }</td>
+										<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+										<td width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>
 							</c:if>
@@ -197,22 +195,19 @@
 			<form method="post" action="/read.client.board" class="board_read_form">
 				<input type="hidden" id="post_board_num" name="board_num"/>
 				<input type="hidden" name="board_password" value="${board.board_password }"/>
-				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>	
-				<input type="hidden" name="board_hits" id="board_hits" />
+				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>		
 			</form>
 			<form method="post" action="/pass.client.board" class="board_password_form">
 				<input type="hidden" id="pass_board_num" name="board_num"/>
 				<input type="hidden" name="board_password" value="${board.board_password }"/>
-				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
-				<input type="hidden" name="board_hits" id="pass_board_hits" />			
+				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>			
 			</form>
-			</table>
-			<table>
+			<br/><br/><br/><br/><br/><br/>
 				<div class="span6 offset3" align="left">
 					<div class="pagination">
 			  			<ul>
 			  				<c:if test="${nowBlock_Board > 0}">
-			    				<td><a href="/board/list?beginPerPage_Board">Prev</a></td>
+			    				<td><a href="/search.client.board&beginPerPage_Board">Prev</a></td>
 			    			</c:if>	
 			    			<c:set var="BlockisCreate_Board" value="true"/>
 			    			<c:forEach var="index_Board" begin="0" end="${pagePerBlock_Board-1}" varStatus="BlockNum_Board">
@@ -220,11 +215,11 @@
 			   						<c:if test="${(nowBlock_Board * pagePerBlock_Board) + index_Board == totalPage_Board-1}">
 			   							<c:set var="BlockisCreate_Board" value="false"/>
 			   						</c:if>
-			   						<td width="30px"><a href="/board/list?nowPage_Board=${(nowBlock_Board* pagePerBlock_Board) + index_Board}&nowBlock_Board=${nowBlock_Board}">${(nowBlock_Board * pagePerBlock_Board) + index_Board + 1}</a></td>
+			   						<td><a href="/search.client.board?nowPage_Board=${(nowBlock_Board* pagePerBlock_Board) + index_Board}&nowBlock_Board=${nowBlock_Board}">${(nowBlock_Board * pagePerBlock_Board) + index_Board + 1}</a></td>
 			   					</c:if>
 			   				</c:forEach>
 			   				<c:if test="${totalBlock_Board > nowBlock_Board + 1}">
-			    				<td><a href="/board/list?nowPage_Board=${(nowBlock_Board + 1) * pagePerBlock_Board}&nowBlock_Board=${nowBlock_Board + 1}">Next</a></td>
+			    				<td><a href="/search.client.board&nowPage_Board=${(nowBlock_Board + 1) * pagePerBlock_Board}&nowBlock_Board=${nowBlock_Board + 1}">Next</a></td>
 			    			</c:if>
 			  			</ul>
 					</div>
@@ -237,7 +232,7 @@
 </tr>
 <tr>
 	<td align="left">
-		<form action="/board/list" method="post">
+		<form action="/search.client.board" method="post">
 			<select name="keyValue">
 				<option value="board_subject"> 글 제목
 				<option value="board_content"> 글 내용

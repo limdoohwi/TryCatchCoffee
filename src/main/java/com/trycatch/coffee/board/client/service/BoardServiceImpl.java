@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+
 import com.trycatch.coffee.board.client.domain.BoardDTO;
 import com.trycatch.coffee.board.client.persistance.BoardDAO;
 
@@ -20,8 +21,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDTO read(Integer board_num) throws Exception {
-		return dao.read(board_num);
+	public BoardDTO read(BoardDTO board) throws Exception {
+		return dao.read(board);
 	}
 
 	@Override
@@ -49,4 +50,8 @@ public class BoardServiceImpl implements BoardService {
 		return dao.check_password(board);
 	}
 
+	@Override
+	public List<BoardDTO> search(String keyValue, String keyWord) throws Exception {
+		return dao.search(keyValue, keyWord);
+	}
 }

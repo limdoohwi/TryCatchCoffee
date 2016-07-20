@@ -44,7 +44,11 @@
         values(0,#{board_category},0,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no})
 	</insert>
 	
-	<select id="check_password" resultType="BoardDTO">
+	<select id="8 check_password" resultType="BoardDTO">
 		select * from board where board_num=#{board_num} and board_password=#{board_password}
+	</select>
+	
+	<select id="search" parameterType="hashMap" resultType="BoardDTO">
+		select * from board where ${keyValue} like concat('%', #{keyWord}, '%') order by board_pos
 	</select>
 </mapper>

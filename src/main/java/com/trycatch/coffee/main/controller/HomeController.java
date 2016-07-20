@@ -36,7 +36,7 @@ public class HomeController {
 		dto.setMember_email("aaa@aaa.com");
 		dto.setMember_mileage(10);
 		dto.setMember_name("LJY");
-		dto.setMember_no(2);
+		dto.setMember_no(1);
 		dto.setMember_pw("1111");
 		dto.setMember_regdate("2016/07/19");
 		dto.setMember_tel("010-000-0000");
