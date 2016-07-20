@@ -49,6 +49,16 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 		return dao.listAllBoardRecipe();
 	}
 
+	@Override
+	public void updateBoardRecipeCount(Integer bno) throws Exception {
+		dao.updateBoardRecipeCount(bno);
+	}
+
+	@Override
+	public void updateBoardRecipeLikes(Integer bno) throws Exception {
+		dao.updateBoardRecipeLikes(bno);
+	}
+
 
 
 }

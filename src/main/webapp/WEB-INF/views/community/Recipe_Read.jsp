@@ -30,13 +30,21 @@
 			<div class="panel-body">DATE : ${boardRecipeDTO.board_recipe_date}</div>
 			<div class="panel-body">COUNT : ${boardRecipeDTO.board_recipe_count}</div>
 			<div class="panel-body">LIKES : ${boardRecipeDTO.board_recipe_likes}</div>
+			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div> 
+			<div class="panel-body">${boardRecipeDTO.board_recipe_content}  
+			<c:choose>
+				<c:when test="${boardRecipeDTO.board_recipe_file != ''}">
+					<video src="/resources/video_Upload/${boardRecipeDTO.board_recipe_file}" style="width:900px" controls="controls"></video>
+				</c:when>
+				<c:otherwise>
+					<hr/>
+				</c:otherwise>
+			</c:choose>	
+			</div>
 			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div>
-			<div class="panel-body">${boardRecipeDTO.board_recipe_content}</div>
-			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div>
-			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify?board_recipe_no=${boardRecipeDTO.board_recipe_no}">register</a>/&nbsp;<a href="/communty.recipe_delete?board_recipe_no=${boardRecipeDTO.board_recipe_no}">delete</a>/&nbsp;<a href="/community/Recipe_List">list</a>&nbsp;
+		
+			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify?board_recipe_no=${boardRecipeDTO.board_recipe_no}">register</a>/&nbsp;<a href="/communty.recipe_delete?board_recipe_no=${boardRecipeDTO.board_recipe_no}">delete</a>/&nbsp;<a href="/community.Recipe_List">list</a>&nbsp;
 		</div>
-		
-		
 	</div>
 </div>
 

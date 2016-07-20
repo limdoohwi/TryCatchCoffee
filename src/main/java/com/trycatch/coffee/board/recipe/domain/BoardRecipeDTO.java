@@ -8,8 +8,16 @@ public class BoardRecipeDTO {
 	private String board_recipe_writer;
 	private Date board_recipe_date;
 	private int board_recipe_no,board_recipe_likes,board_recipe_count;
+	private String board_recipe_file;
 	
-	
+
+
+	public String getBoard_recipe_file() {
+		return board_recipe_file;
+	}
+	public void setBoard_recipe_file(String board_recipe_file) {
+		this.board_recipe_file = board_recipe_file;
+	}
 	public int getBoard_recipe_no() {
 		return board_recipe_no;
 	}

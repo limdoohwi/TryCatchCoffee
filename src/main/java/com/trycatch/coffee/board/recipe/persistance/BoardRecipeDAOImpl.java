@@ -49,6 +49,18 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
 		
 		return sqlSession.selectList(NAMESPACE+".boardrecipelist");
+	}
+
+	//Count ++
+	@Override
+	public void updateBoardRecipeCount(Integer bno) throws Exception {
+		sqlSession.update(NAMESPACE+".boardrecipecount");
+	}
+
+	//Likes ++
+	@Override
+	public void updateBoardRecipeLikes(Integer bno) throws Exception {
+		sqlSession.update(NAMESPACE+".boardrecipelikes");
 	} 
 	
 

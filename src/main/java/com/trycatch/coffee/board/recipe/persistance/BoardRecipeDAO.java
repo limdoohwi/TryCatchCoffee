@@ -14,6 +14,7 @@ public interface BoardRecipeDAO {
 	  public void updateBoardRecipe(BoardRecipeDTO dto) throws Exception;
 	  public void deleteBoardRecipe(Integer bno) throws Exception;
 	  public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception;
-	
+	  public void updateBoardRecipeCount(Integer bno) throws Exception;
+	  public void updateBoardRecipeLikes(Integer bno) throws Exception;
 }
 
