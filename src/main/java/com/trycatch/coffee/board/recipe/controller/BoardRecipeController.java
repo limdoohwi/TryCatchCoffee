@@ -46,7 +46,6 @@ public class BoardRecipeController {
 	//insert (GET) 게시글 쓰기 페이지로 이동
 	@RequestMapping(value="/community.recipe_insert",method=RequestMethod.GET)
 	public String InsertBoardRecipeGET() throws IOException{
-		System.out.println("스마트에디터");
 		return "/community/Recipe_Insert";
 	}
 		
@@ -54,7 +53,6 @@ public class BoardRecipeController {
 	//insert (POST) 게시글 올리기
 	@RequestMapping(value="/community.recipe_insert",method=RequestMethod.POST)
 	public String InsertBoardRecipe_POST(MultipartHttpServletRequest req) throws Exception{
-		System.out.println(" post 들어옴 ");
 		
 		BoardRecipeDTO dto = new BoardRecipeDTO();
 		
@@ -62,13 +60,10 @@ public class BoardRecipeController {
 		dto.setBoard_recipe_title(req.getParameter("board_recipe_title"));		 
 		MemberDTO mdto = (MemberDTO) (req.getSession().getAttribute("member_dto"));
 		String writer = mdto.getMember_name();
-		System.out.println(writer);
-		System.out.println(req.getParameter("board_recipe_content"));
 		dto.setBoard_recipe_writer(writer);
 		 	ServletContext ctx;
 			ctx = req.getServletContext();
 			Map<String, MultipartFile> files = ((MultipartRequest) req).getFileMap();
-			System.out.println(req.getParameter("board_recipe_file"+"널임?"));
 			CommonsMultipartFile cmf = (CommonsMultipartFile)files.get("board_recipe_file");
 			//경로 
 			String path = ctx.getRealPath("resources/video_Upload")+ '/' + cmf.getOriginalFilename();
@@ -106,7 +101,6 @@ public class BoardRecipeController {
 	@RequestMapping(value="/community.recipe_modify",method=RequestMethod.POST)
 	public String ModifyBoardRecipePOST(int board_recipe_no,BoardRecipeDTO dto) throws Exception{
 		service.updateBoardRecipe(dto);
-		System.out.println("수정 성공");
 		return "redirect:/community.recipe_read?board_recipe_no="+board_recipe_no;
 	}
 	
@@ -127,9 +121,7 @@ public class BoardRecipeController {
 	         String filename_ext = filename.substring(filename.lastIndexOf(".")+1);
 	         filename_ext = filename_ext.toLowerCase();
 	         String dftFilePath = request.getSession().getServletContext().getRealPath("/");
-	         System.out.println(dftFilePath);
 	         String filePath = dftFilePath +"resources" + File.separator + "photo_upload" + File.separator;
-	         System.out.println(filePath);
 	         File file = new File(filePath);
 	         if(!file.exists()) {
 	            file.mkdirs();
