@@ -2,7 +2,9 @@ package com.trycatch.coffee.menu.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.trycatch.coffee.menu.domain.MenuDTO;
 import com.trycatch.coffee.menu.service.MenuService;
@@ -25,8 +29,9 @@ public class InsertMenuController {
 	
 	private ServletContext ctx;
 	@RequestMapping("/insert.menu.manager")
-	@ResponseBody
-	public String InsertMenu(MultipartHttpServletRequest req) throws IllegalStateException, IOException{
+	public ModelAndView InsertMenu(MultipartHttpServletRequest req, RedirectAttributes rttr) throws IllegalStateException, IOException{
+		ModelAndView view = new ModelAndView("redirect:/menu.manager");
+		// 파일 저장
 		ctx = req.getServletContext();
 		Map<String, MultipartFile> files = req.getFileMap();
 		CommonsMultipartFile cmf = (CommonsMultipartFile)files.get("menu_image");
@@ -36,13 +41,10 @@ public class InsertMenuController {
 		cmf.transferTo(file);
 		//Menu Category 여부 판단
 		String menu_category_name = req.getParameter("menu_category_name");
-		
 		if(menu_category_name.equals("카테고리 추가")){
 			menu_category_name = req.getParameter("new_menu_category_name");
 			service.insertMenuCategory(menu_category_name);
 		}
-		
-		
 		// 메뉴 DTO 저장
 		MenuDTO dto = new MenuDTO();
 		dto.setMenu_name(req.getParameter("menu_name"));
@@ -52,7 +54,7 @@ public class InsertMenuController {
 		dto.setMenu_image(cmf.getOriginalFilename());
 		System.out.println(dto.toString());
 		service.insertMenu(dto);
-		
-		return "success";
+		rttr.addAttribute("result", "sucess");
+		return view;
 	}
 }

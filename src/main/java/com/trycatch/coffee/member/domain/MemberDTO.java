@@ -12,6 +12,16 @@ public class MemberDTO {
     private int member_code;
     
     
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MemberDTO [member_no=" + member_no + ", member_email=" + member_email + ", member_pw=" + member_pw
+				+ ", member_name=" + member_name + ", member_tel=" + member_tel + ", member_birth=" + member_birth
+				+ ", member_mileage=" + member_mileage + ", member_regdate=" + member_regdate + ", member_code="
+				+ member_code + "]";
+	}
 	public int getMember_no() {
 		return member_no;
 	}

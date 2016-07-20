@@ -230,7 +230,7 @@ h2 {
 					</div>
 					<!-- Order Menu -->
 					<div style="display: inline-block; margin-left: 15px">
-						<a name="Drink" role="menuitem" tabindex="-1" href="front?cmd=order&check=drink">음료 주문 예약</a><br />
+						<a name="Drink" role="menuitem" tabindex="-1" href="go.reservation">음료 주문 예약</a><br />
 						<a name="MeetingRoom" id="MeetingRoom-Btn" role="menuitem" tabindex="-1" href="#">미팅룸 예약</a><br />
 					</div>
 					<!-- Community Menu -->
