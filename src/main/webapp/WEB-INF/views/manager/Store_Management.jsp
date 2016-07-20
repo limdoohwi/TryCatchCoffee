@@ -569,12 +569,7 @@
 			  								<c:if test="${(nowBlock_StoreManage * pagePerBlock_StoreManage) + index_StoreManage >= totalPage_StoreManage-1}">
 			  									<c:set var="BlockisCreate_StoreManage" value="false"/>
 			  								</c:if>
-			  								<c:if test="${search_store_value != null}">
-			  									<li><a href="store.manager?nowPage_StoreManage=${(nowBlock_StoreManage * pagePerBlock_StoreManage) + index_StoreManage}&nowBlock_StoreManage=${nowBlock_StoreManage}&search_store_value=${search_store_value}">${(nowBlock_StoreManage * pagePerBlock_StoreManage) + index_StoreManage + 1}</a></li>	
-			  								</c:if>
-			  								<c:if test="${search_store_value == null}">
 			  									<li><a href="store.manager?nowPage_StoreManage=${(nowBlock_StoreManage * pagePerBlock_StoreManage) + index_StoreManage}&nowBlock_StoreManage=${nowBlock_StoreManage}">${(nowBlock_StoreManage * pagePerBlock_StoreManage) + index_StoreManage + 1}</a></li>	
-			  								</c:if>
 			  						</c:if>
 			   					</c:forEach>
 								<li id="Next-Page-Store-Manage"><a href="#" aria-label="Next"> <span

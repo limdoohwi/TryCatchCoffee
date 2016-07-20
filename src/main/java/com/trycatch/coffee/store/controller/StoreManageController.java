@@ -33,7 +33,7 @@ public class StoreManageController {
 	 */
 	@RequestMapping("/store.manager")
 	public String storeGET(StoreDTO dto, Model model) throws Exception{
-		if(dto != null && !dto.getSearch_store_value().equals("")){
+		if(dto != null){
 			model.addAttribute("storeList", service.getStoreList(dto));
 			model.addAttribute("search_store_value", dto.getSearch_store_value());
 		}
