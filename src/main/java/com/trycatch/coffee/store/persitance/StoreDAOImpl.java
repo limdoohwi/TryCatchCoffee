@@ -35,6 +35,16 @@ public class StoreDAOImpl implements StoreDAO {
 	}
 	
 	@Override
+	public List<StoreDTO> getStoreList(StoreDTO dto) {
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getStoreList", dto);
+		} catch (Exception err) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	
+	@Override
 	public List<StoreDTO> getStoreList() {
 		try {
 			return sqlSession.selectList(NAMESPACE + ".getStoreList");
@@ -102,11 +112,11 @@ public class StoreDAOImpl implements StoreDAO {
 			return false;
 		}
 	}
-	 
-@Override
-	public List<StoreDTO> getStoreList_every_column(String search_store_value) {
+
+	@Override
+	public StoreDTO GPSsetStore(int store_no) {
 		try {
-			return sqlSession.selectList(NAMESPACE + ".getStoreList_every_column", search_store_value);
+			return sqlSession.selectOne(NAMESPACE + ".getStore_store_no", store_no);
 		} catch (Exception err) {
 			return null;
 		}

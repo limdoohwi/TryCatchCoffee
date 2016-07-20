@@ -28,7 +28,6 @@ public class InsertMeetingRoomReservationController {
 	 */
 	@RequestMapping(value="/insert.meeting_room.order", method=RequestMethod.POST)
 	public void insertMeetingRoomReservationPOST(MeetingRoomReservationDTO dto, HttpServletResponse resp) throws Exception{
-		logger.info("미팅룸 예약 정보 : " + dto.getMeeting_reservation_date() + "," + dto.getMeeting_reservation_time() + "," + dto.getMember_no() + "," + dto.getMeeting_no());
 		PrintWriter out = resp.getWriter();
 		out.println(service.insertMeetingRoomReservation(dto));
 	}

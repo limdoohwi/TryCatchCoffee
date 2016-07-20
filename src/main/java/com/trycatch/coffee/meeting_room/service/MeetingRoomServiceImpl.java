@@ -59,4 +59,26 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 	public boolean insertMeetingRoomReservation(MeetingRoomReservationDTO dto) throws Exception {
 		return dao.insertMeetingRoomReservation(dto);
 	}
+	
+	@Override
+	public boolean searchReservationOverlapMeetingRoom(MeetingRoomReservationDTO dto) throws Exception {
+		MeetingRoomReservationDTO meetingDto = dao.searchReservationOverlapMeetingRoom(dto);
+		if(meetingDto != null){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	@Override
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no) throws Exception {
+		return dao.getMember_MeetingRoom_ReservationList(member_no);
+	}
+	
+	@Override
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no,
+			MeetingRoomReservationDTO dto) throws Exception {
+		return dao.getMember_MeetingRoom_ReservationList(member_no, dto);
+	}
 }

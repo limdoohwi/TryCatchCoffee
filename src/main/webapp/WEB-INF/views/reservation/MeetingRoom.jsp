@@ -103,10 +103,8 @@ newDate[2] = day.getDate(); // 오늘일 저장
 if((newDate[2]+"").length < 2){
  newDate[2] = "0" + newDate[2];
 }
-//var store_no = "${store_dto.store_no}";
-var store_no = 1;
-//var member_no = "${member_dto.member_no}";
-var member_no = 1;
+var store_no = "${store_dto.store_no}";
+var member_no = "${member_dto.member_no}";
 
 	$(document).ready(function(){
 		$("#Meeting-Reservation-List-Div").hide();
@@ -190,20 +188,7 @@ var member_no = 1;
 				for(var i=0; i<data.meetingFullList.length; i++){
 					fulldate = data.meetingFullList[0].fullDate;
 					fulldate = fulldate.substring(0,8);
-					
-					//예약이 다 채워졌을 경우 발생하는 이벤트
-					var fulldateArray = fulldate.split('-');
-					var fulldateObj = new Date(fulldateArray[0],Number(fulldateArray[1])-1,fulldateArray[2]);
-					var sysdateArray = sysdate.split('-');
-					var sysdateObj = new Date(sysdateArray[0],Number(sysdateArray[1])-1,sysdateArray[2]);
 				
-					if(fulldateObj.getTime()>=sysdateObj.getTime()){
-						event = new Object();        
-						event.start = fulldates[i];    // its a date string 
-						event.rendering = "background";
-						event.color = "red";
-						events.push(event);
-					}
 					//예약 가능한 날 background 이벤트
 					for(var i=0; i< 4; i++){	
 						var dateArray = sysdate.split('-');
@@ -250,7 +235,7 @@ var member_no = 1;
 				date = date.format().split("-");
 			
 		         var diffDay = ((60*60*24*365*date[0] - 60*60*24*365*newDate[0]) + (60*60*24*30*date[1] - 60*60*24*30*newDate[1]) + (60*60*24*date[2] - 60*60*24*newDate[2])) / (60 * 60 * 24);
-		         if(diffDay < 0 || diffDay > 3){
+		         if(diffDay <= 0 || diffDay > 3){
 		          alert("예약하실 수 없는 날짜 입니다.");
 		          return false;
 		         }
@@ -274,73 +259,63 @@ var member_no = 1;
 						}
 						
 			],
-			/*eventRender: function(event, element) {
-				alert(event.id);
-				for(var i=0;i<4;i++){
-					for(var j=0; j<fulldates.length; j++){
-						alert(typeof selectdates[i]);
-						alert(typeof fulldates[j]);
-						if(selectdates[i]==fulldates[j]){
-							alert("들어왔구나");
-							element.css('background','red');
-						}else{
-							alert("같지 않음");
-						}
-					}
-				}
-			}*/
-				
-			//for(i=0;i<){
-				
-		//}
-				/*eventClick :  function ( event ){ 
-			         $("<div>").dialog({ modal: true, title: event.title, width:350});
-	    		 }*/
-
 		});
 	
 		
 		
 		$('#calendar').fullCalendar('addEventSource',events);
 	
-	//선택한 예약 시간을 회원정보, 매장정보와 함께 DB에 저장
+		//선택한 예약 시간을 회원정보, 매장정보와 함께 DB에 저장
 		$("#meeting_time_table button").click(function(){
-			var selectedTime = $(this).parent().parent().parent().find("input").val();
+			var index = $("#meeting_time_table button").index(this);
+			//회원은 하루에 한번만 예약 가능
 			$.ajax({
-				url:"/insert.meeting_room.order",
+				url:"/search.overlap.meeting_room.order",
 				type:"post",
 				dataType:"json",
-				data:{meeting_reservation_time:selectedTime, meeting_reservation_date:post_date, meeting_order_date:sysdate, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no},
+				data:{meeting_reservation_date:post_date, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no},
 				success:function(data){
-					var time = selectedTime;
 					if(data == false){
-						alert("예약 진행 중 서버 오류 발생 :: 다시 한번 시도해주세요");
-						return;
+						var selectedTime = $("#meeting_time_table input").eq(index).val();
+						$.ajax({
+							url:"/insert.meeting_room.order",
+							type:"post",
+							dataType:"json",
+							data:{meeting_reservation_time:selectedTime, meeting_reservation_date:post_date, meeting_order_date:sysdate, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no, store_no:store_no},
+							success:function(data){
+								var time = selectedTime;
+								if(data == false){
+									alert("예약 진행 중 서버 오류 발생 :: 다시 한번 시도해주세요");
+									return;
+								}
+								//예약된 time과 일치하는 button을 찾아 불가로 변경
+								$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
+										function(){
+												if(time==$(this).val()){
+													$(this).parent().find("button").text("불가");
+													$(this).parent().find("button").removeClass("btn-success");
+													$(this).parent().find("button").addClass("btn-danger");
+													$(this).parent().find("button").attr("disabled", true);
+													alert("예약이 완료 되었습니다.");
+												}
+									}); 
+							}
+						});
 					}
-					//예약된 time과 일치하는 button을 찾아 불가로 변경
-					$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
-							function(){
-									if(time==$(this).val()){
-										$(this).parent().find("button").text("불가");
-										$(this).parent().find("button").removeClass("btn-success");
-										$(this).parent().find("button").addClass("btn-danger");
-										$(this).parent().find("button").attr("disabled", true);
-										alert("예약이 완료 되었습니다.");
-									}
-						}); 
+					else{
+						alert("이미 예약을 하셨습니다. 마이페이지에서 확인해주세요");
+					}
 				}
 			});
-		});
-	
+
 		//모달창 닫기 버튼
 		$("#Show-Meeting-Reservation-List-Div-Hide-Btn").click(function(){
 			Meeting_Reservation_List_Div_Initialize();
 			$("#meeting_calendar_work_div").hide();
 			$("#Meeting-Reservation-List-Div").hide();
 		});
-	})
-	
-	
+	});
+})
 	function Meeting_Reservation_List_Div_Initialize(){
 		$("#client_select_meeting_room").val("미팅룸 선택");
 		$("#meeting_calendar_work_div").hide();
@@ -382,7 +357,7 @@ var member_no = 1;
 <body>
 <div class="container">
 	<h2 style="color:#000000">미팅룸 예약</h2>
-	<h4>날짜는 오늘날짜에서 +3일까지만 예약이 가능합니다.</h4>
+	<h4>날짜는 오늘날짜를 제외한 +3일까지만 예약이 가능합니다.</h4>
 	<div id='calendar'></div>
 </div>
 
@@ -398,7 +373,7 @@ var member_no = 1;
 	 				<div id="meeting_calendar_work_div">
 		 				<table id="meeting_time_table" class="table table-bordered">
 									<thead>
-										<tr bgcolor="#f5f2ed">
+										<tr id="header-tr" bgcolor="#f5f2ed">
 											<th>&nbsp;&nbsp;시간</th>
 											<th>&nbsp;&nbsp;최대 인원수</th>
 											<th>&nbsp;&nbsp;&nbsp;&nbsp;예약 확인</th>
@@ -411,8 +386,6 @@ var member_no = 1;
 		 							<td id="meeting_time_td" style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;10:00~<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12:00</td>
 		 							<td style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6인</td>
 		 							<td ><div class="span1"><button class="btn btn-success" onclick="">가능</button></div></td>
-		 						<!--<td ><div class="span1"><button class="btn btn-danger disabled">불가</button></div></td>-->
-		 							
 		 						</tr>
 		 						
 		 						<tr bgcolor="#f5f2ed">

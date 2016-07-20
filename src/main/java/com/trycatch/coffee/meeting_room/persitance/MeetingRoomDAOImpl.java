@@ -49,5 +49,39 @@ public class MeetingRoomDAOImpl implements MeetingRoomDAO {
 			return false;
 		}
 	}
-
+	
+	@Override
+	public MeetingRoomReservationDTO searchReservationOverlapMeetingRoom(MeetingRoomReservationDTO dto) {
+		try {
+			return sqlSession.selectOne(NAMESPACE + ".searchReservationOverlapMeetingRoom", dto);
+		} catch (Exception err) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no) {
+		Map map = new HashMap();
+		map.put("member_no", member_no);
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getMember_MeetingRoom_ReservationList", map);
+		} catch (Exception err) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no,
+			MeetingRoomReservationDTO dto) {
+		try {
+			System.out.println("입성 : " + member_no + "," + dto.getMeeting_order_date());
+			Map map = new HashMap();
+			map.put("member_no", member_no);
+			map.put("meeting_order_date", dto.getMeeting_order_date());
+			return sqlSession.selectList(NAMESPACE + ".getMember_MeetingRoom_ReservationList", map);
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -10,6 +10,9 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 				
 <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
 <link href="/resources/bootstrab/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +48,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="/resources/bootstrab/js/freelancer.js"></script>
 <script>
+var cnt = 0;
 	$(function() {
+	
 		$("#Show-Detail-Purchase-List").hide();
 		$(".div-fade").fadeIn(400);
 		//Show-Change-Member-Password-Panel-Body-Btn Click Show Change-Member-Password-Panel-Body
@@ -75,8 +80,13 @@
 				$("#Current-Password").focus();
 				return false;
 			}
-			$("#Member-Current-Password-Div").hide();
-			$("#Member-New-Password-Div").show();
+			else if(password == "${member_dto.member_pw}"){
+				$("#Member-Current-Password-Div").hide();
+				$("#Member-New-Password-Div").show();
+			}
+			else{
+				alert("비밀번호가 틀렸습니다.");
+			}
 		});
 		//비밀번호 변경 취소 버튼 클릭시 현재 비밀번호 입력 div 호출
 		$("#Member-New-Password-Cancel-Btn").click(function(){
@@ -111,7 +121,7 @@
 			$("#New-Password-Input-Span").text('사용가능');
 			$("#New-Password-Input-Span").css("color", "green");
 		});
-		//새로운 비밀번호 확인
+		//새로운 비밀번호 체크 확인
 		$("#New-Password-Ck-Input").keyup(function(){
 			var newPassword = $("#New-Password-Input").val();
 			var newPasswordCk = $(this).val();
@@ -126,6 +136,43 @@
 			$("#New-Password-Input-Ck-Span").text('비밀번호 일치');
 			$("#New-Password-Input-Ck-Span").css("color", "green");
 		});
+		//새로운 비밀번호 완료 버튼 클릭
+		$("#Member-New-Password-Confirm-Btn").click(function(){
+			$("#My-Page-ChangePassword-Inf-Form .New-Password").each(function(){
+				if($(this).val() == ""){
+					alert("입력하지 않은 부분이 있습니다.");
+					$(this).focus();
+					return false;
+				}
+				if($("#New-Password-Input-Ck-Span").text() == "일치하지 않습니다."){
+					alert("비밀번호가 서로 다릅니다. 다시 확인해주세요.");
+					return false;
+				}
+				if($("#New-Password-Input-Ck-Span").text() == "비밀번호 일치"){
+					var member_no = "${member_dto.member_no}";
+					$.ajax({
+						url:"/my_page.chage_pw.member",
+						type:"post",
+						data:{member_no:member_no , member_pw:$("#New-Password-Ck-Input").val()},
+						success:function(data){
+							if(data == true && cnt == 0){
+								alert("비빌번호를 변경하였습니다. 다시 로그인 해주세요.")
+								location.href="/";
+								cnt++;
+							}
+						},
+						error:function(){
+							alert("비밀번호 변경을 실패하였습니다. 다시 시도해주세요.");
+						}
+					});
+				}
+			});
+		});
+		
+		//미팅룸 구매 날짜 검색
+		$("#Search-MeetingRoom-Reservation-Date-Btn").click(function(){
+			$("#Search-MeetingRoom-Reservation-Date-Form").submit();
+		});
 	})
 </script>
 
@@ -139,6 +186,27 @@
 	border: none;
 }
 </style>
+
+<!-- 페이징 코드-->
+<c:set var="totalRecord_MyPageMeetingRoom" value="${fn:length(storeList)}" />
+<c:set var="numPerPage_MyPageMeetingRoom" value="3" />
+<fmt:formatNumber var="fmt_totalPage_MyPageMeetingRoom"
+	value="${totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom}"
+	pattern="#.#" />
+<c:if test="${fmt_totalPage_MyPageMeetingRoom%1 > 0}">
+	<fmt:parseNumber var="totalPage_MyPageMeetingRoom" integerOnly="true"
+		value="${(totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom)+1}" />
+</c:if>
+<c:if test="${fmt_totalPage_MyPageMeetingRoom%1 == 0}">
+	<fmt:parseNumber var="totalPage_MyPageMeetingRoom" integerOnly="true"
+		value="${totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom}" />
+</c:if>
+<c:if test="${param.nowPage_MyPageMeetingRoom == null }">
+	<c:set var="nowPage_MyPageMeetingRoom" value="0" />
+</c:if>
+<c:if test="${param.nowPage_MyPageMeetingRoom != null }">
+	<c:set var="nowPage_MyPageMeetingRoom" value="${param.nowPage_MyPageMeetingRoom}" />
+</c:if>
 
 <!-- Header -->
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
@@ -161,28 +229,28 @@
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-6">
-								<input type="email" class="form-control" readonly="readonly" value="test@test.com">
+								<input type="email" class="form-control" readonly="readonly" value="${member_dto.member_email}">
 							</div>
 						</div>
 						<!-- Name -->
 						<div class="form-group">
 							<label for="inputPassword3" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" readonly="readonly" value="테스트">
+								<input type="text" class="form-control" readonly="readonly" value="${member_dto.member_name}">
 							</div>
 						</div>
 						<!-- Tel -->
 						<div class="form-group">
 							<label for="inputPassword3" class="col-sm-2 control-label">Tel</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" readonly="readonly" value="01012341234">
+								<input type="text" class="form-control" readonly="readonly" value="${member_dto.member_tel}">
 							</div>
 						</div>
 						<!-- Mileage -->
 						<div class="form-group">
 							<label for="inputPassword3" class="col-sm-2 control-label">Mileage</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" readonly="readonly" value="100">
+								<input type="text" class="form-control" readonly="readonly" value="${member_dto.member_mileage}">
 							</div>
 						</div>
 					</form>
@@ -218,16 +286,16 @@
 							<div id="Member-New-Password-Div" style="display:none">
 								<!-- 새로운 비밀번호 -->
 								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-3 control-label">새로운 비밀번호</label>
+									<label for="New-Password-Input" class="col-sm-3 control-label">새로운 비밀번호</label>
 									<div class="col-sm-6">
-										<input id="New-Password-Input" type="password" class="form-control"><span id="New-Password-Input-Span"></span>
+										<input id="New-Password-Input" type="password" class="New-Password form-control" ><span id="New-Password-Input-Span"></span>
 									</div>
 								</div>
 								<!-- 새로운 비밀번호 확인 -->
 								<div class="form-group">
-									<label for="inputPassword3" class="col-sm-3 control-label">비밀번호 확인</label>
+									<label for="New-Password-Ck-Input" class="col-sm-3 control-label">비밀번호 확인</label>
 									<div class="col-sm-6">
-										<input id="New-Password-Ck-Input" type="password" class="form-control"><span id="New-Password-Input-Ck-Span"></span>
+										<input id="New-Password-Ck-Input" type="password" class="New-Password form-control" name="member_pw"><span id="New-Password-Input-Ck-Span"></span>
 									</div>
 								</div>
 								<div class="form-group">
@@ -298,8 +366,23 @@
 				</div>
 			</div>
 			<div class="panel-body">
+				<!-- 미팅룸 예약 내역 검색 -->
+				<form id="Search-MeetingRoom-Reservation-Date-Form" class="form-inline" method="post" action="/my_page.member">
+					<div class="form-group">
+						<div class="input-group">
+							<!-- 입력  -->
+							<input type="text" class="form-control" name="meeting_order_date"
+								placeholder="구매날짜 입력 예)2016-07-18">
+							<!-- 검색 버튼 -->
+							<div id="Search-MeetingRoom-Reservation-Date-Btn" class="input-group-addon"
+								style="background-color: white; color: green; cursor: pointer;">
+								<i class="fa fa-search"></i>
+							</div>
+						</div>
+					</div>
+				</form>
 				<div class="row">
-					<table
+					<table id="Member-MeetingRoom-ReservationList-Table"
 						class="table table-striped table-bordered table-list">
 						<!-- Member-Purchase-Meeting-Table-Header -->
 						<thead>
@@ -314,21 +397,33 @@
 						</thead>
 						<!-- Member-Purchase-Meeting-Table-Body -->
 						<tbody>
-							<tr>
-								<td>2016년 6월 30일 14시 30분</td>
-								<td>2016년 7월 3일</td>
-								<td>고객1</td>
-								<td>종각점</td>
-								<td>1번</td>
-								<td>10:00 ~ 12:00</td>
-							</tr>
+							<c:if test="${meetingRoomReservationList == null}">
+								<tr>예약 목록이 없습니다.</tr>
+							</c:if>
+							<c:if test='${meetingRoomReservationList != null}'>
+								<c:forEach var='meetingRoomDto' begin="${nowPage_MyPageMeetingRoom}" end="${(numPerPage_MyPageMeetingRoom * (nowPage_MyPageMeetingRoom + 1))-1}" items='${meetingRoomReservationList}'>
+									<tr>
+										<td>${meetingRoomDto.meeting_order_date}</td>
+										<td>${meetingRoomDto.meeting_reservation_date}</td>
+										<td>${meetingRoomDto.member_name}</td>
+										<td>${meetingRoomDto.store_name}</td>
+										<td>${meetingRoomDto.meeting_no}번</td>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 1}'><td>10:00 ~ 12:00</td></c:if>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 2}'><td>12:00 ~ 14:00</td></c:if>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 3}'><td>14:00 ~ 16:00</td></c:if>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 4}'><td>16:00 ~ 18:00</td></c:if>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 5}'><td>18:00 ~ 20:00</td></c:if>
+										<c:if test='${meetingRoomDto.meeting_reservation_time == 6}'><td>20:00 ~ 22:00</td></c:if>
+									</tr>
+								</c:forEach>
+							</c:if>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="panel-footer pull-right">
-			<a class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-				<a class="btn btn-success"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+			<a id="Member-MeetingRoom-ReservationList-Next-Btn" href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom - 1}" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+			<a class="btn btn-success"  href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom +1}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 			</div>
 		</div>
 	</div>

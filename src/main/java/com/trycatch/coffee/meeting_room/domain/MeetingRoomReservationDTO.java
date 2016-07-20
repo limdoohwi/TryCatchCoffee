@@ -7,6 +7,35 @@ public class MeetingRoomReservationDTO {
 	private int meeting_reservation_time;
 	private String meeting_reservation_date;
 	private String meeting_order_date;
+	private int store_no;
+	private String member_name;
+	private String store_name;
+	
+	
+
+	public String getMember_name() {
+		return member_name;
+	}
+
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
+
+	public String getStore_name() {
+		return store_name;
+	}
+
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+
+	public int getStore_no() {
+		return store_no;
+	}
+
+	public void setStore_no(int store_no) {
+		this.store_no = store_no;
+	}
 
 	public int getMeeting_reservation_no() {
 		return meeting_reservation_no;

@@ -11,10 +11,18 @@
 	<select id="getMeetingRoomList_withReservation_date" resultType="MeetingRoomReservationDTO">
 		select * from meeting_reservation where meeting_no = #{meeting_no} and meeting_reservation_date = #{meeting_reservation_date}
 	</select>
-	<select id="getMeetingRoomList_isFull" resultType="int,String">
-		select count(*), meeting_reservation_date from meeting_reservation  where curdate() <= meeting_reservation_date group by meeting_reservation_date;
+	<select id="searchReservationOverlapMeetingRoom" resultType="MeetingRoomReservationDTO">
+	    select * from meeting_reservation where member_no = #{member_no} and meeting_reservation_date = #{meeting_reservation_date} and meeting_no = #{meeting_no}
 	</select>
+	  <select id="getMember_MeetingRoom_ReservationList" parameterType="hashMap" resultType="MeetingRoomReservationDTO">
+         select meeting_reservation_date, meeting_order_date, store_name, member_name, meeting_no, meeting_reservation_time
+ 		from meeting_reservation inner join store on meeting_reservation.store_no = store.store_no inner join member on meeting_reservation.member_no = member.member_no where member.member_no = #{member_no}
+ 		<if test="meeting_order_date != null">
+ 		    and meeting_order_date like concat(#{meeting_order_date}, "%")
+ 		</if>
+ 		 order by meeting_order_date desc
+    </select>
 	<insert id="insertMeetingRoomReservation">
-		INSERT INTO MEETING_RESERVATION(MEETING_NO, MEMBER_NO, MEETING_RESERVATION_TIME, MEETING_RESERVATION_DATE) VALUES(#{meeting_no}, #{member_no}, #{meeting_reservation_time}, #{meeting_reservation_date})
+		INSERT INTO MEETING_RESERVATION(MEETING_NO, MEMBER_NO, MEETING_RESERVATION_TIME, MEETING_RESERVATION_DATE, STORE_NO) VALUES(#{meeting_no}, #{member_no}, #{meeting_reservation_time}, #{meeting_reservation_date}, #{store_no})
 	</insert>
 </mapper>

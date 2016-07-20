@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 import com.trycatch.coffee.member.persitance.MemberDAO;
 
@@ -104,5 +105,9 @@ public class MemberServiceImpl implements MemberService {
 			return true;
 		}
 	}
-
+	
+	@Override
+	public boolean updateMember_pw(MemberDTO dto) throws Exception {
+		return dao.updateMember_pw(dto);
+	}
 }

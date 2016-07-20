@@ -30,27 +30,4 @@ public class MeetingRoomController {
 	public String meetingRoomGet() throws Exception{
 		return "reservation/MeetingRoom";
 	}
-	
-	/**
-	 * @author 김준혁
-	 * 미팅룸 예약 페이지에서 미팅룸을 선택했을 시 해당 날짜에 해당 미팅룸의 예약 내역을 DB에서 호출
-	 */
-	@RequestMapping(value="/search.reservation.meeting_room.order", method=RequestMethod.POST)
-	public void searchReservationmeetingRoomPOST(MeetingRoomReservationDTO dto, HttpServletResponse resp) throws Exception{
-		JSONObject jsonRoot = service.getMeetingRoomList_withRervaion_date(dto);
-		PrintWriter out = resp.getWriter();
-		out.println(jsonRoot);
-	}
-	
-	/**
-	 * @author 김준혁
-	 * GPS로 잡힌 매장의 미팅룸 List를 미팅룸 예약 페이지에 전달
-	 *
-	 */
-	@RequestMapping("/meeting_room.store.meeting_room.order")
-	public void searchStoreMeetingRoomPOST(int store_no, HttpServletResponse resp) throws Exception{
-		JSONObject jsonRoot = service.getMeetingRoomList_withStore_no(store_no);
-		PrintWriter out = resp.getWriter();
-		out.println(jsonRoot);
-	}
 }

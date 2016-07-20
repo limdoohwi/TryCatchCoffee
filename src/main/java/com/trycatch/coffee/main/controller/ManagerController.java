@@ -12,4 +12,5 @@ public class ManagerController {
 		view.addObject("check", "manager");
 		return view;
 	}
+	
 }

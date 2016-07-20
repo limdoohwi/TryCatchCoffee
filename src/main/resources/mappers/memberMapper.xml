@@ -23,4 +23,7 @@
     <select id="getCreate_owner" resultType="MemberDTO">
         select * from member where member_code = 2 order by member_regdate desc
     </select>
+    <update id="updateMeber_Pw">
+        update member set member_pw = #{member_pw} where member_no = #{member_no}
+    </update>
 </mapper>

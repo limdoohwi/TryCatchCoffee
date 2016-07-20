@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -106,6 +107,16 @@ public class MemberDAOImpl implements MemberDAO {
 		} 
 		catch (Exception err) {
 			return null;
+		}
+	}
+	
+	@Override
+	public boolean updateMember_pw(MemberDTO dto) {
+		try {
+			sqlSession.update(NAMESPACE + ".updateMeber_Pw", dto);
+			return true;
+		} catch (Exception err) {
+			return false;
 		}
 	}
 }
