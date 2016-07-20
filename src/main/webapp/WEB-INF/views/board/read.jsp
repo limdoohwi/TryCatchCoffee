@@ -78,6 +78,8 @@ $(document).ready(function(){
 	<form role="form" method="post">
 		<input type='hidden' name='board_num' value="${board.board_num}">
 		<input type='hidden' name='board_password' value="${board.board_password }"/>
+		<input type='hidden' name='board_pos' value="${board.board_pos }"/>
+		<input type='hidden' name='board_depth' value="${board.board_depth }"/>
 		<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
 		 <tr>
 		  <td colspan=4>

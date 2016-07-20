@@ -36,6 +36,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public void delete_reply(BoardDTO board) throws Exception {
+		dao.delete_reply(board);
+	}
+	
+	@Override
 	public List<BoardDTO> listAll() throws Exception {
 		return dao.listAll();
 	}

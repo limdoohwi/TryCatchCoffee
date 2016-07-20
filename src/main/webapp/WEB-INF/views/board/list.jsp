@@ -197,6 +197,7 @@
 			<form method="post" action="/read.client.board" class="board_read_form">
 				<input type="hidden" id="post_board_num" name="board_num"/>
 				<input type="hidden" name="board_password" value="${board.board_password }"/>
+				<input type="hidden" name="board_poss" value="${board.board_pos }"/>
 				<input type="hidden" name="member_no" value="${member_dto.member_no}"/>	
 				<input type="hidden" name="board_hits" id="board_hits" />
 			</form>

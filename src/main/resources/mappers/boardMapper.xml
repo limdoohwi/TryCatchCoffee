@@ -39,9 +39,13 @@
 		delete from board where board_num=#{board_num}
 	</delete>
 	
+	<delete id="delete_reply">
+		delete from board where board_pos>#{board_pos} and board_depth>#{board_depth}
+	</delete>
+	
 	<insert id="reply">
 		insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no) 
-        values(0,#{board_category},0,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no})
+        values(0,#{board_category},#{board_pos}+1,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no})
 	</insert>
 	
 	<select id="8 check_password" resultType="BoardDTO">

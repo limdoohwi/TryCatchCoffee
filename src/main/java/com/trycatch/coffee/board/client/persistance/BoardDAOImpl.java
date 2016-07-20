@@ -41,6 +41,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public void delete(Integer board_num) throws Exception {
 		sqlSession.delete(NAMESPACE + ".delete", board_num);
 	}
+	
+	@Override
+	public void delete_reply(BoardDTO board) throws Exception {
+		sqlSession.delete(NAMESPACE+".delete_reply", board);
+	}
 
 	@Override
 	public List<BoardDTO> listAll() throws Exception {
@@ -49,6 +54,10 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void reply(BoardDTO board, int member_no) throws Exception {
+		//BoardDTO dto = sqlSession.selectOne(NAMESPACE + ".read", board);
+		//System.out.println("포스는 : " + dto.getBoard_pos());
+		//int board_pos = dto.getBoard_pos();
+		System.out.println(board.getBoard_pos());
 		sqlSession.update(NAMESPACE + ".reply_pos_up", board);
 		sqlSession.insert(NAMESPACE + ".reply", board);
 	}

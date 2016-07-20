@@ -83,7 +83,8 @@ public class BoardController {
 
 	//삭제 후 리스트 페이지로 이동
 	@RequestMapping(value="/delete.client.board", method=RequestMethod.POST)
-	public String remove(int board_num, RedirectAttributes rttr) throws Exception{
+	public String remove(BoardDTO board, RedirectAttributes rttr, int board_num) throws Exception{
+		service.delete_reply(board);
 		service.delete(board_num);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/board/list";
