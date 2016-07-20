@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
+import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 
 public interface MemberService {
@@ -15,4 +16,5 @@ public interface MemberService {
 	public JSONObject getCreate_owner() throws Exception;
 	public JSONObject getSearchOnwerList(String member_email) throws Exception;
 	public boolean isExistEmail(String member_email) throws Exception;
+	public boolean updateMember_pw(MemberDTO dto) throws Exception;
 }

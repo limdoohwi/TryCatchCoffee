@@ -16,16 +16,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="/resourcesbootstrap/css/bootstrap.min.css">
-<script src="/resources/bootstrap/js/jquery-2.2.3.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
-<script type="text/javascript"></script>
+<!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+<link href="/resources/bootstrab/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="/resources/bootstrab/css/freelancer.css" rel="stylesheet">
+<link href="/resources/bootstrab/css/heroic-features.css" rel="stylesheet">
+<!-- Custom Fonts -->
+<link href="/resources/bootstrab/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
+	rel="stylesheet" type="text/css">
+
+<!-- jQuery -->
+<script src="/resources/bootstrab/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/resources/bootstrab/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script src="/resources/bootstrab/js/classie.js"></script>
+<script src="/resources/bootstrab/js/cbpAnimatedHeader.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="/resources/bootstrab/js/jqBootstrapValidation.js"></script>
+<script src="/resources/bootstrab/js/contact_me.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/resources/bootstrab/js/freelancer.js"></script>
  
-<link href='js/fullcalendar.css' rel='stylesheet' />
-<link href='js/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='js/moment.min.js'></script>
-<script src='js/jquery.min.js'></script>
-<script src='js/fullcalendar.min.js'></script>
+<link href='/resources/calendar/fullcalendar.css' rel='stylesheet' />
+<link href='/resources/calendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='/resources/calendar/moment.min.js'></script>
+<script src='/resources/calendar/jquery.min.js'></script>
+<script src='/resources/calendar/fullcalendar.min.js'></script>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 <script>
 
 var date = new Date();
@@ -71,66 +103,34 @@ newDate[2] = day.getDate(); // 오늘일 저장
 if((newDate[2]+"").length < 2){
  newDate[2] = "0" + newDate[2];
 }
-var store_num = "${store_dto.store_num}";
-var member_num = "${member_dto.member_num}";
+var store_no = "${store_dto.store_no}";
+var member_no = "${member_dto.member_no}";
+
 	$(document).ready(function(){
-		//캘린더 시작시, 예약이 다 찬 날짜를 찾는다
-		$.post("front",{cmd:"ajax", param:"search_meeting_reservation_this_day", startCalendar:"true", store_num:store_num}, function(){}, 'json').done(function(data){
-			if(data.meetingFullList[0].flag == "false"){
-				alert("서버 오류");
-				return false;
-			}
-			for(var i=0; i<data.meetingFullList.length; i++){
-				fulldate = data.meetingFullList[0].fullDate;
-				fulldate = fulldate.substring(0,8);
-				
-				//예약이 다 채워졌을 경우 발생하는 이벤트
-				var fulldateArray = fulldate.split('-');
-				var fulldateObj = new Date(fulldateArray[0],Number(fulldateArray[1])-1,fulldateArray[2]);
-				var sysdateArray = sysdate.split('-');
-				var sysdateObj = new Date(sysdateArray[0],Number(sysdateArray[1])-1,sysdateArray[2]);
-				if(fulldateObj.getTime()>=sysdateObj.getTime()){
-					event = new Object();        
-					event.start = fulldates[i];    // its a date string 
-					event.rendering = "background";
-					event.color = "red";
-					events.push(event);
+		$("#Meeting-Reservation-List-Div").hide();
+		
+		//모달창 닫기 버튼 클릭시 Meeting-Reservation-List-Div hide
+		
+		//설정된 매장의 미팅룸을 불러온다
+		$.ajax({
+			url:"meeting_room.store.meeting_room.order",
+			type:"post",
+			dataType:"json",
+			data:{store_no:store_no},
+			success:function(data){
+				for(var i =0; i<data.meetingList.length; i++){
+					$("#client_select_meeting_room").append("<option value='"+ data.meetingList[i].meeting_no +"'>" + data.meetingList[i].meeting_no+"번 미팅룸</option>");
 				}
-				//예약 가능한 날 background 이벤트
-				for(var i=0; i< 4; i++){	
-					var dateArray = sysdate.split('-');
-					var dateObj = new Date(dateArray[0],Number(dateArray[1])-1,Number(sysdateArray[2])+i);
-					var reddate = true;
-					var fulldateArray = fulldate.split('-');
-					var fulldateObj = new Date(fulldateArray[0],Number(fulldateArray[1])-1,fulldateArray[2]);
-					if(fulldateObj.getTime()==dateObj.getTime()){
-						reddate=false;
-					}
-					if(reddate == true){
-						event = new Object();
-						var realday = Number(dateArray[2])+i;
-						var realdate = dateArray[0] + "-" + dateArray[1] + "-" + realday;
-						event.start = realdate;
-						event.rendering = "background";
-						event.color = "#53FF4C";
-						events.push(event);
-					}
-				}
+			},
+			error:function(){
+				alert("미팅룸을 불러오는데 실패하였습니다. 다시 시도해 주세요.");
 			}
 		});
 		
-		$("#meeting_calendar_work_div").hide();
-		//접속한 매장의 미팅룸을 불러온다
-		
-		$.post("front", {cmd:"ajax", param:"store_meeting", store_num:store_num}, function(){}, 'json').done(function(data){
-				for(var i =0; i<data.store_meetingList.length; i++){
-					$("#client_select_meeting_room").append("<option>"+data.store_meetingList[i].meeting_num+"</option>");
-				}
-		});
 		//해당 매장의 미팅룸 예약 가능 시간을 불러온다
 		$("#client_select_meeting_room").change(function(){
 			//버튼 초기화
-			$("#theModal").find("#meeting_time_table input[type=hidden]").each(
+			$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
 					function(){
 						$(this).parent().find("button").text("가능");
 						$(this).parent().find("button").removeClass("btn-danger");
@@ -144,32 +144,77 @@ var member_num = "${member_dto.member_num}";
 			}
 			$("#meeting_calendar_work_div").show();
 				var meetingArray = new Array();
-				$.post("front",{cmd:"ajax", param:"search_meeting_reservation_this_day", date:post_date, meeting_num:$("#client_select_meeting_room").val()}, function(){}, 'json').done(function(data){
-					for(var i=0; i<data.meetingTimeList.length; i++){
-						if(data.meetingTimeList[0].flag == "false"){
-							alert("서버 오류 :: 해당하는 데이터가 없습니다.");
-							return false;
+				//해당 날짜 클릭 후 해당 날짜에 예약되어 있는 예약 목록을 DB에서 불러온 후 선택불가로 변경
+				$.ajax({
+					url:"/search.reservation.meeting_room.order",
+					type:"post",
+					dataType:"json",
+					data:{meeting_reservation_date:post_date, meeting_no:$("#client_select_meeting_room").val()},
+					success:function(data){
+						for(var i=0; i<data.meetingReservationTimeList.length; i++){
+							meetingArray.push(data.meetingReservationTimeList[i].meeting_reservation_time);
 						}
-						meetingArray.push(data.meetingTimeList[i].meeting_reservation_time);
-					}
-					//받아온 시간과 일치하는 버튼은 가능에서 불가로 변경
-						$("#theModal").find("#meeting_time_table input[type=hidden]").each(
-							function(i){
-								for(var j=0; j<meetingArray.length; j++){
-									if($(this).val() ==  meetingArray[j]){
-										$(this).parent().find("button").text("불가");
-										$(this).parent().find("button").removeClass("btn-success");
-										$(this).parent().find("button").addClass("btn-danger");
-										$(this).parent().find("button").attr("disabled", true);
+						//받아온 시간과 일치하는 버튼은 가능에서 불가로 변경
+							$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
+								function(i){
+									for(var j=0; j<meetingArray.length; j++){
+										if($(this).val() ==  meetingArray[j]){
+											$(this).parent().find("button").text("불가");
+											$(this).parent().find("button").removeClass("btn-success");
+											$(this).parent().find("button").addClass("btn-danger");
+											$(this).parent().find("button").attr("disabled", true);
+											}
 										}
-									}
-								}		
-							); 
+									}		
+								); 
+					},
+					error:function(){
+						alert("실패");
+					}
 				});
-		
 		});
-	
-			
+		
+		//캘린더 시작시, 예약이 다 찬 날짜를 찾는다
+		$.ajax({
+			url:"/search.full_reservation_day.meeting_room.order",
+			type:"post",
+			dataType:"json",
+			data:{store_no:store_no},
+			success:function(data){
+				if(data.meetingFullList[0].flag == "false"){
+					alert("서버 오류");
+					return false;
+				}
+				for(var i=0; i<data.meetingFullList.length; i++){
+					fulldate = data.meetingFullList[0].fullDate;
+					fulldate = fulldate.substring(0,8);
+				
+					//예약 가능한 날 background 이벤트
+					for(var i=0; i< 4; i++){	
+						var dateArray = sysdate.split('-');
+						var dateObj = new Date(dateArray[0],Number(dateArray[1])-1,Number(sysdateArray[2])+i);
+						var reddate = true;
+						var fulldateArray = fulldate.split('-');
+						var fulldateObj = new Date(fulldateArray[0],Number(fulldateArray[1])-1,fulldateArray[2]);
+						if(fulldateObj.getTime()==dateObj.getTime()){
+							reddate=false;
+						}
+						if(reddate == true){
+							event = new Object();
+							var realday = Number(dateArray[2])+i;
+							var realdate = dateArray[0] + "-" + dateArray[1] + "-" + realday;
+							event.start = realdate;
+							event.rendering = "background";
+							event.color = "#53FF4C";
+							events.push(event);
+						}
+					}
+				}
+			}
+		});
+		
+		$("#meeting_calendar_work_div").hide();
+		
 		$('#calendar').fullCalendar({
 				defaultDate: sysdate,
 				editable: true,
@@ -177,12 +222,12 @@ var member_num = "${member_dto.member_num}";
 			
 			    //dayClick 할 때 실행되는 기능		    
 			dayClick: function(date, jsEvent, view) {
-			
-					//클라이언트가 클릭한 날짜의 미팅룸 Data를 불러옴
-					post_date = date.format();
+				//미팅룸 선택 select box 초기화
+				 Meeting_Reservation_List_Div_Initialize();
+				//클라이언트가 클릭한 날짜의 미팅룸 Data를 불러옴
+				post_date = date.format();
 							
-				
-				$(".re-modal-header").find("#re-h3").html("&nbsp;&nbsp;&nbsp;"+"예약일 : " + date.format());
+				$(".modal-header").find("#re-h3").html("&nbsp;&nbsp;&nbsp;"+"예약일 : " + date.format());
 			 		 //alert("선택하신 날짜는?" + date.format());
 			        //change the day's background color just for fun
 		    	
@@ -190,12 +235,11 @@ var member_num = "${member_dto.member_num}";
 				date = date.format().split("-");
 			
 		         var diffDay = ((60*60*24*365*date[0] - 60*60*24*365*newDate[0]) + (60*60*24*30*date[1] - 60*60*24*30*newDate[1]) + (60*60*24*date[2] - 60*60*24*newDate[2])) / (60 * 60 * 24);
-		         if(diffDay < 0 || diffDay > 3){
+		         if(diffDay <= 0 || diffDay > 3){
 		          alert("예약하실 수 없는 날짜 입니다.");
 		          return false;
 		         }
-		             
-		         $("#theModal").show();
+		         $("#Meeting-Reservation-List-Div").show();
 			},
 			
 			events: [
@@ -205,72 +249,77 @@ var member_num = "${member_dto.member_num}";
 							overlap: false,
 							rendering: 'background',
 							color: '#53FF4C'
+						},
+						{
+							start: sysdate ,
+							end: sysdate ,
+							overlap: false,
+							rendering: 'background',
+							color: 'yellow'
 						}
 						
 			],
-			/*eventRender: function(event, element) {
-				alert(event.id);
-				for(var i=0;i<4;i++){
-					for(var j=0; j<fulldates.length; j++){
-						alert(typeof selectdates[i]);
-						alert(typeof fulldates[j]);
-						if(selectdates[i]==fulldates[j]){
-							alert("들어왔구나");
-							element.css('background','red');
-						}else{
-							alert("같지 않음");
-						}
-					}
-				}
-			}*/
-				
-			//for(i=0;i<){
-				
-		//}
-				/*eventClick :  function ( event ){ 
-			         $("<div>").dialog({ modal: true, title: event.title, width:350});
-	    		 }*/
-
 		});
 	
 		
 		
 		$('#calendar').fullCalendar('addEventSource',events);
-		//닫기 버튼
-		$("#btnModalClose").click( 
-		    	function(){
-					$("#theModal").modal('toggle');
-				}			
-		    );
-		
-	});
 	
-	$(document).ready(function() {
+		//선택한 예약 시간을 회원정보, 매장정보와 함께 DB에 저장
 		$("#meeting_time_table button").click(function(){
-	
-			var selectedTime = $(this).parent().parent().parent().find("input").val();
-			$.post("front" , {cmd:"ajax", param:"meetingroom_insert",selectedTime:selectedTime, selectedDate:post_date, meeting_num:$("#client_select_meeting_room").val(), member_num:member_num}, function(){}, 'json').done(function(data){
-				var time = data.meeting_time;
-				if(time == 0){
-					alert("예약 진행 중 서버 오류 발생 :: 다시 한번 시도해주세요");
-					return;
-				}
-				//예약된 time과 일치하는 button을 찾아 불가로 변경
-				$("#theModal").find("#meeting_time_table input[type=hidden]").each(
-						function(){
-								if(time==$(this).val()){
-									$(this).parent().find("button").text("불가");
-									$(this).parent().find("button").removeClass("btn-success");
-									$(this).parent().find("button").addClass("btn-danger");
-									$(this).parent().find("button").attr("disabled", true);
-									alert("예약이 완료 되었습니다.");
+			var index = $("#meeting_time_table button").index(this);
+			//회원은 하루에 한번만 예약 가능
+			$.ajax({
+				url:"/search.overlap.meeting_room.order",
+				type:"post",
+				dataType:"json",
+				data:{meeting_reservation_date:post_date, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no},
+				success:function(data){
+					if(data == false){
+						var selectedTime = $("#meeting_time_table input").eq(index).val();
+						$.ajax({
+							url:"/insert.meeting_room.order",
+							type:"post",
+							dataType:"json",
+							data:{meeting_reservation_time:selectedTime, meeting_reservation_date:post_date, meeting_order_date:sysdate, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no, store_no:store_no},
+							success:function(data){
+								var time = selectedTime;
+								if(data == false){
+									alert("예약 진행 중 서버 오류 발생 :: 다시 한번 시도해주세요");
+									return;
+								}
+								//예약된 time과 일치하는 button을 찾아 불가로 변경
+								$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
+										function(){
+												if(time==$(this).val()){
+													$(this).parent().find("button").text("불가");
+													$(this).parent().find("button").removeClass("btn-success");
+													$(this).parent().find("button").addClass("btn-danger");
+													$(this).parent().find("button").attr("disabled", true);
+													alert("예약이 완료 되었습니다.");
+												}
+									}); 
 							}
-						}); 
+						});
+					}
+					else{
+						alert("이미 예약을 하셨습니다. 마이페이지에서 확인해주세요");
+					}
+				}
 			});
+
+		//모달창 닫기 버튼
+		$("#Show-Meeting-Reservation-List-Div-Hide-Btn").click(function(){
+			Meeting_Reservation_List_Div_Initialize();
+			$("#meeting_calendar_work_div").hide();
+			$("#Meeting-Reservation-List-Div").hide();
 		});
+	});
+})
+	function Meeting_Reservation_List_Div_Initialize(){
+		$("#client_select_meeting_room").val("미팅룸 선택");
+		$("#meeting_calendar_work_div").hide();
 	}
-	)
-	
 
 </script>
 
@@ -284,9 +333,23 @@ var member_num = "${member_dto.member_num}";
 	}
 
 	#calendar {
-		max-width: 800px;
+		max-width: 1200%;
 		margin-top:20px;
 		margin-left:6px
+	}
+	
+	#Meeting-Reservation-List-Div {
+		padding: 20px;
+		border: 4px solid #ddd;
+		position: absolute;
+	    left: 0px;
+	    top: 235px;
+		background: #fff;
+		
+	}
+	
+	#Meeting-Reservation-List-Div button {
+		cursor: pointer;
 	}
 
 </style>
@@ -294,21 +357,23 @@ var member_num = "${member_dto.member_num}";
 <body>
 <div class="container">
 	<h2 style="color:#000000">미팅룸 예약</h2>
-	<h4>날짜는 오늘날짜에서 +3일까지만 예약이 가능합니다.</h4>
+	<h4>날짜는 오늘날짜를 제외한 +3일까지만 예약이 가능합니다.</h4>
 	<div id='calendar'></div>
 </div>
-	<div class="modal hide" id="theModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" style="width:450px;">
- 				<div class="re-modal-header">
- 					<h3 id="re-h3">&nbsp;</h3>
- 				</div>
- 				<div class="modal-body">
+
+<div id="Meeting-Reservation-List-Div">
+	<div class="modal-header">
+ 		<h3 id="re-h3">&nbsp;</h3>
+ 	</div>
+	
+	<div class="modal-body">
  				<select id="client_select_meeting_room">
  					<option>미팅룸 선택</option>
  				</select>
 	 				<div id="meeting_calendar_work_div">
 		 				<table id="meeting_time_table" class="table table-bordered">
 									<thead>
-										<tr bgcolor="#f5f2ed">
+										<tr id="header-tr" bgcolor="#f5f2ed">
 											<th>&nbsp;&nbsp;시간</th>
 											<th>&nbsp;&nbsp;최대 인원수</th>
 											<th>&nbsp;&nbsp;&nbsp;&nbsp;예약 확인</th>
@@ -321,8 +386,6 @@ var member_num = "${member_dto.member_num}";
 		 							<td id="meeting_time_td" style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;10:00~<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12:00</td>
 		 							<td style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6인</td>
 		 							<td ><div class="span1"><button class="btn btn-success" onclick="">가능</button></div></td>
-		 						<!--<td ><div class="span1"><button class="btn btn-danger disabled">불가</button></div></td>-->
-		 							
 		 						</tr>
 		 						
 		 						<tr bgcolor="#f5f2ed">
@@ -358,19 +421,14 @@ var member_num = "${member_dto.member_num}";
 		 							<td id="meeting_time_td" style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;20:00~<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22:00</td>
 		 							<td style="font-size:10px; width:140px;text-align:left;vertical-align: middle;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6인</td>
 		 							<td ><div class="span1"><button class="btn btn-success">가능</button></div></td>
-		 						</tr>
-		 						
-		 						
+		 						</tr>	
 		 				</table>
 	 				</div>
- 				</div>
- 				
- 				<div class="modal-footer">
- 					<button class="btn btn-danger" data-dismiss="modal" id="btnModalClose">닫기</button>
- 				</div>
- 				</div>
- 			
- 			<br/><br/>
- <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
+ 	</div>
+ 	<div class="modal-footer">
+ 			<button id="Show-Meeting-Reservation-List-Div-Hide-Btn" type="button"
+			class="btn btn-default">닫기</button>
+ 	</div>
+</div>
 </body>
 </html>

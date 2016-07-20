@@ -11,5 +11,6 @@
 		<package name="com.trycatch.coffee.store.domain" />
 		<package name="com.trycatch.coffee.cart.domain" />
 		<package name="com.trycatch.coffee.board.recipe.domain" />
+		<package name="com.trycatch.coffee.meeting_room.domain" />
 	</typeAliases>
 </configuration>

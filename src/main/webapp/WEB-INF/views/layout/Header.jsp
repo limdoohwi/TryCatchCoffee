@@ -25,7 +25,7 @@
 					var wX = screen.availWidth;
 					var wY = screen.availHeight;
 					wY = (wY - 38);
-					var url = 'front?cmd=meeting_room_popup';
+					var url = '/meeting_room.order';
 					var popOption = 'width=' + wX + ', height=' + wY
 							+ ', resizable=no, scrollbars=no, status=no;';
 					window.open(url, '', popOption);
@@ -173,7 +173,12 @@ h2 {
 			<c:if test="${member_dto!=null}">
 				<span class="navbar-brand" style="font-size: 11pt">${member_dto.member_name}님</span>
 			</c:if> 
-			<span class="navbar-brand" style="font-size: 11pt">종각점</span>
+			<c:if test="${store_dto != null}">
+				<span class="navbar-brand" style="font-size: 11pt">${store_dto.store_name}</span>
+			</c:if>
+			<c:if test="${store_dto == null}">
+				<span class="navbar-brand" style="font-size: 11pt">설정된 매장없음</span>
+			</c:if>
 		</a>
 		<ul class="nav navbar-nav" style="margin-left: 8%">
 			<li><c:if test="${member_dto==null}">
@@ -185,7 +190,7 @@ h2 {
 					<a id="Register-Btn" href="register.member">Register</a>
 				</c:if></li>
 			<li><c:if test="${member_dto!=null}">
-					<a id="My-Page-Btn" href="front?cmd=my_page">My Page</a>
+					<a id="My-Page-Btn" href="my_page.member">My Page</a>
 				</c:if></li>
 			<li><a href="#" id="OurStore-Btn">Our Store</a></li>
 		</ul>

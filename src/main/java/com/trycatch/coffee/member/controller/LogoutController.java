@@ -10,6 +10,7 @@ public class LogoutController {
 	@RequestMapping("/logout.member")
 	public String Logout(HttpServletRequest req){
 		req.getSession().removeAttribute("member_dto");
+		req.getSession().removeAttribute("store_dto");
 		return "redirect:/";
 	}
 }

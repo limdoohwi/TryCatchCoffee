@@ -150,6 +150,8 @@
 				data:{member_name:member_name, member_email:member_email, member_pw:member_pw, member_birth:member_birth, member_tel:member_tel, member_code:2},
 				dataType:"json",
 				success:function(data){
+					alert(data);
+					alert(data.flag);
 					var member_no;
 					var member_name;
 					if(data.flag == "true"){
@@ -157,7 +159,7 @@
 						member_name = decodeURI(data.member_name);
 					}
 					else{
-						alert("점장을 불러오는데 실패했습니다. 다시 시도해주세요.");
+						alert("점장을 등록하는데 실패했습니다.. 다시 시도해주세요.");
 						return false;
 					}
 					var insertDisplay = $("#Store-Insert-Form-Div", opener.document).css("display");

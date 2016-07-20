@@ -9,7 +9,15 @@ public class StoreDTO {
 	private int meeting_room;
 	private String store_ip;
 	private int profit;
+	private String search_store_value;
 
+	public String getSearch_store_value() {
+		return search_store_value;
+	}
+
+	public void setSearch_store_value(String search_store_value) {
+		this.search_store_value = search_store_value;
+	}
 
 	public int getProfit() {
 		return profit;
