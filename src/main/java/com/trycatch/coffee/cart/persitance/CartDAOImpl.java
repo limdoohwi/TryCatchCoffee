@@ -39,7 +39,8 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public boolean checkCart(CartDTO cartdto) {
 		try{
-			sqlSession.selectOne(NAMESPACE+".getCartList", cartdto);
+			CartDTO dto = sqlSession.selectOne(NAMESPACE+".getCartList", cartdto);
+			System.out.println(dto.toString());
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

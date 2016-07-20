@@ -26,7 +26,9 @@ public class InsertCartController {
 		CartDTO cartdto = new CartDTO();
 		cartdto.setMember_no(member_dto.getMember_no());
 		cartdto.setMenu_num(menu_num);
+		System.out.println(cartdto.toString());
 		boolean check = service.checkCart(cartdto);
+		System.out.println("체크값 : " + check);
 		if(check==true){
 			service.updateCart(cartdto);
 		}
