@@ -104,13 +104,6 @@
 
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 <h2 align="center">고객의 소리함 게시판</h2>
-<table class=table>
-<tr>
-	<td align=left>Total :  Articles(
-		<font color=red>  1 / 10 Pages </font>)
-	</td>
-</tr>
-</table>
 
 <table class=table style="border: none; ">
 <tr>
@@ -162,21 +155,21 @@
 							</c:if>
 						</c:if>
 						<c:if test="${board.board_depth !=0 }">
-							<c:if test="${board.board_password eq null}">
+							<c:if test="${board.board_password == ''}">
 								<tr align=center >
 									<td class="board_num_td" width="10%">${board.board_num }</td>
 									<td>${member_dto.member_name }</td>
-									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img width="2px" src="/WEB-INF/views/img/re.gif"/>${board.board_subject}</td>
+									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img width="20px" src="/WEB-INF/views/img/re.gif" />${board.board_subject}</td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
 									<td class="board_hits_td"width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
-							<c:if test="${board.board_password ne null }">
+							<c:if test="${board.board_password !='' }">
 								<c:if test="${member_dto.member_code==1 }">
 									<tr align=center >
 										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
-										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">비밀글 답변 입니다.</td>				
+										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left"><img src="img/re.gif" width="30px"/>비밀글 답변 입니다.</td>				
 										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
 										<td class="pass_board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>
@@ -185,7 +178,7 @@
 									<tr align=center >
 										<td class="board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
-										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="../img/re.gif">${board.board_subject}</td>
+										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="/../img/re.gif" />${board.board_subject}</td>
 										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
 										<td class="board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>

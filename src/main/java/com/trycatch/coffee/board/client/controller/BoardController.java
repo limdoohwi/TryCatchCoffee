@@ -1,6 +1,7 @@
 package com.trycatch.coffee.board.client.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mysql.fabric.xmlrpc.base.Param;
 import com.trycatch.coffee.board.client.domain.BoardDTO;
 import com.trycatch.coffee.board.client.service.BoardService;
 import com.trycatch.coffee.main.controller.HomeController;
@@ -51,7 +53,6 @@ public class BoardController {
 	//새로운글 저장후 리스트 페이지로 이동
 	@RequestMapping(value="/post.client.board",method=RequestMethod.POST)
 	public String registerPOST(BoardDTO board, RedirectAttributes rttr, int member_no) throws Exception{
-		//logger.info("insertPOST : " + board.toString());
 		service.insert(board, member_no);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/board/list";
@@ -60,7 +61,10 @@ public class BoardController {
 	//읽기 페이지로 이동
 	@RequestMapping("/read.client.board")
 	public String read(BoardDTO board ,Model model) throws Exception{
-		System.out.println("조회수 : " + board.getBoard_hits());
+		BoardDTO dto = service.read(board);
+		String board_content = dto.getBoard_content();
+		String replace_board_content = board_content.replace("\n", "<br/>");
+		model.addAttribute("board_content", replace_board_content);
 		model.addAttribute("board", service.read(board));
 		model.addAttribute("board_password", board);
 		return "/board/read";
@@ -114,8 +118,8 @@ public class BoardController {
 	
 	//비밀번호 확인 후 맞으면 읽기 페이지로 이동, 틀리면 다시 비밀번호 입력페이지로 이동
 	@RequestMapping(value="/password.check.client.board")
-	public String check_password(BoardDTO board, Model model) throws Exception{
-		BoardDTO vo = service.check_password(board);
+	public String check_password(BoardDTO board, Model model, String board_password, String board_num) throws Exception{
+		BoardDTO vo = service.check_password(board_password, board_num);
 		model.addAttribute("board", service.read(board));
 		if(vo!=null){
 			return "/board/read";

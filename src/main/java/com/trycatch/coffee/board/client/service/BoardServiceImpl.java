@@ -51,8 +51,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDTO check_password(BoardDTO board) throws Exception{
-		return dao.check_password(board);
+	public BoardDTO check_password(String board_password, String board_num) throws Exception{
+		return dao.check_password(board_password, board_num);
 	}
 
 	@Override

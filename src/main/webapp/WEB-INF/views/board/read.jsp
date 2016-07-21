@@ -94,7 +94,7 @@ $(document).ready(function(){
 		     <td align=center bgcolor=#dddddd> 제 목</td>
 		     <td bgcolor=#ffffe8 colspan=3>${board.board_subject}</td>
 		   </tr>
-		 	 <tr> <td>${board.board_content}</td></tr>
+		 	 <tr> <td>${board_content}</td></tr>
 		   </table>
 		  </td>
 		 </tr>

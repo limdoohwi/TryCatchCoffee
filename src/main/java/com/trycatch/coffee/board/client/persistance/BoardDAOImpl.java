@@ -1,5 +1,6 @@
 package com.trycatch.coffee.board.client.persistance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,13 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Override
 	public void insert(BoardDTO board, int member_no) throws Exception {
+		board.setMember_no(member_no);
 		sqlSession.update(NAMESPACE + ".pos_up");
 		sqlSession.insert(NAMESPACE + ".insert", board);
 	}
 
 	@Override
 	public BoardDTO read(BoardDTO board) throws Exception {
-		System.out.println("조회수:"+board.getBoard_hits());
-		System.out.println("글번호:"+board.getBoard_num());
 		sqlSession.update(NAMESPACE + ".hits_up", board);
 		return sqlSession.selectOne(NAMESPACE +".read", board) ;
 	}
@@ -54,19 +54,19 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void reply(BoardDTO board, int member_no) throws Exception {
-		//BoardDTO dto = sqlSession.selectOne(NAMESPACE + ".read", board);
-		//System.out.println("포스는 : " + dto.getBoard_pos());
-		//int board_pos = dto.getBoard_pos();
-		System.out.println(board.getBoard_pos());
+		board.setMember_no(member_no);
 		sqlSession.update(NAMESPACE + ".reply_pos_up", board);
 		sqlSession.insert(NAMESPACE + ".reply", board);
 	}
 	
 	@Override
-	public BoardDTO check_password(BoardDTO board){
+	public BoardDTO check_password(String board_password, String board_num){
+		Map<String, String> map = new HashMap<>();
+		map.put("board_num", board_num);
+		map.put("board_password", board_password);
+		System.out.println(board_num +"," + board_password);
 		try{
-			
-			return sqlSession.selectOne(NAMESPACE + ".check_password", board);			
+			return sqlSession.selectOne(NAMESPACE + ".check_password", map);			
 		}
 		catch(Exception err){
 			return null;

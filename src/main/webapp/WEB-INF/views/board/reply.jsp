@@ -36,7 +36,7 @@
 <div class="panel panel-default panel-table" style="width:70%">
 		<table class=table>
 		 <tr>
-		  <td bgcolor=84F399 height=25 align=center>글쓰기</td>
+		  <td bgcolor=skyblue height=25 align=center>답변 달기</td>
 		 </tr>
 		</table>
 		<table class=table>

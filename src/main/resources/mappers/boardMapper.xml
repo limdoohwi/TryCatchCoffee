@@ -48,7 +48,7 @@
         values(0,#{board_category},#{board_pos}+1,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no})
 	</insert>
 	
-	<select id="8 check_password" resultType="BoardDTO">
+	<select id="check_password" resultType="BoardDTO">
 		select * from board where board_num=#{board_num} and board_password=#{board_password}
 	</select>
 	
