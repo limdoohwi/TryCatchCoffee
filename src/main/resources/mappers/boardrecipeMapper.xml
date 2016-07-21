@@ -16,6 +16,10 @@
 		select * from board_recipe where board_recipe_no>0 order by board_recipe_no desc
 	</select>
 	
+	<select id="boardrecipesearch" resultType="BoardRecipeDTO">
+		select * from board_recipe where board_recipe_title like '%#{board_recipe_search}%';
+	</select>
+	
 	<select id="boardreciperead" resultType="BoardRecipeDTO">
 		select * from board_recipe where board_recipe_no=#{board_recipe_no}
 	</select>
@@ -24,8 +28,18 @@
 		update board_recipe set  board_recipe_title = #{board_recipe_title}, board_recipe_content = #{board_recipe_content} where board_recipe_no = #{board_recipe_no}
 	</update>
 	
+	<update id="boardrecipecount">
+		update board_recipe set board_recipe_count = board_recipe_count + 1 where board_recipe_no = #{board_recipe_no}
+	</update>
+	
+	<update id="boardrecipelikes">
+		update board_recipe set board_recipe_likes = board_recipe_likes + 1 where board_recipe_no = #{board_recipe_no}
+	</update>
+	
 	<delete id="boardrecipedelete">
 		delete from board_recipe where board_recipe_no = #{board_recipe_no}
 	</delete>
+	
+	
 	
 </mapper>

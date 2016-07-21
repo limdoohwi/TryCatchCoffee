@@ -38,8 +38,10 @@ public class BoardRecipeController {
 	
 	//listAll (GET) 게시글 전체 보기
 	@RequestMapping("/community.Recipe_List")
-	public String ListAllBoardRecipeGET(HttpServletRequest req, Model model) throws Exception{		
+	public String ListAllBoardRecipeGET(HttpServletRequest req, Model model) throws Exception{	
+		String board_recipe_search = req.getParameter("board_Recipe_search");
 		model.addAttribute("recipelist",service.listAllBoardRecipe());
+		model.addAttribute("searchrecipelist", service.searchBoardRecipe(board_recipe_search));
 		return "/community/Recipe_List";
 	} 
 		
@@ -79,13 +81,21 @@ public class BoardRecipeController {
 		
 	}
 	
-
-	
+	//search
+	@RequestMapping("/community.recipe_search")
+	public String SearchBoardRecipe(HttpServletRequest req, Model model) throws Exception{
+		String board_recipe_search = req.getParameter("board_Recipe_search");
+		model.addAttribute("searchrecipelist", service.searchBoardRecipe(board_recipe_search));
+		return 
+	}
 	
 	
 	//read (GET) 게시글 읽기
 	@RequestMapping("/community.recipe_read")
-	public String ReadBoardRecipe(int board_recipe_no , Model model) throws Exception{
+	public String ReadBoardRecipe(int board_recipe_no , Model model,HttpServletRequest req) throws Exception{
+		
+		MemberDTO mdto = (MemberDTO) (req.getSession().getAttribute("member_dto"));
+		service.updateBoardRecipeCount(board_recipe_no);
 		model.addAttribute(service.readBoardRecipe(board_recipe_no));
 		return "/community/Recipe_Read";
 	}
@@ -110,6 +120,14 @@ public class BoardRecipeController {
 		service.deleteBoardRecipe(board_recipe_no);
 		return "redirect:/community.Recipe_List";
 	}
+	
+	//조회수 update
+	public String UpdateBoardLikes(int board_recipe_no) throws Exception{
+		service.updateBoardRecipeLikes(board_recipe_no);
+		return "redirect:/community.recipe_read?board_recipe_no="+board_recipe_no;
+	}
+	
+	
 	
 	
 	//다중사진업로드

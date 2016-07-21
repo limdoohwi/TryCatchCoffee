@@ -28,8 +28,8 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 
 	//read
 	@Override
-	public BoardRecipeDTO readBoardRecipe(Integer bno) throws Exception {
-		return sqlSession.selectOne(NAMESPACE+".boardreciperead",bno);
+	public BoardRecipeDTO readBoardRecipe(Integer board_recipe_no) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".boardreciperead",board_recipe_no);
 	}
 
 	//update
@@ -40,8 +40,8 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 
 	//delete
 	@Override
-	public void deleteBoardRecipe(Integer bno) throws Exception {
-		sqlSession.delete(NAMESPACE + ".boardrecipedelete" , bno);
+	public void deleteBoardRecipe(Integer board_recipe_no) throws Exception {
+		sqlSession.delete(NAMESPACE + ".boardrecipedelete" , board_recipe_no);
 	}
 	
 	//listAll
@@ -53,15 +53,22 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 
 	//Count ++
 	@Override
-	public void updateBoardRecipeCount(Integer bno) throws Exception {
+	public void updateBoardRecipeCount(Integer board_recipe_no) throws Exception {
 		sqlSession.update(NAMESPACE+".boardrecipecount");
 	}
 
 	//Likes ++
 	@Override
-	public void updateBoardRecipeLikes(Integer bno) throws Exception {
+	public void updateBoardRecipeLikes(Integer board_recipe_no) throws Exception {
 		sqlSession.update(NAMESPACE+".boardrecipelikes");
-	} 
+	}
+
+	@Override
+	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search) throws Exception {
+		return sqlSession.selectList(NAMESPACE+".boardrecipesearch");	
+	}
+
+
 	
 
 
