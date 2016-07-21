@@ -45,8 +45,8 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 	}
 
 	@Override
-	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
-		return dao.listAllBoardRecipe();
+	public List<BoardRecipeDTO> listAllBoardRecipe(Integer limit) throws Exception {
+		return dao.listAllBoardRecipe(limit);
 	}
 
 	@Override
@@ -60,8 +60,14 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 	}
 
 	@Override
-	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search) throws Exception {
-		return dao.searchBoardRecipe(board_recipe_search);
+	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search,int limit) throws Exception {
+		return dao.searchBoardRecipe(board_recipe_search,limit);
+	}
+
+	@Override
+	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
+		
+		return dao.listAllBoardRecipe();
 	}
 
 

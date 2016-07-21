@@ -43,7 +43,7 @@
 			</div>
 			<div class="panel-body"><hr style="border: solid 10px #32A4FF"/></div>
 		
-			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify?board_recipe_no=${boardRecipeDTO.board_recipe_no}">register</a>/&nbsp;<a href="/communty.recipe_delete?board_recipe_no=${boardRecipeDTO.board_recipe_no}">delete</a>/&nbsp;<a href="/community.Recipe_List">list</a>&nbsp;
+			&nbsp;&nbsp;&nbsp;<a href="/community.recipe_modify?board_recipe_no=${boardRecipeDTO.board_recipe_no}">register</a>/&nbsp;<a href="/communty.recipe_delete?board_recipe_no=${boardRecipeDTO.board_recipe_no}">delete</a>/&nbsp;<a href="/community.Recipe_List?limit=0">list</a>&nbsp;
 		</div>
 	</div>
 </div>
@@ -52,6 +52,3 @@
 <jsp:include page="/WEB-INF/views/layout/Footer.jsp" />	
 </body>
 </html>
-
-
-<jsp:include page="/WEB-INF/views/layout/Footer.jsp" />

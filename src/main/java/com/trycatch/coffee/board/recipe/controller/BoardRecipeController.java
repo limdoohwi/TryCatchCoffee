@@ -37,11 +37,16 @@ public class BoardRecipeController {
 
 	
 	//listAll (GET) 게시글 전체 보기
-	@RequestMapping("/community.Recipe_List")
-	public String ListAllBoardRecipeGET(HttpServletRequest req, Model model) throws Exception{	
-		String board_recipe_search = req.getParameter("board_Recipe_search");
-		model.addAttribute("recipelist",service.listAllBoardRecipe());
-		model.addAttribute("searchrecipelist", service.searchBoardRecipe(board_recipe_search));
+	@RequestMapping(value="/community.Recipe_List",method=RequestMethod.GET)
+	public String ListAllBoardRecipeGET(HttpServletRequest req, Model model, int limit) throws Exception{
+		model.addAttribute("recipelistall", service.listAllBoardRecipe());
+		if(req.getParameter("limit") != null){
+		model.addAttribute("recipelist",service.listAllBoardRecipe(limit));
+		}
+		else{
+		model.addAttribute("recipelist",service.listAllBoardRecipe(0));
+		}
+		System.out.println(limit);
 		return "/community/Recipe_List";
 	} 
 		
@@ -77,16 +82,17 @@ public class BoardRecipeController {
 
 		service.insertBoardRecipe(dto);
 		
-		return "redirect:/community.Recipe_List";
+		return "redirect:/community.Recipe_List?limit=0";
 		
 	}
 	
-	//search
-	@RequestMapping("/community.recipe_search")
-	public String SearchBoardRecipe(HttpServletRequest req, Model model) throws Exception{
-		String board_recipe_search = req.getParameter("board_Recipe_search");
-		model.addAttribute("searchrecipelist", service.searchBoardRecipe(board_recipe_search));
-		return 
+	//search 게시물 검색
+	@RequestMapping(value="/community.recipe_search",method=RequestMethod.POST)
+	public String SearchBoardRecipe(Model model, String board_recipe_search, int limit) throws Exception{
+		System.out.println(board_recipe_search);
+		System.out.println(limit);
+		model.addAttribute("recipelist", service.searchBoardRecipe(board_recipe_search,limit));
+		return "/community/Recipe_List";
 	}
 	
 	
@@ -118,7 +124,7 @@ public class BoardRecipeController {
 	@RequestMapping("/communty.recipe_delete")
 	public String ModifyBoardDelete(int board_recipe_no) throws Exception{
 		service.deleteBoardRecipe(board_recipe_no);
-		return "redirect:/community.Recipe_List";
+		return "redirect:/community.Recipe_List?limit=0";
 	}
 	
 	//조회수 update

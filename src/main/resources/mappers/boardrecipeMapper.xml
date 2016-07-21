@@ -8,16 +8,21 @@
 
 	<insert id="boardrecipeinsert" parameterType="BoardRecipeDTO">
 		insert into board_recipe(board_recipe_title, board_recipe_content, board_recipe_writer, board_recipe_date,board_recipe_likes,board_recipe_count,board_recipe_file)
-		values(#{board_recipe_title},#{board_recipe_content},#{board_recipe_writer},sysdate(),0,0,#{board_recipe_file})
+		values(#{board_recipe_title},#{board_recipe_content},#{board_recipe_writer},now(),0,0,#{board_recipe_file})
 		
 	</insert>
 	
-	<select id="boardrecipelist" resultType="BoardRecipeDTO">
-		select * from board_recipe where board_recipe_no>0 order by board_recipe_no desc
+	<select id= "boardrecipelistall" resultType="BoardRecipeDTO">
+		select * from board_recipe 
 	</select>
 	
-	<select id="boardrecipesearch" resultType="BoardRecipeDTO">
-		select * from board_recipe where board_recipe_title like '%#{board_recipe_search}%';
+	<select id="boardrecipelist" resultType="BoardRecipeDTO">
+		select * from board_recipe where board_recipe_no>0 order by board_recipe_no desc limit #{limit+1},10
+	</select>
+	
+	<select id="boardrecipesearch" resultType="BoardRecipeDTO" parameterType="map">
+		select * from board_recipe where board_recipe_title like concat("%",#{board_recipe_search},"%") order by board_recipe_no desc limit #{limit} ,10
+	
 	</select>
 	
 	<select id="boardreciperead" resultType="BoardRecipeDTO">

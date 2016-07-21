@@ -14,7 +14,7 @@
 <script>
 $(function(){
 	$("#recipe_goback").click(function(){
-		location.href="/community.Recipe_List";
+		location.href="/community.Recipe_List?limit=0";
 	})
 })
 $(function(){
@@ -22,7 +22,7 @@ $(function(){
      
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: editor_object,
-        elPlaceHolder: "smarteditor1",
+        elPlaceHolder: "smarteditor",
         sSkinURI: "/../resources/smarteditor/SmartEditor2Skin.html", 
         htParams : {
             bUseToolbar : true,             
@@ -31,7 +31,7 @@ $(function(){
         }
     });
     $("#board_recipe_submit").click(function(){
-        editor_object.getById["smarteditor1"].exec("UPDATE_CONTENTS_FIELD", []);
+        editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
         $("#frm").submit();
     });
 });
@@ -46,7 +46,7 @@ $(function(){
 			<div class="panel panel-info">
 				<div class="panel-heading">	</div>
 				<div class="panel-body">TITLE : &nbsp;&nbsp;&nbsp;<input type="text" placeholder="${boardRecipeDTO.board_recipe_title}" class="form-control" name="board_recipe_title"/></div>
-				<div class="panel-body">COUTENT : <textarea name="board_recipe_content" id="smarteditor1" rows="10" cols="100" style="width:900px; height:500px;">${boardRecipeDTO.board_recipe_content}</textarea></div>
+				<div class="panel-body">COUTENT : <textarea name="board_recipe_content" id="smarteditor" rows="10" cols="100" style="width:900px; height:500px;">${boardRecipeDTO.board_recipe_content}</textarea></div>
 				<button type="submit" class="btn btn-default"  style="background-color:#18bc9c">write</button> &nbsp;<button type="button" id="recipe_goback" class="btn btn-default" style="background-color:#18bc9c">list</button>
 			</div>
 		</div>

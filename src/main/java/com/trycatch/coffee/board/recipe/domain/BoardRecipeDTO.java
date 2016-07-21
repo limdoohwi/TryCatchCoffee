@@ -10,6 +10,46 @@ public class BoardRecipeDTO {
 	private int board_recipe_no,board_recipe_likes,board_recipe_count;
 	private String board_recipe_file;
 	
+	private int totalpage;
+	private int nowperpage;
+	
+	private int totalblock;
+	private int nowblock;
+	private int nowperblock;
+	
+	
+	public int getTotalpage() {
+		return totalpage;
+	}
+	public void setTotalpage(int totalpage) {
+		this.totalpage = totalpage;
+	}
+	public int getNowperpage() {
+		return nowperpage;
+	}
+	public void setNowperpage(int nowperpage) {
+		this.nowperpage = nowperpage;
+	}
+	public int getTotalblock() {
+		return totalblock;
+	}
+	public void setTotalblock(int totalblock) {
+		this.totalblock = totalblock;
+	}
+	public int getNowblock() {
+		return nowblock;
+	}
+	public void setNowblock(int nowblock) {
+		this.nowblock = nowblock;
+	}
+	public int getNowperblock() {
+		return nowperblock;
+	}
+	public void setNowperblock(int nowperblock) {
+		this.nowperblock = nowperblock;
+	}
+
+	
 
 
 	public String getBoard_recipe_file() {

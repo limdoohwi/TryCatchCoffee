@@ -1,9 +1,12 @@
 package com.trycatch.coffee.board.recipe.persistance;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +19,7 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 	@Inject
 	private SqlSession sqlSession;
 	
+	private Map<String, Integer> map = new HashMap<String, Integer>();
 	
 	private static final String NAMESPACE = "com.trycatch.coffee.mappers.boardrecipeMapper";
 
@@ -46,9 +50,9 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 	
 	//listAll
 	@Override
-	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
+	public List<BoardRecipeDTO> listAllBoardRecipe(Integer limit) throws Exception {
 		
-		return sqlSession.selectList(NAMESPACE+".boardrecipelist");
+		return sqlSession.selectList(NAMESPACE+".boardrecipelist",limit);
 	}
 
 	//Count ++
@@ -64,8 +68,19 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 	}
 
 	@Override
-	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search) throws Exception {
-		return sqlSession.selectList(NAMESPACE+".boardrecipesearch");	
+	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search,  int limit) throws Exception {
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("board_recipe_search", board_recipe_search);
+			map.put("limit", limit);
+				
+		return	sqlSession.selectList(NAMESPACE+".boardrecipesearch",map);	
+		
+	}
+
+	@Override
+	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
+		return sqlSession.selectList(NAMESPACE+".boardrecipelistall");
 	}
 
 
