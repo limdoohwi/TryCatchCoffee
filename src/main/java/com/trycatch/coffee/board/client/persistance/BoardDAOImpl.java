@@ -1,6 +1,6 @@
 package com.trycatch.coffee.board.client.persistance;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +53,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void reply(BoardDTO board, int member_no) throws Exception {
+	public void reply(BoardDTO board, int member_no, int parent_board_num, int board_group) throws Exception {
 		board.setMember_no(member_no);
+		if(board_group ==0){
+			board.setBoard_group(parent_board_num);
+		}
+		else if(board_group != 0){
+			board.setBoard_group(board_group);
+		}
 		sqlSession.update(NAMESPACE + ".reply_pos_up", board);
 		sqlSession.insert(NAMESPACE + ".reply", board);
 	}
@@ -64,7 +70,6 @@ public class BoardDAOImpl implements BoardDAO {
 		Map<String, String> map = new HashMap<>();
 		map.put("board_num", board_num);
 		map.put("board_password", board_password);
-		System.out.println(board_num +"," + board_password);
 		try{
 			return sqlSession.selectOne(NAMESPACE + ".check_password", map);			
 		}
@@ -78,7 +83,6 @@ public class BoardDAOImpl implements BoardDAO {
 		Map<String, String> map = new HashMap<>();
 		map.put("keyValue", keyValue);
 		map.put("keyWord", keyWord);
-		System.out.println(keyValue + "," +keyWord);
 		return sqlSession.selectList(NAMESPACE +".search", map);
 	}
 }

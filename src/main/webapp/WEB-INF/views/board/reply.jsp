@@ -41,6 +41,8 @@
 		</table>
 		<table class=table>
 			<form name="reply_form" method="post" action="/insert.reply.client.board" >
+				<input type="hidden" name="parent_board_num" value="${param.board_num}"/>
+				<input type="hidden" name="board_group" value="${param.board_group}" />
 				<input type="hidden" name="board_password" value="${board_password}"/>
 				<input type="hidden" name="board_pos" value="${param.board_pos }"/>
 				<input type="hidden" name="board_depth" value="${param.board_depth }"/>
@@ -51,11 +53,11 @@
 			    <tr>
 			     <td width=10%>제 목</td>
 			     <td width=90%><input type=text name=board_subject size=50 maxlength=30 
-			     value="re : ${board.board_subject }"></td>
+			     value="답변 : ${board.board_subject }"></td>
 			    </tr>
 			    <tr>
 			     <td width=10% >내 용</td>
-			     <td width=90%><textarea name=board_content rows=10 cols=50>re : ${board.board_content}</textarea></td>
+			     <td width=90%><textarea name=board_content rows=10 cols=50>${board.board_content}</textarea></td>
 			    </tr>
 			    <tr>
 			    	<td><button type="submit" class="btn btn-primary" id="reply_submit_button" style="float:right">작성 완료</button>

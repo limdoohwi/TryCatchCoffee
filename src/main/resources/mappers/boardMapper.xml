@@ -18,8 +18,8 @@
 	</update>
 	
 	<insert id="insert" parameterType="BoardDTO">
-        insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no) 
-        values(0, #{board_category}, 0,0,#{board_content}, #{board_ip},now(), #{board_subject}, #{board_password}, #{member_no})
+        insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no, board_group) 
+        values(0, #{board_category}, 0,0,#{board_content}, #{board_ip},now(), #{board_subject}, #{board_password}, #{member_no}, 0)
     </insert>
     
     <update id="hits_up">
@@ -40,12 +40,12 @@
 	</delete>
 	
 	<delete id="delete_reply">
-		delete from board where board_pos>#{board_pos} and board_depth>#{board_depth}
+		delete from board where board_pos>#{board_pos} and board_depth>#{board_depth} and board_group=#{board_num}
 	</delete>
 	
 	<insert id="reply">
-		insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no) 
-        values(0,#{board_category},#{board_pos}+1,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no})
+		insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no, board_group) 
+        values(0,#{board_category},#{board_pos}+1,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no}, #{board_group})
 	</insert>
 	
 	<select id="check_password" resultType="BoardDTO">
@@ -55,4 +55,6 @@
 	<select id="search" parameterType="hashMap" resultType="BoardDTO">
 		select * from board where ${keyValue} like concat('%', #{keyWord}, '%') order by board_pos
 	</select>
+	
+	
 </mapper>

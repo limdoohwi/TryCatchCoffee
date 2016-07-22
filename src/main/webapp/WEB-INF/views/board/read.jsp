@@ -74,13 +74,14 @@ $(document).ready(function(){
 		  <td bgcolor=9CA2EE height=25 align=center class=m>게시판</td>
 		 </tr>
 	</div>
-	<div class="panel-body">
+	<div class="panel-body" style="float:right;">
 	<form role="form" method="post">
 		<input type='hidden' name='board_num' value="${board.board_num}">
 		<input type='hidden' name='board_password' value="${board.board_password }"/>
 		<input type='hidden' name='board_pos' value="${board.board_pos }"/>
 		<input type='hidden' name='board_depth' value="${board.board_depth }"/>
 		<input type="hidden" name="member_no" value="${member_dto.member_no}"/>
+		<input type='hidden' name='board_group' value="${board.board_group }" />
 		 <tr>
 		  <td colspan=4>
 		   <table class="table"> 

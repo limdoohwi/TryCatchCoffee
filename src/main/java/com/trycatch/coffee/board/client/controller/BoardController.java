@@ -1,6 +1,7 @@
 package com.trycatch.coffee.board.client.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -39,7 +40,9 @@ public class BoardController {
 				model.addAttribute("list", service.listAll());	
 			}
 			else{
-				model.addAttribute("list", service.search(keyValue, keyWord));	
+				model.addAttribute("list", service.search(keyValue, keyWord));
+				
+				model.addAttribute("keyWord", keyWord);
 			}
 			return "/board/list";
 	}
@@ -103,8 +106,8 @@ public class BoardController {
 	
 	//답글 저장 후 리스트 페이지로 이동
 	@RequestMapping(value="/insert.reply.client.board", method=RequestMethod.POST)
-	public String replyPOST(BoardDTO board, RedirectAttributes rttr, int member_no) throws Exception{
-		service.reply(board, member_no);
+	public String replyPOST(BoardDTO board, RedirectAttributes rttr, int member_no, int parent_board_num, int board_group) throws Exception{
+		service.reply(board, member_no, parent_board_num, board_group);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/board/list";
 	}
@@ -128,12 +131,4 @@ public class BoardController {
 			return "/board/password_check";
 		}
 	}
-	/*
-	@RequestMapping(value="/search.client.board", method=RequestMethod.POST)
-	public String search(String keyValue, String keyWord, Model model) throws Exception{
-		model.addAttribute("list", service.search(keyValue, keyWord));
-		model.addAttribute("keyWord", keyWord);
-		return "/board/list_search";
-	}
-	*/
 }

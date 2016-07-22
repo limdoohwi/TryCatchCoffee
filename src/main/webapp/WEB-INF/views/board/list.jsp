@@ -214,7 +214,8 @@
 			   						<c:if test="${(nowBlock_Board * pagePerBlock_Board) + index_Board == totalPage_Board-1}">
 			   							<c:set var="BlockisCreate_Board" value="false"/>
 			   						</c:if>
-			   						<td width="30px"><a href="/board/list?nowPage_Board=${(nowBlock_Board* pagePerBlock_Board) + index_Board}&nowBlock_Board=${nowBlock_Board}">${(nowBlock_Board * pagePerBlock_Board) + index_Board + 1}</a></td>
+			   						<td width="30px">
+			   						<a href="/board/list?nowPage_Board=${(nowBlock_Board* pagePerBlock_Board) + index_Board}&nowBlock_Board=${nowBlock_Board}&keyword=${param.keyWord}">${(nowBlock_Board * pagePerBlock_Board) + index_Board + 1}</a></td>
 			   					</c:if>
 			   				</c:forEach>
 			   				<c:if test="${totalBlock_Board > nowBlock_Board + 1}">
@@ -223,7 +224,7 @@
 			  			</ul>
 					</div>
 				</div>
-		</table>
+			</table>
 	</td>
 </tr>
 <tr>

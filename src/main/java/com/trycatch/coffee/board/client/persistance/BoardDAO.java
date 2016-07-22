@@ -12,6 +12,6 @@ public interface BoardDAO {
 	  public void delete_reply(BoardDTO board) throws Exception;
 	  public List<BoardDTO> listAll() throws Exception;
 	  public BoardDTO check_password(String board_password, String board_num) throws Exception;
-	  public void reply(BoardDTO board, int member_no) throws Exception;
+	  public void reply(BoardDTO board, int member_no, int parent_board_num, int board_group) throws Exception;
 	  public List<BoardDTO> search(String keyValue, String keyWord) throws Exception;
 }

@@ -15,7 +15,7 @@ public class BoardDTO {
 	private String board_subject;
 	private String board_password;
 	private int member_no;
-	
+	private int board_group;
 	
 	
 	public int getBoard_num() {
@@ -83,6 +83,12 @@ public class BoardDTO {
 	}
 	public void setMember_no(int member_no) {
 		this.member_no = member_no;
+	}
+	public int getBoard_group() {
+		return board_group;
+	}
+	public void setBoard_group(int board_group) {
+		this.board_group = board_group;
 	}
 
 	

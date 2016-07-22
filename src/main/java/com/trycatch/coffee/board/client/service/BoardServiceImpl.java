@@ -13,7 +13,7 @@ import com.trycatch.coffee.board.client.persistance.BoardDAO;
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Inject
-	BoardDAO dao; //member_dto.member_name
+	BoardDAO dao;
 	
 	@Override
 	public void insert(BoardDTO board, int member_no) throws Exception {
@@ -46,8 +46,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void reply(BoardDTO board, int member_no) throws Exception {
-		dao.reply(board, member_no);
+	public void reply(BoardDTO board, int member_no, int parent_board_num, int board_group) throws Exception {
+		dao.reply(board, member_no, parent_board_num, board_group );
 	}
 
 	@Override
