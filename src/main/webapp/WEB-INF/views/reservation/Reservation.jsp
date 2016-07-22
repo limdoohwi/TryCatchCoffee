@@ -53,7 +53,7 @@
 <!-- Header -->
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 <c:choose>
-	<c:when test="${param.check== 'drink'}">
+	<c:when test="${check== 'drink'}">
 		<!-- Drink -->
 		<jsp:include page="Drink.jsp" />
 	</c:when>

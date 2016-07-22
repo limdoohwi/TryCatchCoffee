@@ -14,5 +14,23 @@
     <insert id="insertMenu">
         insert into menu(menu_name,menu_price,menu_category_num,menu_image) values(#{menu_name},#{menu_price},#{menu_category_num},#{menu_image})
     </insert>
-    
+    <select id="getMenuList" resultType="MenuDTO">
+        select m.menu_num, m.menu_name, m.menu_price, m.menu_category_num, c.menu_category_name, m.menu_image from menu m, menu_category c where m.menu_category_num=c.menu_category_num
+    </select> 
+    <select id="getMenuCategoryList" resultType="String">
+        select menu_category_name from menu_category 
+    </select>
+    <update id="updateMenu" parameterType="MenuDTO">
+        update menu 
+        	<set>
+        	    menu_name = #{menu_name},
+        	    menu_price = #{menu_price},
+        	    menu_category_num = #{menu_category_num},
+        	    <if test="menu_image != null">menu_image=#{menu_image}</if>
+        	</set>
+        where menu_num=#{menu_num}
+    </update>
+    <delete id="deleteMenu">
+        delete from menu where menu_num=#{menu_num}
+    </delete>
 </mapper>

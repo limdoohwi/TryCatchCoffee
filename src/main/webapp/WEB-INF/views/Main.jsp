@@ -128,7 +128,7 @@ var callBackCnt = 0;
 	}
 		function initMap() {
 			$.ajax({
-				url:"/set.store.manager",
+				url:"/gps.storeList.store.manager",
 				type:"post",
 				dataType:"json",
 				data:{isGPSgetStoreList:true},

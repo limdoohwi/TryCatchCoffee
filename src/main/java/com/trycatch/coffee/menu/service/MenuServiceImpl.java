@@ -23,6 +23,11 @@ public class MenuServiceImpl implements MenuService {
 	public int getMenuCategorynum(String menu_category_name) {
 		return dao.getMenuCategorynum(menu_category_name);
 	}
+	
+	@Override
+	public List<String> getMenuCategoryList() {
+		return dao.getMenuCategoryList();
+	}
 
 	@Override
 	public boolean insertMenu(MenuDTO dto) {
@@ -30,21 +35,19 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public void deleteMenu(int member_no) {
-		// TODO Auto-generated method stub
-
+	public boolean deleteMenu(int menu_num) {
+		return dao.deleteMenu(menu_num);
 	}
 
 	@Override
 	public void updateMenu(MenuDTO dto) {
-		// TODO Auto-generated method stub
+		dao.updateMenu(dto);
 
 	}
 
 	@Override
 	public List<MenuDTO> getMenuList() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getMenuList();
 	}
 
 }
