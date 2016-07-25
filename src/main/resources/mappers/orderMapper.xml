@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.orderMapper">  
+	<insert id="insertMenu_Payment" parameterType="Menu_PaymentDTO">
+	    insert into menu_payment(member_no, menu_reserve_time, menu_payment_style, menu_total_price, menu_total_mileage, order_name, order_tel, store_no)
+	    values(#{member_no}, #{menu_reserve_time}, #{menu_payment_style}, #{menu_total_price}, #{menu_total_mileage}, #{order_name}, #{order_tel}, #{store_no})
+	</insert>
+	<select id="getNowInsert_Menu_Payment" resultType="Menu_PaymentDTO">
+	    select * from menu_payment order by menu_payment_no desc;
+	</select>
+	<insert id="insertMenu_Order" parameterType="Menu_OrderDTO">
+		insert into menu_order (menu_payment_no, menu_no, menu_count, menu_option)
+		values (#{menu_payment_no}, #{menu_no}, #{menu_count}, #{menu_option})
+	</insert>
+</mapper>
