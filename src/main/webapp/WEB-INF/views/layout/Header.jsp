@@ -130,26 +130,6 @@ h2 {
 	</form>
 	<!-- Result Search Store -->
 	<div style="color: white">
-		<table>
-			<tr style="height: 70px">
-				<td width="60%">서울 특별시 중구 을지로3가 101</td>
-				<td width="25%">종각점</td>
-				<td width="15%"><button
-						class="Member-Select-Store-Btn btn btn-primary btn-sm">선택</button></td>
-			</tr>
-			<tr style="height: 70px">
-				<td width="60%">서울 특별시 중구 을지로3가 101</td>
-				<td width="25%">종각점</td>
-				<td width="15%"><button
-						class="Member-Select-Store-Btn btn btn-primary btn-sm">선택</button></td>
-			</tr>
-			<tr style="height: 70px">
-				<td width="60%">서울 특별시 중구 을지로3가 101</td>
-				<td width="25%">종각점</td>
-				<td width="15%"><button
-						class="Member-Select-Store-Btn btn btn-primary btn-sm">선택</button></td>
-			</tr>
-		</table>
 	</div>
 </div>
 
@@ -235,7 +215,7 @@ h2 {
 					</div>
 					<!-- Order Menu -->
 					<div style="display: inline-block; margin-left: 15px">
-						<a name="Drink" role="menuitem" tabindex="-1" href="front?cmd=order&check=drink">음료 주문 예약</a><br />
+						<a name="Drink" role="menuitem" tabindex="-1" href="go.reservation">음료 주문 예약</a><br />
 						<a name="MeetingRoom" id="MeetingRoom-Btn" role="menuitem" tabindex="-1" href="#">미팅룸 예약</a><br />
 					</div>
 					<!-- Community Menu -->

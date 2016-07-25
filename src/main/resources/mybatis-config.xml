@@ -7,9 +7,11 @@
 <configuration>
 	<typeAliases>
 		<package name="com.trycatch.coffee.member.domain" />
-		<package name="com.trycatch.coffee.manager.domain" />
+		<package name="com.trycatch.coffee.menu.domain" />
 		<package name="com.trycatch.coffee.store.domain" />
+		<package name="com.trycatch.coffee.cart.domain" />
 		<package name="com.trycatch.coffee.board.recipe.domain" />
 		<package name="com.trycatch.coffee.meeting_room.domain" />
+		<package name="com.trycatch.coffee.order.domain" />
 	</typeAliases>
 </configuration>

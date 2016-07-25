@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.cartMapper">  
+	<select id="getCartList" resultType="CartDTO">
+	    select c.cart_num, c.member_no, c.menu_num, m.menu_name,m.menu_price, c.menu_count from cart c, menu m where m.menu_num=c.menu_num and c.member_no=#{member_no}
+		<if test="menu_num != 0">
+		    and c.menu_num = #{menu_num}
+		</if>
+	</select>
+	<insert id="insertCart">
+	    insert into cart(member_no,menu_num) values(#{member_no},#{menu_num}) 
+	</insert>
+	<update id="updateCart">
+	    update cart 
+	    <set>
+	        <if test="menu_count == 0">menu_count=menu_count+1</if>
+	        <if test="menu_count &lt; 0">menu_count= menu_count-1</if>
+	        <if test="menu_count &gt; 0">menu_count=#{menu_count}</if>
+	    </set>
+	    
+	    where menu_num= #{menu_num} and member_no = #{member_no}
+	</update>
+	<delete id="deleteCart" parameterType="CartDTO">
+	    delete from cart where menu_num = #{menu_num} and member_no = #{member_no}
+	</delete>
+</mapper>

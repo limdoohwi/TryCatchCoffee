@@ -71,7 +71,6 @@ var final_stores = new Array();
 var arrayDistance = new Array();
 var address = new Array();
 var callBackCnt = 0;
-
 	$(function(){
 			if("${login_success}"=="true"){
 				alert("로그인에 성공하였습니다.");
@@ -123,7 +122,7 @@ var callBackCnt = 0;
 		//브라우저가 geolocation을 지원하지 않음
 		else{
 			alert("위치 정보 확인을 지원하지 않는 브라우저 입니다.");
-			loaction.href="front?cmd=main";
+			//loaction.href="front?cmd=main";
 		}
 	}
 		function initMap() {
@@ -217,7 +216,8 @@ var callBackCnt = 0;
 					type:"post",
 					dataType:"json",
 					data:{store_no:final_store_no},
-					success:function(data){}
+					success:function(data){
+					}
 				});
 			}
 		}

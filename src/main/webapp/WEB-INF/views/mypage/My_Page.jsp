@@ -321,6 +321,20 @@ var cnt = 0;
 				</div>
 			</div>
 			<div class="panel-body">
+				<form id="Search-MeetingRoom-Reservation-Date-Form" class="form-inline" method="post" action="/my_page.member">
+					<div class="form-group">
+						<div class="input-group">
+							<!-- 입력  -->
+							<input type="text" class="form-control" name="meeting_order_date"
+								placeholder="구매날짜 입력 예)2016-07-18">
+							<!-- 검색 버튼 -->
+							<div id="Search-MeetingRoom-Reservation-Date-Btn" class="input-group-addon"
+								style="background-color: white; color: green; cursor: pointer;">
+								<i class="fa fa-search"></i>
+							</div>
+						</div>
+					</div>
+				</form>
 				<div class="row">
 					<table
 						class="table table-striped table-bordered table-list">

@@ -31,7 +31,10 @@ public class MenuDAOImpl implements MenuDAO {
 		return sqlSession.selectOne(NAMESPACE +".getMenucategorynum", menu_category_name);
 	}
 
-	
+	@Override
+	public List<String> getMenuCategoryList() {
+		return sqlSession.selectList(NAMESPACE+".getMenuCategoryList");
+	}
 
 	@Override
 	public boolean insertMenu(MenuDTO dto) {
@@ -43,21 +46,29 @@ public class MenuDAOImpl implements MenuDAO {
 	}
 
 	@Override
-	public void deleteMenu(int member_no) {
-		// TODO Auto-generated method stub
-
+	public boolean deleteMenu(int menu_num) {
+		try{
+			sqlSession.delete(NAMESPACE+".deleteMenu", menu_num);
+			return true;
+		}catch(Exception err){
+			return false;
+		}
 	}
 
 	@Override
 	public void updateMenu(MenuDTO dto) {
-		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".updateMenu", dto);
 
 	}
 
 	@Override
 	public List<MenuDTO> getMenuList() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getMenuList");
+		} catch (Exception err) {
+			err.printStackTrace();
+			return null;
+		}
 	}
 
 

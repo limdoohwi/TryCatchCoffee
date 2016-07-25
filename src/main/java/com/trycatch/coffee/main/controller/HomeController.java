@@ -1,6 +1,5 @@
 package com.trycatch.coffee.main.controller;
 
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -15,8 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.trycatch.coffee.meeting_room.persitance.MeetingRoomDAOImpl;
 import com.trycatch.coffee.store.service.StoreService;
 
 /**
@@ -50,8 +49,7 @@ public class HomeController {
 	 * GPS 지오코딩을 통해 최단 거리의 매장을 구한 후 해당 매장을 세션에 저장
 	 */
 	@RequestMapping(value="/gps.set_store.main", method=RequestMethod.POST)
-	public void GPSsetStorePOST(int store_no, HttpServletRequest req, HttpServletResponse resp) throws Exception{
-		PrintWriter out = resp.getWriter();
-		out.println(storeService.GPSsetStore(store_no, req));
+	public @ResponseBody boolean GPSsetStorePOST(int store_no, HttpServletRequest req, HttpServletResponse resp) throws Exception{
+		return storeService.GPSsetStore(store_no, req);
 	}
 }
