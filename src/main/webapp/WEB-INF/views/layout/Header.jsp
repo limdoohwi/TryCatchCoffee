@@ -88,6 +88,59 @@
 		$(".Main-DropDown-Menu a").mouseleave(function() {
 			$("#Simple-Explain-Div").css("visibility", "hidden");
 		});
+		
+		//매장 검색시 해당 매장 list를 호출
+		$("#Header-Search-Store-Value").keyup(function(){
+			var search_store_value = $(this).val();
+			if(search_store_value == ""){
+				$("#Header-Search-Store-Table").html("");
+				return false;
+			}
+			$.ajax({
+				url:"/store.manager",
+				type:"post",
+				dataType:"json",
+				data:{search_store_value:search_store_value},
+				success:function(data){
+					$("#Header-Search-Store-Table").html("");
+					$.each(data.headerStoreList, function(index,jsonData){
+						$("#Header-Search-Store-Table").append(
+								"<tr style='height: 70px'>"+
+									"<input type='hidden' class='Store-No-Input' value='"+jsonData.store_no+"' />"+
+									"<td width='60%''>"+jsonData.store_addr+"</td>"+
+									"<td width='25%'>"+jsonData.store_name+"</td>"+
+									"<td width='15%'><button class='Member-Select-Store-Btn btn btn-primary btn-sm'>선택</button></td>"+
+								"</tr>");
+					});
+				},
+				error:function(){
+					alert("매장 목록을 불러오는데 실패하였습니다.");
+				}
+			});
+		});
+		
+		//헤더 매장 선택시 setStore 호출
+		$(document).on("click", ".Member-Select-Store-Btn", function(){
+			var index = $(".Member-Select-Store-Btn").index(this);
+			var store_no = $(".Store-No-Input").eq(index).val();
+			$.ajax({
+				url:"/gps.set_store.main",
+				type:"post",
+				dataType:"json",
+				data:{store_no:store_no, headerSetStore:"true"},
+				success:function(data){
+					if(data == true){
+						$("#Set-Store-Name-Span").html("<c:if test='${store_dto != null}'>"+
+								"<span class='navbar-brand' style='font-size: 11pt'>${store_dto.store_name}</span>"+
+								"</c:if>");
+						alert("매장이 설정되었습니다. 아무 페이지나 이동하면 설정된 매장을 왼쪽 상단에서 확인 할 수 있습니다.");
+					}
+					else{
+						alert("매장 설정에 실패하였습니다. 다시 시도해주세요.");
+					}
+				}
+			});
+		});
 	});
 </script>
 
@@ -124,12 +177,17 @@ h2 {
 	style="background-color: black; opacity: 0.5; position: fixed; margin-top: 60px">
 	<form class="form-horizontal">
 		<div class="form-group">
-			<input type="email" class="form-control" id="inputEmail3"
+			<input type=text" class="form-control" id="Header-Search-Store-Value" name="search_store_value"
 				placeholder="매장 검색">
 		</div>
 	</form>
 	<!-- Result Search Store -->
 	<div style="color: white">
+<<<<<<< HEAD
+=======
+		<table id="Header-Search-Store-Table">
+		</table>
+>>>>>>> branch 'heykj' of https://github.com/limdoohwi/TryCatchCoffee.git
 	</div>
 </div>
 
@@ -152,7 +210,7 @@ h2 {
 		<a id="Main-Brand-Btn" class="navbar-brand" href="/">Try Coffee Catch{}<br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 			<c:if test="${member_dto!=null}">
 				<span class="navbar-brand" style="font-size: 11pt">${member_dto.member_name}님</span>
-			</c:if> 
+			</c:if>
 			<c:if test="${store_dto != null}">
 				<span class="navbar-brand" style="font-size: 11pt">${store_dto.store_name}</span>
 			</c:if>
@@ -183,7 +241,15 @@ h2 {
 			<li><a href="#" id="Main-DropDown">Order</a></li>
 			<!-- Community DropDown -->
 			<li><a href="#" id="Main-DropDown">Community</a></li>
-			<li><a href="go.manager" id="Main-DropDown">Manager</a></li>
+			<li>
+				<c:if test="${member_dto.member_code == 2}">
+					<a href="http://localhost:8080/owner/?member_no=${member_dto.member_no}" id="Main-DropDown">Owner</a>
+				</c:if>
+			<li>
+				<c:if test="${member_dto.member_code == 3}">
+					<a href="go.manager" id="Main-DropDown">Manager</a>
+				</c:if>
+			</li>
 		</ul>
 		<br />
 		<!-- Main-DropDown-Menu -->

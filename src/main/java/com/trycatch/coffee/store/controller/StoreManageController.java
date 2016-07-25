@@ -31,7 +31,7 @@ public class StoreManageController {
 	 * @author 김준혁
 	 * 메인 화면 매장관리 클릭시 해당 페이지로 이동
 	 */
-	@RequestMapping("/store.manager")
+	@RequestMapping(value="/store.manager", method=RequestMethod.GET)
 	public String storeGET(StoreDTO dto, Model model) throws Exception{
 		if(dto != null){
 			model.addAttribute("storeList", service.getStoreList(dto));
@@ -46,10 +46,23 @@ public class StoreManageController {
 	
 	/**
 	 * @author 김준혁
+	 * header에 있는 매장명 검색을 통해 해당 매장 list를 불러옴
+	 */
+	
+	@RequestMapping(value="/store.manager", method=RequestMethod.POST)
+	public @ResponseBody Object storePOST(StoreDTO dto) throws Exception{	
+		System.out.println(dto.getSearch_store_value());
+		JSONObject jsonRoot = new JSONObject();
+		jsonRoot.put("headerStoreList",  service.getStoreList(dto));
+		return jsonRoot;
+	}
+	
+	/**
+	 * @author 김준혁
 	 * GPS 실행시 DB에 저장되어 있는 매장 List를 호출
 	 */
-	@RequestMapping(value="/set.store.manager", method=RequestMethod.POST)
-	public void storePOST(boolean isGPSgetStoreList, HttpServletResponse resp) throws Exception{
+	@RequestMapping(value="/gps.storeList.store.manager", method=RequestMethod.POST)
+	public void setStorePOST(boolean isGPSgetStoreList, HttpServletResponse resp) throws Exception{
 		JSONObject jsonRoot = service.getStoreList(isGPSgetStoreList);
 		PrintWriter out = resp.getWriter();
 		out.println(jsonRoot);
