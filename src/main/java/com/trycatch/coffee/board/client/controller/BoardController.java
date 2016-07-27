@@ -38,13 +38,14 @@ public class BoardController {
 			throws Exception{
 			if(keyWord == null){
 				model.addAttribute("list", service.listAll());	
+				return "/board/list";
 			}
 			else{
 				model.addAttribute("list", service.search(keyValue, keyWord));
 				
 				model.addAttribute("keyWord", keyWord);
+				return "/board/list";
 			}
-			return "/board/list";
 	}
 	
 	// 새로운 글쓰기 페이지로 이동

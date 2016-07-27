@@ -32,7 +32,7 @@ public class HomeController {
 		HttpSession session = req.getSession();
 		MemberDTO dto = new MemberDTO();
 		dto.setMember_birth("1990/06/21");
-		dto.setMember_code(3);
+		dto.setMember_code(1);
 		dto.setMember_email("aaa@aaa.com");
 		dto.setMember_mileage(10);
 		dto.setMember_name("LJY");
@@ -42,7 +42,7 @@ public class HomeController {
 		dto.setMember_tel("010-000-0000");
 		session.setAttribute("member_dto", dto);
 		
-		logger.info("Welcome home! The client locale is {}.", locale);
+		//logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);

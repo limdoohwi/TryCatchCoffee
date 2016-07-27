@@ -107,7 +107,7 @@ $(document).ready(function(){
 			 </tr>
 			 </form>
 		</div>	 
-		</table>
+	</table>
 	</div>
 </div>
 <jsp:include page="/WEB-INF/views/layout/Footer.jsp" />
