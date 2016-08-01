@@ -37,7 +37,7 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="/resources/bootstrab/js/freelancer.js"></script>
-
+<script src="/owner/resources/Owner_js/ListAjax.js"></script>
 <script>
 var today = new Date();
 var currentHour = today.getHours();
@@ -92,52 +92,57 @@ var menu_reserve_time;
 		
 		//결제하기 버튼 클릭
 		$("#payment_cart").click(function(){
+			var flag = true;
 			if(confirm("위 내용대로 결제 하시겠습니까?")){
 				var menu_no = "";
 				var menu_count = "";
 				var menu_option = "";
-				//메뉴 정보 가져오기
-				$("#selected_option_table .cart_list_tr").each(function(){
-					menu_no += $(this).find(".cart_menu_no").val() + ",";
-					menu_count += $(this).find(".cart_menu_count").text() + ",";
-					var option_text = "";
-					if($(this).find(".cart_menu_option").val() == ""){
-						option_text = "없음";
-					}
-					else{
-						option_text = $(this).find(".cart_menu_option").val();
-					}
-					menu_option += option_text + ",";
-				});
 				var order_name = $("#order_name").val();
 				var order_tel = $("#order_tel").val();
 				var menu_payment_style = $("input[name=payment_style]:checked").val();
 				var menu_total_price = $("#menu_total_price").text();
 				var menu_total_mileage = $("#menu_total_mileage span").text();
-				$.ajax({
-					url:"/insert.menu_payment.order",
-					type:"post",
-					dataType:"json",
-					data:{order_name:order_name, order_tel:order_tel, menu_reserve_time:menu_reserve_time, 
-						  menu_payment_style:menu_payment_style, menu_total_price:menu_total_price, menu_total_mileage:menu_total_mileage,
-						  menu_no:menu_no, menu_count:menu_count, menu_option:menu_option},
-					success:function(data){
-							if(data == true){
-								alert("주문이 완료되었습니다.");
-								//sendName(store_no, webCk);
-								location.href="/go.reservation";
-							}
-							else{
-								alert("주문에 실패하였습니다. 다시 시도해주세요.");
-							}
-					},
-					 error:function(request,status,error){
-					        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					 }
+				//메뉴 정보 가져오기
+				$("#selected_option_table .cart_list_tr").each(function(){
+					menu_no += $(this).find(".cart_menu_no").val() + ",";
+					menu_count += $(this).find(".cart_menu_count").text() + ",";
+					if($(this).find(".cart_menu_option").val() == ""){
+						menu_option += "없음,";
+						alert(menu_option);
+					}
+					else{
+						menu_option += $(this).find(".cart_menu_option").val() + ",";
+					}
 				});
+				var jsonData = {
+						menu_no : menu_no,
+						menu_count : menu_count,
+						menu_option : menu_option,
+						order_name:order_name, 
+						order_tel:order_tel, 
+						menu_reserve_time:menu_reserve_time, 
+						menu_payment_style:menu_payment_style, 
+						menu_total_price:menu_total_price, 
+						menu_total_mileage:menu_total_mileage
+				};
+				callList_Ajax("/insert.menu_payment.order", successInsertMenuOrder, errorInsertMenuOrder, jsonData);
 			}
 		});
 	})
+	
+	function successInsertMenuOrder(data){
+		if(data == true){
+			alert("주문이 완료되었습니다.");
+			location.href="/go.reservation";
+		}
+		else{
+			alert("주문에 실패하였습니다.");
+		}
+	}
+	
+	function errorInsertMenuOrder(){
+		alert("ajax 오류");
+	}
 	
 	/*
 	WebSocket

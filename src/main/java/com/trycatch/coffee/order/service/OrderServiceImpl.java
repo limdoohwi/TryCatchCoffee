@@ -1,7 +1,6 @@
 package com.trycatch.coffee.order.service;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,35 +26,34 @@ public class OrderServiceImpl implements OrderService {
 	private DataSourceTransactionManager transactionManager;
 	private DefaultTransactionDefinition transaction = new DefaultTransactionDefinition();
 	private TransactionStatus status;
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
-		
+
 	/**
-	 * @author 김준혁
-	 * 1. Menu_Payment DB 등록
-	 * 2. 방금 등록한 Menu_Payment_no을 검색
-	 * 3. Menu_Order DB 등록
-	 * 1~3번중 하나라도 예외가 발생한다면 rollback 
+	 * @author 김준혁 1. Menu_Payment DB 등록 2. 방금 등록한 Menu_Payment_no을 검색 3.
+	 *         Menu_Order DB 등록 1~3번중 하나라도 예외가 발생한다면 rollback
 	 */
 	@Override
-	public boolean insertOrder(Menu_PaymentDTO menuPaymentDto, Menu_OrderDTO menuOrderDto) {
-		transaction.setName("order_transaction");
+	public boolean insertMenuPayment(Menu_PaymentDTO menuPaymentDto,  Menu_OrderDTO menuOrderDto) {
+		transaction.setName("payment_transaction");
 		transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		status = transactionManager.getTransaction(transaction);
 		try {
-			
 			dao.insertMenu_Payment(menuPaymentDto);
-			Menu_PaymentDTO recentMenuPayment_dto = dao.getNowInsert_Menu_Payment();
-			menuOrderDto.setMenu_payment_no(recentMenuPayment_dto.getMenu_payment_no());
-			dao.insertMenu_Order(menuOrderDto);
-			//MENU_NO 파싱
-			String[] parseMenu_no = menuOrderDto.getMenu_no().split(",");
+			Menu_PaymentDTO dto = dao.getNowInsert_Menu_Payment();
+			menuOrderDto.setMenu_payment_no(dto.getMenu_payment_no());
 			CartDTO cartDto = new CartDTO();
-			cartDto.setMember_no(menuPaymentDto.getMember_no());
-			for(int i=0; i<parseMenu_no.length; i++){
-				logger.info("메뉴 번호들 : " + parseMenu_no[i]);
-				cartDto.setMenu_num(Integer.parseInt(parseMenu_no[i]));
+			cartDto.setMember_no(dto.getMember_no());
+			String[] menu_nums = menuOrderDto.getMenu_no().split(",");
+			String[] menu_counts = menuOrderDto.getMenu_count().split(",");
+			String[] menu_options = menuOrderDto.getMenu_option().split(",");
+			for(int i=0; i<menu_nums.length; i++){
+				cartDto.setMenu_num(Integer.parseInt(menu_nums[i]));
 				cartDao.deleteCart(cartDto);
+				menuOrderDto.setMenu_no(menu_nums[i]);
+				menuOrderDto.setMenu_count(menu_counts[i]);
+				menuOrderDto.setMenu_option(menu_options[i]);
+				dao.insertMenu_Order(menuOrderDto);
 			}
 			transactionManager.commit(status);
 			return true;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.trycatch.coffee.cart.domain.CartDTO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 import com.trycatch.coffee.order.domain.Menu_OrderDTO;
 import com.trycatch.coffee.order.domain.Menu_PaymentDTO;
@@ -19,14 +20,14 @@ import com.trycatch.coffee.order.service.OrderService;
 import com.trycatch.coffee.store.domain.StoreDTO;
 
 @Controller
-public class InsertMenuPaymentController {
+public class InsertMenuOrderController {
 	@Inject
 	private OrderService service;
 	
-	private static final Logger logger = LoggerFactory.getLogger(InsertMenuPaymentController.class);
+	private static final Logger logger = LoggerFactory.getLogger(InsertMenuOrderController.class);
 	
 	@RequestMapping("/insert.menu_payment.order")
-	public @ResponseBody boolean insertMenuPaymentOrderPOST(HttpServletRequest req, Menu_PaymentDTO menuPaymentDto, Menu_OrderDTO menuOrderDto) throws Exception{
+	public @ResponseBody boolean insertMenuPaymentPOST(HttpServletRequest req, Menu_PaymentDTO menuPaymentDto, Menu_OrderDTO menuOrderDto) throws Exception{
 		Date today = new Date();
 		SimpleDateFormat formatToday = new SimpleDateFormat("yyyy-MM-dd");
 		String resultToday = formatToday.format(today);
@@ -38,7 +39,6 @@ public class InsertMenuPaymentController {
 		StoreDTO storeDto = (StoreDTO)req.getSession().getAttribute("store_dto");
 		menuPaymentDto.setStore_no(storeDto.getStore_no());
 		logger.info("결제 컨트롤러 : " + menuPaymentDto.getMember_no() + ", " + menuPaymentDto.getMenu_payment_date() +", " + menuPaymentDto.getMenu_payment_style() +", " + menuPaymentDto.getMenu_reserve_time() +", " + menuPaymentDto.getMenu_total_mileage() +", " + menuPaymentDto.getMenu_total_price() + ", " + menuPaymentDto.getOrder_name() +", " + menuPaymentDto.getOrder_tel() + ", " + menuPaymentDto.getStore_no() );
-		
-		return service.insertOrder(menuPaymentDto, menuOrderDto);
+		return service.insertMenuPayment(menuPaymentDto, menuOrderDto);
 	}
 }
