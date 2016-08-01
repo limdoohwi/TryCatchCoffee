@@ -2,6 +2,7 @@ package com.trycatch.coffee.order.service;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -22,10 +23,6 @@ public class OrderServiceImpl implements OrderService {
 	private OrderDAO dao;
 	@Inject
 	private CartDAO cartDao;
-	@Inject
-	private DataSourceTransactionManager transactionManager;
-	private DefaultTransactionDefinition transaction = new DefaultTransactionDefinition();
-	private TransactionStatus status;
 
 	private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -35,16 +32,20 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public boolean insertMenuPayment(Menu_PaymentDTO menuPaymentDto,  Menu_OrderDTO menuOrderDto) {
-		transaction.setName("payment_transaction");
-		transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		status = transactionManager.getTransaction(transaction);
 		try {
 			dao.insertMenu_Payment(menuPaymentDto);
 			Menu_PaymentDTO dto = dao.getNowInsert_Menu_Payment();
 			menuOrderDto.setMenu_payment_no(dto.getMenu_payment_no());
+			Menu_PaymentDTO recentMenuPayment_dto = dao.getNowInsert_Menu_Payment();
+			Menu_OrderDTO orderDto = new Menu_OrderDTO();
+			//MENU 파싱
+			String[] parseMenu_no = menuOrderDto.getMenu_no().split(",");
+			String[] parseMenu_count = menuOrderDto.getMenu_count().split(",");
+			String[] parseMenu_option = menuOrderDto.getMenu_option().split(",");
 			CartDTO cartDto = new CartDTO();
 			cartDto.setMember_no(dto.getMember_no());
 			String[] menu_nums = menuOrderDto.getMenu_no().split(",");
+			System.out.println(menu_nums.length + "((**()#@*$)(#@*$)(@#*$)");
 			String[] menu_counts = menuOrderDto.getMenu_count().split(",");
 			String[] menu_options = menuOrderDto.getMenu_option().split(",");
 			for(int i=0; i<menu_nums.length; i++){
@@ -55,11 +56,31 @@ public class OrderServiceImpl implements OrderService {
 				menuOrderDto.setMenu_option(menu_options[i]);
 				dao.insertMenu_Order(menuOrderDto);
 			}
-			transactionManager.commit(status);
 			return true;
 		} catch (Exception err) {
-			transactionManager.rollback(status);
 			return false;
+		}
+	}
+	
+	@Override
+	public JSONObject getMenu_Payment_withMember_no(int member_no, int start_page, String date) {
+		JSONObject jsonRoot = new JSONObject();
+		try {
+			jsonRoot.put("menuPaymentList", dao.getMenu_Payment_withMember_no(member_no, start_page, date));
+			return jsonRoot;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public JSONObject getMenu_DetailList_withMenu_Payment_no(int menu_payment_no) {
+		JSONObject jsonRoot = new JSONObject();
+		try {
+			jsonRoot.put("menuDetailList", dao.getMenu_DetailList_withMenu_Payment_no(menu_payment_no));
+			return jsonRoot;
+		} catch (Exception err) {
+			return null;
 		}
 	}
 }

@@ -183,11 +183,8 @@ h2 {
 	</form>
 	<!-- Result Search Store -->
 	<div style="color: white">
-<<<<<<< HEAD
-=======
 		<table id="Header-Search-Store-Table">
 		</table>
->>>>>>> branch 'heykj' of https://github.com/limdoohwi/TryCatchCoffee.git
 	</div>
 </div>
 

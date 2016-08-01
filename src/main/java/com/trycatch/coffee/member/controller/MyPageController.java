@@ -3,6 +3,7 @@ package com.trycatch.coffee.member.controller;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.meeting_room.service.MeetingRoomService;
 import com.trycatch.coffee.member.domain.MemberDTO;
 import com.trycatch.coffee.member.service.MemberService;
+import com.trycatch.coffee.order.service.OrderService;
 
 @Controller
 public class MyPageController {
@@ -23,6 +25,8 @@ public class MyPageController {
 	private MemberService memberService;
 	@Inject
 	private MeetingRoomService meetingService;
+	@Inject
+	private OrderService orderService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MyPageController.class);
 	
@@ -32,13 +36,6 @@ public class MyPageController {
 	 */
 	@RequestMapping(value= "/my_page.member")
 	public String reqeustGet(Model model, HttpServletRequest req, MeetingRoomReservationDTO meetingRoomDto) throws Exception{
-		MemberDTO dto = (MemberDTO)req.getSession().getAttribute("member_dto");
-		if(meetingRoomDto.getMeeting_order_date() != null){
-			model.addAttribute("meetingRoomReservationList", meetingService.getMember_MeetingRoom_ReservationList(dto.getMember_no(), meetingRoomDto));
-		}
-		else{
-			model.addAttribute("meetingRoomReservationList", meetingService.getMember_MeetingRoom_ReservationList(dto.getMember_no()));
-		}
 		return "mypage/My_Page";
 	}
 	
@@ -52,5 +49,33 @@ public class MyPageController {
 		}
 		return false;
 	}
+	
+	@RequestMapping("/my_page.meetingRoomReservationList.member")
+	public @ResponseBody Object myPageMeetingRoomReservationList(HttpServletRequest req, int start_page, String date) throws Exception{
+		logger.info("미팅룸 컨트롤러 호출");
+		logger.info(date);
+		MemberDTO memberDto = (MemberDTO)req.getSession().getAttribute("member_dto");
+		JSONObject jsonRoot = meetingService.getMember_MeetingRoom_ReservationList(memberDto.getMember_no(), start_page, date);
+		return jsonRoot;
+	}
+	
+	
+	@RequestMapping("/my_page.drinkReservationList.member")
+	public @ResponseBody Object myPageDrinkReservationReservationList(HttpServletRequest req, int start_page, String date) throws Exception{
+		logger.info("컨트롤러 호출");
+		MemberDTO memberDto = (MemberDTO)req.getSession().getAttribute("member_dto");
+		JSONObject jsonRoot = orderService.getMenu_Payment_withMember_no(memberDto.getMember_no(), start_page, date);
+		return jsonRoot;
+	}
+	
+	
+	@RequestMapping("/my_page.drinkDetailList.member")
+	public @ResponseBody Object myPageDrinkDetailReservationList(HttpServletRequest req, int menu_payment_no) throws Exception{
+		MemberDTO memberDto = (MemberDTO)req.getSession().getAttribute("member_dto");
+		JSONObject jsonRoot = orderService.getMenu_DetailList_withMenu_Payment_no(menu_payment_no);
+		return jsonRoot;
+	}
+	
+	
 
 }

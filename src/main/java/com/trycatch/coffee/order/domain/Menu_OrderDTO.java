@@ -5,7 +5,25 @@ public class Menu_OrderDTO {
 	private int menu_payment_no;
 	private String menu_no;
 	private String menu_count;
+	private String menu_price;
 	private String menu_option;
+	private String menu_name;
+
+	public String getMenu_price() {
+		return menu_price;
+	}
+
+	public void setMenu_price(String menu_price) {
+		this.menu_price = menu_price;
+	}
+
+	public String getMenu_name() {
+		return menu_name;
+	}
+
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
 
 	public int getMenu_order_no() {
 		return menu_order_no;

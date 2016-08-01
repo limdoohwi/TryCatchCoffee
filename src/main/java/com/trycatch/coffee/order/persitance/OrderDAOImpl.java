@@ -71,4 +71,27 @@ public class OrderDAOImpl implements OrderDAO {
 			err.printStackTrace();
 		}
 	}
+	
+	@Override
+	public List<Menu_PaymentDTO> getMenu_Payment_withMember_no(int member_no, int start_page, String date) {
+		Map map = new HashMap();
+		map.put("member_no", member_no);
+		map.put("date", date);
+		int end_page = start_page + 3;
+		RowBounds row = new RowBounds(start_page, end_page);
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getMenu_Payment_withMember_no", map, row);
+		} catch (Exception err) {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Menu_PaymentDTO> getMenu_DetailList_withMenu_Payment_no(int menu_payment_no) {
+		try {
+			return sqlSession.selectList(NAMESPACE + ".getMenu_DetailList_withMenu_Payment_no", menu_payment_no);
+		} catch (Exception err) {
+			return null;
+		}
+	}
 }

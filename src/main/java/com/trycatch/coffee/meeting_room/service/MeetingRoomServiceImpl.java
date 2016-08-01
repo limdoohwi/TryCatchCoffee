@@ -72,8 +72,11 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 	}
 	
 	@Override
-	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no) throws Exception {
-		return dao.getMember_MeetingRoom_ReservationList(member_no);
+	public JSONObject getMember_MeetingRoom_ReservationList(int member_no, int start_page, String date) throws Exception {
+		JSONObject jsonRoot = new JSONObject();
+		logger.info(String.valueOf(dao.getMember_MeetingRoom_ReservationList(member_no, start_page, date).size()));
+		jsonRoot.put("myPageMeetingRoomReservationList", dao.getMember_MeetingRoom_ReservationList(member_no, start_page, date));
+		return jsonRoot;
 	}
 	
 	@Override

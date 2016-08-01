@@ -44,13 +44,78 @@
 <!-- Contact Form JavaScript -->
 <script src="/resources/bootstrab/js/jqBootstrapValidation.js"></script>
 <script src="/resources/bootstrab/js/contact_me.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="/resources/bootstrab/js/freelancer.js"></script>
+<script src="/resources/semi_js/ListAjax.js"></script>
 <script>
 var cnt = 0;
+var meeting_room_page = 0;
+var meeting_room_search_date = "";
+var drink_page = 0;
+var drink_search_date = "";
 	$(function() {
-	
+		 $("#Show-Detail-Purchase-List").hide();
+		//* 미팅룸 시작
+		//mypage 접속시 현재 접속한 회원의 미팅룸 예약 history를 호출
+		callMyMeetingRoomReservationListAjax();
+		//미팅룸 페이지네이션
+		//< 버튼 클릭
+		$("#Member-MeetingRoom-ReservationList-Pre-Btn").click(function(){
+			if(meeting_room_page > 0){
+				meeting_room_page -= 3;
+				callMyMeetingRoomReservationListAjax();
+			}
+			else{
+				alert("이동할 페이지가 없습니다.");
+			}
+		});
+		//> 버튼 클릭
+		$("#Member-MeetingRoom-ReservationList-Next-Btn").click(function(){
+			meeting_room_page += 3;
+			callMyMeetingRoomReservationListAjax();
+		});
+		//미팅룸 구매 날짜 검색
+		$(".Search-MeetingRoom-Reservation-Date-Btn").click(function(){
+			meeting_room_search_date = $("#meeting_order_date").val();
+			alert(meeting_room_search_date);
+			callMyMeetingRoomReservationListAjax();
+		});
+		//mypage 접속시 현재 접속한 회원의 음료구매내역 history를 호출
+		callMyDrinkReservationListAjax();
+		//음료 페이지네이션
+		//< 버튼 클릭
+		$("#Member-Drink-ReservationList-Pre-Btn").click(function(){
+			if(drink_page > 0){
+				drink_page -= 3;
+				callMyDrinkReservationListAjax();
+			}
+			else{
+				alert("이동할 페이지가 없습니다.");
+			}
+		});
+		//> 버튼 클릭
+		$("#Member-Drink-ReservationList-Next-Btn").click(function(){
+			drink_page += 3;
+			callMyDrinkReservationListAjax();
+		});
+		//음료 구매 날짜 검색
+		$(".Search-Drink-Reservation-Date-Btn").click(function(){
+			drink_search_date = $("#drink_order_date").val();
+			callMyDrinkReservationListAjax();
+		});
+		//상세 보기 클릭시 모달 및 상품 리스트 호출
+		$(document).on("click", ".Show-Detail-Purchase-List-Btn", function(){
+			var index = $(".Show-Detail-Purchase-List-Btn").index(this);
+			var menu_payment_no = $(".Show-Detail-Purchase-List-Btn").attr("id");
+			callMyDrinkDetailListAjax(menu_payment_no);
+		});
+		//Show-Detail-Purchase-List-Modal-Hide-Btn Click Hide Modal
+		$("#Show-Detail-Purchase-List-Modal-Hide-Btn").click(function(){
+		    $("#Show-Detail-Purchase-List").hide();
+		    $("#My-Page-Detail-Menu-List-Table tbody").html("");
+		  });
+		//* 음료주문 종료
+		
 		$("#Show-Detail-Purchase-List").hide();
 		$(".div-fade").fadeIn(400);
 		//Show-Change-Member-Password-Panel-Body-Btn Click Show Change-Member-Password-Panel-Body
@@ -64,14 +129,6 @@ var cnt = 0;
 				$("#Change-Member-Password-Panel-Body").slideUp(400);
 			}
 		});
-		//Show-Detail-Purchase-List-Btn Click Show Modal
-		$(".Show-Detail-Purchase-List-Btn").click(function(){
-			 $("#Show-Detail-Purchase-List").show();
-		});
-		//Show-Detail-Purchase-List-Modal-Hide-Btn Click Hide Modal
-		$("#Show-Detail-Purchase-List-Modal-Hide-Btn").click(function(){
-		    $("#Show-Detail-Purchase-List").hide();
-		  });
 		//현재 비밀번호 확인 버튼 클릭시 새로운 비밀번호 변경 div 호출
 		$("#Member-Current-Password-Confirm-Btn").click(function(){
 			var password = $("#Current-Password").val();
@@ -169,11 +226,80 @@ var cnt = 0;
 			});
 		});
 		
-		//미팅룸 구매 날짜 검색
-		$("#Search-MeetingRoom-Reservation-Date-Btn").click(function(){
-			$("#Search-MeetingRoom-Reservation-Date-Form").submit();
-		});
 	})
+	
+		//mypage 접속시 접속한 회원의 미팅룸 예약 내역을 호출
+		function callMyMeetingRoomReservationListAjax(){
+			var jsonData = {start_page : meeting_room_page, date : meeting_room_search_date};
+			callList_Ajax("/my_page.meetingRoomReservationList.member", successMyMeetingRoomReservationList, errorMyMeetingRoomReservationList, jsonData);
+			function successMyMeetingRoomReservationList(data){
+				//초기화
+				$("#Member-MeetingRoom-ReservationList-Table tbody").html('');
+				$.each(data.myPageMeetingRoomReservationList, function(index, listMenuPayment){
+					var html =	'<tr>';
+						html += '<td>'+listMenuPayment.meeting_order_date+'</td>';
+						html += '<td>'+listMenuPayment.meeting_reservation_date+'</td>';
+						html += '<td>'+listMenuPayment.meeting_reservation_time+'</td>';
+						html += '<td>'+listMenuPayment.member_name+'</td>';
+						html += '<td>'+listMenuPayment.store_name+'</td>';
+						html += '<td>'+listMenuPayment.meeting_no+'번</td>';
+						html += '</tr>';
+					$("#Member-MeetingRoom-ReservationList-Table tbody").append(html);
+				});
+			}
+			function errorMyMeetingRoomReservationList(){
+				alert("ajax 예외 발생 My_Page : errorMyMeetingRoomReservationList");
+			}
+		}
+		//mypage 접속시 접속한 회원의 음료주문 histroy를 호출
+		function callMyDrinkReservationListAjax(){
+			var jsonData = {start_page : drink_page, date : drink_search_date};
+			callList_Ajax("/my_page.drinkReservationList.member", successMyDrinkReservationList, errorMyDrinkReservationList, jsonData);
+			function successMyDrinkReservationList(data){
+				//초기화
+				$("#Member-Drink-ReservationList-Table tbody").html('');
+				$.each(data.menuPaymentList, function(index, list){
+					var html =	'<tr>';
+					html += '<td>'+list.menu_payment_date+'</td>';
+					html += '<td>'+list.order_name+'</td>';
+					html += '<td><a class="Show-Detail-Purchase-List-Btn" id="'+list.menu_payment_no+'" style="cursor:pointer;">상품 보기</a></td>';
+					html += '<td>'+list.menu_payment_style+'</td>';
+					html += '<td>'+list.menu_total_price+'</td>';
+					html += '<td>'+list.store_name+'</td>';
+					html += '</tr>';
+					$("#Member-Drink-ReservationList-Table tbody").append(html);
+				});
+			}
+			function errorMyDrinkReservationList(){
+				alert("ajax 예외 발생 My_Page : errorMyDrinkReservationList");
+			}
+		}
+		//상세 보기 클릭시 해당 메뉴 리스트 호출
+		function callMyDrinkDetailListAjax(menu_payment_no){
+			alert(menu_payment_no);
+			var jsonData = {menu_payment_no : menu_payment_no};
+			callList_Ajax("/my_page.drinkDetailList.member", successMyDrinkDetailList, errorMyDrinkDetailList, jsonData);
+			function successMyDrinkDetailList(data){
+				//초기화
+				$("#My-Page-Detail-Menu-List-Table tbody").html('');
+				var total_price = 0;
+				$.each(data.menuDetailList, function(index, list){
+					total_price += list.menu_price * list.menu_count;
+					var html =	'<tr>';
+					html += '<td>'+list.menu_name+'</td>';
+					html += '<td>'+list.menu_count+'</td>';
+					html += '<td>'+list.menu_price+'원</td>';
+					html += '<td>'+list.menu_price * list.menu_count+'원</td>';
+					$("#My-Page-Detail-Menu-List-Table tbody").append(html);
+				});
+				var html = '</tr><tr><td colspan="2">합계</td><td colspan="2">'+total_price+'원</td></tr>';
+				$("#My-Page-Detail-Menu-List-Table tbody").append(html);
+				$("#Show-Detail-Purchase-List").show();
+			}
+			function errorMyDrinkDetailList(){
+				alert("ajax 예외 발생 My_Page : errorMyDrinkDetailList");
+			}
+		}
 </script>
 
 <style>
@@ -186,27 +312,6 @@ var cnt = 0;
 	border: none;
 }
 </style>
-
-<!-- 페이징 코드-->
-<c:set var="totalRecord_MyPageMeetingRoom" value="${fn:length(storeList)}" />
-<c:set var="numPerPage_MyPageMeetingRoom" value="3" />
-<fmt:formatNumber var="fmt_totalPage_MyPageMeetingRoom"
-	value="${totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom}"
-	pattern="#.#" />
-<c:if test="${fmt_totalPage_MyPageMeetingRoom%1 > 0}">
-	<fmt:parseNumber var="totalPage_MyPageMeetingRoom" integerOnly="true"
-		value="${(totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom)+1}" />
-</c:if>
-<c:if test="${fmt_totalPage_MyPageMeetingRoom%1 == 0}">
-	<fmt:parseNumber var="totalPage_MyPageMeetingRoom" integerOnly="true"
-		value="${totalRecord_MyPageMeetingRoom / numPerPage_MyPageMeetingRoom}" />
-</c:if>
-<c:if test="${param.nowPage_MyPageMeetingRoom == null }">
-	<c:set var="nowPage_MyPageMeetingRoom" value="0" />
-</c:if>
-<c:if test="${param.nowPage_MyPageMeetingRoom != null }">
-	<c:set var="nowPage_MyPageMeetingRoom" value="${param.nowPage_MyPageMeetingRoom}" />
-</c:if>
 
 <!-- Header -->
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
@@ -325,18 +430,18 @@ var cnt = 0;
 					<div class="form-group">
 						<div class="input-group">
 							<!-- 입력  -->
-							<input type="text" class="form-control" name="meeting_order_date"
+							<input type="text" class="form-control" id="drink_order_date"
 								placeholder="구매날짜 입력 예)2016-07-18">
 							<!-- 검색 버튼 -->
-							<div id="Search-MeetingRoom-Reservation-Date-Btn" class="input-group-addon"
+							<div class="Search-Drink-Reservation-Date-Btn input-group-addon"
 								style="background-color: white; color: green; cursor: pointer;">
-								<i class="fa fa-search"></i>
+								<i class="Search-MeetingRoom-Reservation-Date-Btn fa fa-search"></i>
 							</div>
 						</div>
 					</div>
 				</form>
 				<div class="row">
-					<table
+					<table id="Member-Drink-ReservationList-Table"
 						class="table table-striped table-bordered table-list">
 						<!-- Member-Purchase-Table-Header -->
 						<thead>
@@ -351,21 +456,13 @@ var cnt = 0;
 						</thead>
 						<!-- Member-Purchase-Table-Body -->
 						<tbody>
-							<tr>
-								<td>2016년 6월 30일 14시 30분</td>
-								<td>고객1</td>
-								<td><a class="Show-Detail-Purchase-List-Btn" style="cursor:pointer;">상품 보기</a></td>
-								<td>신용 카드</td>
-								<td>10,000원</td>
-								<td>종각점</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="panel-footer pull-right">
-			<a class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-				<a class="btn btn-success"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+			<a id="Member-Drink-ReservationList-Pre-Btn" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+				<a id="Member-Drink-ReservationList-Next-Btn" class="btn btn-success"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 			</div>
 		</div>
 	</div>
@@ -385,12 +482,12 @@ var cnt = 0;
 					<div class="form-group">
 						<div class="input-group">
 							<!-- 입력  -->
-							<input type="text" class="form-control" name="meeting_order_date"
+							<input type="text" class="form-control" id="meeting_order_date"
 								placeholder="구매날짜 입력 예)2016-07-18">
 							<!-- 검색 버튼 -->
-							<div id="Search-MeetingRoom-Reservation-Date-Btn" class="input-group-addon"
+							<div class="Search-MeetingRoom-Reservation-Date-Btn input-group-addon"
 								style="background-color: white; color: green; cursor: pointer;">
-								<i class="fa fa-search"></i>
+								<i class="Search-MeetingRoom-Reservation-Date-Btn fa fa-search"></i>
 							</div>
 						</div>
 					</div>
@@ -403,41 +500,21 @@ var cnt = 0;
 							<tr>
 								<th>구매 날짜</th>
 								<th>예약 날짜</th>
+								<th>예약 시간</th>
 								<th>구매자</th>
 								<th>매장명</th>
 								<th>미팅룸 번호</th>
-								<th>시간</th>
 							</tr>
 						</thead>
 						<!-- Member-Purchase-Meeting-Table-Body -->
 						<tbody>
-							<c:if test="${meetingRoomReservationList == null}">
-								<tr>예약 목록이 없습니다.</tr>
-							</c:if>
-							<c:if test='${meetingRoomReservationList != null}'>
-								<c:forEach var='meetingRoomDto' begin="${nowPage_MyPageMeetingRoom}" end="${(numPerPage_MyPageMeetingRoom * (nowPage_MyPageMeetingRoom + 1))-1}" items='${meetingRoomReservationList}'>
-									<tr>
-										<td>${meetingRoomDto.meeting_order_date}</td>
-										<td>${meetingRoomDto.meeting_reservation_date}</td>
-										<td>${meetingRoomDto.member_name}</td>
-										<td>${meetingRoomDto.store_name}</td>
-										<td>${meetingRoomDto.meeting_no}번</td>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 1}'><td>10:00 ~ 12:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 2}'><td>12:00 ~ 14:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 3}'><td>14:00 ~ 16:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 4}'><td>16:00 ~ 18:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 5}'><td>18:00 ~ 20:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 6}'><td>20:00 ~ 22:00</td></c:if>
-									</tr>
-								</c:forEach>
-							</c:if>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="panel-footer pull-right">
-			<a id="Member-MeetingRoom-ReservationList-Next-Btn" href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom - 1}" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-			<a class="btn btn-success"  href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom +1}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+			<a id="Member-MeetingRoom-ReservationList-Pre-Btn" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+			<a id="Member-MeetingRoom-ReservationList-Next-Btn" class="btn btn-success"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 			</div>
 		</div>
 	</div>

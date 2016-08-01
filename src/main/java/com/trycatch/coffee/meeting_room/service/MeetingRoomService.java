@@ -14,6 +14,6 @@ public interface MeetingRoomService {
 	public JSONObject getMeetingRoomList_withRervaion_date(MeetingRoomReservationDTO dto) throws Exception;
 	public boolean insertMeetingRoomReservation(MeetingRoomReservationDTO dto) throws Exception;
 	public boolean searchReservationOverlapMeetingRoom(MeetingRoomReservationDTO dto) throws Exception;
-	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no) throws Exception;
+	public JSONObject getMember_MeetingRoom_ReservationList(int member_no, int start_page, String date) throws Exception;
 	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no, MeetingRoomReservationDTO dto) throws Exception;
 }

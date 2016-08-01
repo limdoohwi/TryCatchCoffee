@@ -60,11 +60,14 @@ public class MeetingRoomDAOImpl implements MeetingRoomDAO {
 	}
 	
 	@Override
-	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no) {
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no, int start_page, String date) {
 		Map map = new HashMap();
 		map.put("member_no", member_no);
+		map.put("date", date);
+		int end_page = start_page + 3;
+		RowBounds row = new RowBounds(start_page, end_page);
 		try {
-			return sqlSession.selectList(NAMESPACE + ".getMember_MeetingRoom_ReservationList", map);
+			return sqlSession.selectList(NAMESPACE + ".getMember_MeetingRoom_ReservationList", map, row);
 		} catch (Exception err) {
 			return null;
 		}

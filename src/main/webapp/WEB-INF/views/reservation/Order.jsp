@@ -49,7 +49,6 @@ var menu_reserve_time;
 		connect();
 		//예약시간 라디오 버튼 값 변경
 		$("input[name=order_style]").change(function(){
-			alert("들어옴");
 			if($(this).val() == "direct"){
 				$("#select_hour").hide();
 				$("#select_minute").hide();
@@ -105,14 +104,37 @@ var menu_reserve_time;
 				//메뉴 정보 가져오기
 				$("#selected_option_table .cart_list_tr").each(function(){
 					menu_no += $(this).find(".cart_menu_no").val() + ",";
+					alert(menu_no);
 					menu_count += $(this).find(".cart_menu_count").text() + ",";
 					if($(this).find(".cart_menu_option").val() == ""){
 						menu_option += "없음,";
-						alert(menu_option);
 					}
 					else{
 						menu_option += $(this).find(".cart_menu_option").val() + ",";
 					}
+				});
+				var order_style = $("input[name=order_style]:checked").val();
+				alert("ㅇㅇ");
+				$.ajax({
+					url:"/insert.menu_payment.order",
+					type:"post",
+					dataType:"json",
+					data:{order_name:order_name, order_tel:order_tel, menu_reserve_time:menu_reserve_time, 
+						  menu_payment_style:menu_payment_style, menu_total_price:menu_total_price, menu_total_mileage:menu_total_mileage,
+						  menu_no:menu_no, menu_count:menu_count, menu_option:menu_option, order_style:order_style},
+					success:function(data){
+							if(data == true){
+								alert("주문이 완료되었습니다.");
+								//sendName(store_no, webCk);
+								location.href="/go.reservation";
+							}
+							else{
+								alert("주문에 실패하였습니다. 다시 시도해주세요.");
+							}
+					},
+					 error:function(request,status,error){
+					        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					 }
 				});
 				var jsonData = {
 						menu_no : menu_no,
@@ -126,9 +148,9 @@ var menu_reserve_time;
 						menu_total_mileage:menu_total_mileage
 				};
 				callList_Ajax("/insert.menu_payment.order", successInsertMenuOrder, errorInsertMenuOrder, jsonData);
-			}
-		});
-	})
+		}
+	});
+});
 	
 	function successInsertMenuOrder(data){
 		if(data == true){
@@ -181,8 +203,14 @@ var menu_reserve_time;
 	function showmyMessage(message){
 		alert(message);
 	}
+	
 </script>
-
+<style>
+#store_name:read-only{
+	background-color: white;
+	border:none;
+}
+</style>
 <!-- Header -->
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
 <div class="row" style="color: black">
@@ -203,7 +231,7 @@ var menu_reserve_time;
 					
 					<tr>
 						<td bgcolor="#ecf0f1" style="font-size:10px;width:140px;text-align:left;vertical-align: middle">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;매장</td>
-						<td colspan="3"><input type="text" id="store_name" style="width:130px; height:20px;text-align:center;vertical-align: middle" value="${store_dto.store_name}"/></td>
+						<td colspan="3"><input type="text" id="store_name" style="width:130px; height:20px;text-align:center;vertical-align: middle" value="${store_dto.store_name}" readonly="readonly"/></td>
 					</tr>
 					
 					<tr>
@@ -218,6 +246,7 @@ var menu_reserve_time;
 								<label style="font-size:10px; "><input type="radio" name="order_style" id="reservation_order" value="reservation"/>예약 주문<span style="font-size:9px;color:red">&nbsp;&nbsp;(예약 주문은 당일만 가능합니다.)</span></label>
 								<select id="select_hour" name="select_hour" style="width:50px;font-size:10px; display:none;" >
 									<option>시</option>
+									<option>9</option>
 									<option value="">10</option>
 									<option value="">11</option>
 									<option value="">12</option>
@@ -231,7 +260,6 @@ var menu_reserve_time;
 									<option value="">20</option>
 									<option value="">21</option>
 									<option value="">22</option>
-									<option value="">23</option>
 								</select>
 								
 								<select id="select_minute" name="select_minute"style="width:50px;font-size:10px; display:none;">

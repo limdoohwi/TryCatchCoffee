@@ -33,30 +33,18 @@
 
 <div id="Show-Detail-Purchase-List">
 	<div>
-		<table class="table table-striped table-bordered table-list">
+		<table id="My-Page-Detail-Menu-List-Table" class="table table-bordered table-list">
 			<!-- Member-Purchase-Table-Header -->
 			<thead>
 				<tr>
-					<th>구매 날짜</th>
 					<th>구매 상품</th>
 					<th>수량</th>
-					<th>금액</th>	
+					<th>단가</th>
+					<th>총금액</th>	
 				</tr>
 			</thead>
 			<!-- Member-Purchase-Table-Body -->
 			<tbody>
-				<tr>
-					<td>2016년 6월 30일 14시 30분</td>
-					<td>아메리카노</td>
-					<td>1개</td>
-					<td>1,500원</td>
-				</tr>
-				<tr>
-					<td>2016년 6월 30일 14시 30분</td>
-					<td>핫초코</td>
-					<td>1개</td>
-					<td>2,500원</td>
-				</tr>
 			</tbody>
 		</table>
 	</div>

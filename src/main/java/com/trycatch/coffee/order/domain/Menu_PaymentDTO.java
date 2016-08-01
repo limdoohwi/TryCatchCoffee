@@ -11,6 +11,15 @@ public class Menu_PaymentDTO {
 	private String order_name;
 	private String order_tel;
 	private int store_no;
+	private String store_name;
+
+	public String getStore_name() {
+		return store_name;
+	}
+
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
 
 	public int getMenu_payment_no() {
 		return menu_payment_no;

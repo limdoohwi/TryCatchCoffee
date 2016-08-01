@@ -7,6 +7,7 @@ public class MenuDTO {
 	private int menu_category_num;
 	private String menu_category_name;
 	private String menu_image;
+
 	public int getMenu_num() {
 		return menu_num;
 	}
