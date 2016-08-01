@@ -13,6 +13,6 @@ public interface MeetingRoomDAO {
 	public List<MeetingRoomReservationDTO> getMeetingRoomList_withReservation_date(MeetingRoomReservationDTO dto);
 	public boolean insertMeetingRoomReservation(MeetingRoomReservationDTO dto);
 	public MeetingRoomReservationDTO searchReservationOverlapMeetingRoom(MeetingRoomReservationDTO dto);
-	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no);
+	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no, int start_page, String date);
 	public List<MeetingRoomReservationDTO> getMember_MeetingRoom_ReservationList(int member_no, MeetingRoomReservationDTO dto);
 }

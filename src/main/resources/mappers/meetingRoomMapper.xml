@@ -17,8 +17,8 @@
 	  <select id="getMember_MeetingRoom_ReservationList" parameterType="hashMap" resultType="MeetingRoomReservationDTO">
          select meeting_reservation_date, meeting_order_date, store_name, member_name, meeting_no, meeting_reservation_time
  		from meeting_reservation inner join store on meeting_reservation.store_no = store.store_no inner join member on meeting_reservation.member_no = member.member_no where member.member_no = #{member_no}
- 		<if test="meeting_order_date != null">
- 		    and meeting_order_date like concat(#{meeting_order_date}, "%")
+ 		<if test="date != ''">
+ 		    and meeting_order_date like concat(#{date}, "%")
  		</if>
  		 order by meeting_order_date desc
     </select>

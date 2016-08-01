@@ -44,13 +44,41 @@
 <!-- Contact Form JavaScript -->
 <script src="/resources/bootstrab/js/jqBootstrapValidation.js"></script>
 <script src="/resources/bootstrab/js/contact_me.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="/resources/bootstrab/js/freelancer.js"></script>
+<script src="/resources/semi_js/ListAjax.js"></script>
 <script>
 var cnt = 0;
+var meeting_room_page = 0;
+var meeting_room_search_date = "";
 	$(function() {
-	
+		//* 미팅룸 시작
+		//mypage 접속시 현재 접속한 회원의 미팅룸 예약 history를 호출
+		callMyMeetingRoomReservationListAjax(meeting_room_page, meeting_room_search_date);
+		//미팅룸 페이지네이션
+		//< 버튼 클릭
+		$("#Member-MeetingRoom-ReservationList-Pre-Btn").click(function(){
+			if(meeting_room_page > 0){
+				meeting_room_page -= 5;
+				callMyMeetingRoomReservationListAjax(meeting_room_page, meeting_room_search_date);
+			}
+			else{
+				alert("이동할 페이지가 없습니다.");
+			}
+		});
+		//> 버튼 클릭
+		$("#Member-MeetingRoom-ReservationList-Next-Btn").click(function(){
+			meeting_room_page += 5;
+			callMyMeetingRoomReservationListAjax(meeting_room_page, meeting_room_search_date);
+		});
+		//미팅룸 구매 날짜 검색
+		$(".Search-MeetingRoom-Reservation-Date-Btn").click(function(){
+			meeting_room_search_date = $("#meeting_order_date").val();
+			alert(meeting_room_search_date);
+			callMyMeetingRoomReservationListAjax(meeting_room_page, meeting_room_search_date);
+		});
+		//* 미팅룸 종료
+		
 		$("#Show-Detail-Purchase-List").hide();
 		$(".div-fade").fadeIn(400);
 		//Show-Change-Member-Password-Panel-Body-Btn Click Show Change-Member-Password-Panel-Body
@@ -169,11 +197,44 @@ var cnt = 0;
 			});
 		});
 		
-		//미팅룸 구매 날짜 검색
-		$("#Search-MeetingRoom-Reservation-Date-Btn").click(function(){
-			$("#Search-MeetingRoom-Reservation-Date-Form").submit();
-		});
 	})
+	
+		//mypage 접속시 접속한 회원의 미팅룸 예약 내역을 호출
+		function callMyMeetingRoomReservationListAjax(meeting_room_page, meeting_room_search_date){
+			var jsonData = {start_page : meeting_room_page, date : meeting_room_search_date};
+			callList_Ajax("/my_page.meetingRoomReservationList.member", successMyMeetingRoomReservationList, errorMyMeetingRoomReservationList, jsonData);
+			function successMyMeetingRoomReservationList(data){
+				//초기화
+				$("#Member-MeetingRoom-ReservationList-Table tbody").html('');
+				$.each(data.myPageMeetingRoomReservationList, function(index, list){
+					var html =	'<tr>';
+						html += '<td>'+list.meeting_order_date+'</td>';
+						html += '<td>'+String(list.meeting_reservation_date).substring(0,10)+'</td>';
+						var meeting_reservation_time;
+						if(list.meeting_reservation_time == 1)
+							meeting_reservation_time = "10:00 ~ 12:00";
+						else if(list.meeting_reservation_time == 2)
+							meeting_reservation_time = "12:00 ~ 14:00";
+						else if(list.meeting_reservation_time == 3)
+							meeting_reservation_time = "14:00 ~ 16:00";
+						else if(list.meeting_reservation_time == 4)
+							meeting_reservation_time = "16:00 ~ 18:00";
+						else if(list.meeting_reservation_time == 5)
+							meeting_reservation_time = "18:00 ~ 20:00";
+						else if(list.meeting_reservation_time == 6)
+							meeting_reservation_time = "20:00 ~ 22:00";
+						html += '<td>'+meeting_reservation_time+'</td>';
+						html += '<td>'+list.member_name+'</td>';
+						html += '<td>'+list.store_name+'</td>';
+						html += '<td>'+list.meeting_no+'번</td>';
+						html += '</tr>';
+					$("#Member-MeetingRoom-ReservationList-Table tbody").append(html);
+				});
+			}
+			function errorMyMeetingRoomReservationList(){
+				alert("ajax 예외 발생 My_Page : errorMyMeetingRoomReservationList");
+			}
+		}
 </script>
 
 <style>
@@ -385,12 +446,12 @@ var cnt = 0;
 					<div class="form-group">
 						<div class="input-group">
 							<!-- 입력  -->
-							<input type="text" class="form-control" name="meeting_order_date"
+							<input type="text" class="form-control" id="meeting_order_date"
 								placeholder="구매날짜 입력 예)2016-07-18">
 							<!-- 검색 버튼 -->
-							<div id="Search-MeetingRoom-Reservation-Date-Btn" class="input-group-addon"
+							<div class="Search-MeetingRoom-Reservation-Date-Btn input-group-addon"
 								style="background-color: white; color: green; cursor: pointer;">
-								<i class="fa fa-search"></i>
+								<i class="Search-MeetingRoom-Reservation-Date-Btn fa fa-search"></i>
 							</div>
 						</div>
 					</div>
@@ -403,41 +464,21 @@ var cnt = 0;
 							<tr>
 								<th>구매 날짜</th>
 								<th>예약 날짜</th>
+								<th>예약 시간</th>
 								<th>구매자</th>
 								<th>매장명</th>
 								<th>미팅룸 번호</th>
-								<th>시간</th>
 							</tr>
 						</thead>
 						<!-- Member-Purchase-Meeting-Table-Body -->
 						<tbody>
-							<c:if test="${meetingRoomReservationList == null}">
-								<tr>예약 목록이 없습니다.</tr>
-							</c:if>
-							<c:if test='${meetingRoomReservationList != null}'>
-								<c:forEach var='meetingRoomDto' begin="${nowPage_MyPageMeetingRoom}" end="${(numPerPage_MyPageMeetingRoom * (nowPage_MyPageMeetingRoom + 1))-1}" items='${meetingRoomReservationList}'>
-									<tr>
-										<td>${meetingRoomDto.meeting_order_date}</td>
-										<td>${meetingRoomDto.meeting_reservation_date}</td>
-										<td>${meetingRoomDto.member_name}</td>
-										<td>${meetingRoomDto.store_name}</td>
-										<td>${meetingRoomDto.meeting_no}번</td>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 1}'><td>10:00 ~ 12:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 2}'><td>12:00 ~ 14:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 3}'><td>14:00 ~ 16:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 4}'><td>16:00 ~ 18:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 5}'><td>18:00 ~ 20:00</td></c:if>
-										<c:if test='${meetingRoomDto.meeting_reservation_time == 6}'><td>20:00 ~ 22:00</td></c:if>
-									</tr>
-								</c:forEach>
-							</c:if>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="panel-footer pull-right">
-			<a id="Member-MeetingRoom-ReservationList-Next-Btn" href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom - 1}" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-			<a class="btn btn-success"  href=/my_page.member?nowPage_MyPageMeetingRoom=${nowPage_MyPageMeetingRoom +1}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+			<a id="Member-MeetingRoom-ReservationList-Pre-Btn" class="btn btn-success"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+			<a id="Member-MeetingRoom-ReservationList-Next-Btn" class="btn btn-success"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
 			</div>
 		</div>
 	</div>

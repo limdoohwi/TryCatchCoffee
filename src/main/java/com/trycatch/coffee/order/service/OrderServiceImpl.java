@@ -46,16 +46,22 @@ public class OrderServiceImpl implements OrderService {
 			
 			dao.insertMenu_Payment(menuPaymentDto);
 			Menu_PaymentDTO recentMenuPayment_dto = dao.getNowInsert_Menu_Payment();
-			menuOrderDto.setMenu_payment_no(recentMenuPayment_dto.getMenu_payment_no());
-			dao.insertMenu_Order(menuOrderDto);
-			//MENU_NO 파싱
+			Menu_OrderDTO orderDto = new Menu_OrderDTO();
+			//MENU 파싱
 			String[] parseMenu_no = menuOrderDto.getMenu_no().split(",");
+			String[] parseMenu_count = menuOrderDto.getMenu_count().split(",");
+			String[] parseMenu_option = menuOrderDto.getMenu_option().split(",");
 			CartDTO cartDto = new CartDTO();
 			cartDto.setMember_no(menuPaymentDto.getMember_no());
 			for(int i=0; i<parseMenu_no.length; i++){
 				logger.info("메뉴 번호들 : " + parseMenu_no[i]);
 				cartDto.setMenu_num(Integer.parseInt(parseMenu_no[i]));
 				cartDao.deleteCart(cartDto);
+				orderDto.setMenu_payment_no(recentMenuPayment_dto.getMenu_payment_no());
+				orderDto.setMenu_no(parseMenu_no[i]);
+				orderDto.setMenu_count(parseMenu_count[i]);
+				orderDto.setMenu_option(parseMenu_option[i]);
+				dao.insertMenu_Order(orderDto);
 			}
 			transactionManager.commit(status);
 			return true;
