@@ -284,7 +284,7 @@ h2 {
 					<!-- Community Menu -->
 					<div style="display: inline-block; margin-left: 13px">
 						<a name="Recipe" role="menuitem" tabindex="-1" href="/community.Recipe_List?limit=0">Recipe<br/>Contest</a><br />
-						<a name="Client" role="menuitem" tabindex="-1" href="#">고객의 소리</a><br />
+						<a name="Client" role="menuitem" tabindex="-1" href="/board.list">고객의 소리</a><br />
 					</div>
 					<!-- Manager Menu -->
 					<div  style="display: inline-block; margin-left: 30px">

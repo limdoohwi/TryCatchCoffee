@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.trycatch.coffee.mappers.boardMapper">
+	<select id="listAll" resultType="BoardDTO">
+		select * from board order by board_pos
+	</select>
+	
+	<update id="pos_up">
+		update board set board_pos=board_pos+1
+	</update>
+	
+	<update id="reply_pos_up">
+		update board set board_pos=board_pos+1 where board_pos>#{board_pos}
+	</update>
+	
+	<insert id="insert" parameterType="BoardDTO">
+        insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no, board_group) 
+        values(0, #{board_category}, 0,0,#{board_content}, #{board_ip},now(), #{board_subject}, #{board_password}, #{member_no}, 0)
+    </insert>
+    
+    <update id="hits_up">
+    	update board set board_hits=#{board_hits}+1 where board_num=#{board_num}
+    </update>
+    
+    <select id="read" resultType="BoardDTO"> 
+		select * from board where board_num=#{board_num}
+	</select>
+	
+	<update id="update">
+		update board set board_subject=#{board_subject}, board_content=#{board_content}, board_password=#{board_password}
+		where board_num=#{board_num}
+	</update>
+	
+	<delete id="delete">
+		delete from board where board_num=#{board_num}
+	</delete>
+	
+	<delete id="delete_reply">
+		delete from board where board_pos>#{board_pos} and board_depth>#{board_depth} and board_group=#{board_num}
+	</delete>
+	
+	<insert id="reply">
+		insert into board(board_hits, board_category, board_pos, board_depth, board_content, board_ip, board_date, board_subject, board_password, member_no, board_group) 
+        values(0,#{board_category},#{board_pos}+1,#{board_depth}+1,#{board_content}, #{board_ip}, now(), #{board_subject}, #{board_password}, #{member_no}, #{board_group})
+	</insert>
+	
+	<select id="check_password" resultType="BoardDTO">
+		select * from board where board_num=#{board_num} and board_password=#{board_password}
+	</select>
+	
+	<select id="search" parameterType="hashMap" resultType="BoardDTO">
+		select * from board where ${keyValue} like concat('%', #{keyWord}, '%') order by board_pos
+	</select>
+	
+	
+</mapper>

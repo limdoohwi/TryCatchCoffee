@@ -13,5 +13,6 @@
 		<package name="com.trycatch.coffee.board.recipe.domain" />
 		<package name="com.trycatch.coffee.meeting_room.domain" />
 		<package name="com.trycatch.coffee.order.domain" />
+		<package name="com.trycatch.coffee.board.client.domain" />
 	</typeAliases>
 </configuration>

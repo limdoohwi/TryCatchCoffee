@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.trycatch.coffee.store.service.StoreService;
 
+import com.trycatch.coffee.member.domain.MemberDTO;
+
 /**
  * Handles requests for the application home page.
  */
