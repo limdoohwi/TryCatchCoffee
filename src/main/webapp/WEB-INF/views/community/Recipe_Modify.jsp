@@ -9,12 +9,32 @@
 <script src="/resources/bootstrab/js/jquery.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/resources/bootstrab/js/bootstrap.min.js"></script>
+<!-- Naver SmartEditor -->
+<script src="/resources/smarteditor/js/HuskyEZCreator.js"></script>
 <script>
 $(function(){
 	$("#recipe_goback").click(function(){
-		location.href="/community/Recipe_List";
+		location.href="/community.Recipe_List?limit=0";
 	})
 })
+$(function(){
+    var editor_object = [];
+     
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: editor_object,
+        elPlaceHolder: "smarteditor",
+        sSkinURI: "/../resources/smarteditor/SmartEditor2Skin.html", 
+        htParams : {
+            bUseToolbar : true,             
+            bUseVerticalResizer : false,     
+            bUseModeChanger : false, 
+        }
+    });
+    $("#board_recipe_submit").click(function(){
+        editor_object.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+        $("#frm").submit();
+    });
+});
 </script>
 <body>
 <jsp:include page="/WEB-INF/views/layout/Header.jsp" />
@@ -26,8 +46,7 @@ $(function(){
 			<div class="panel panel-info">
 				<div class="panel-heading">	</div>
 				<div class="panel-body">TITLE : &nbsp;&nbsp;&nbsp;<input type="text" placeholder="${boardRecipeDTO.board_recipe_title}" class="form-control" name="board_recipe_title"/></div>
-				<div class="panel-body">WRITER :<input type="text" class="form-control" placeholder="${boardRecipeDTO.board_recipe_writer}" name="board_recipe_writer"/></div>
-				<div class="panel-body">COUTENT : <textarea class="form-control" row="15" cols="50" name="board_recipe_content">${boardRecipeDTO.board_recipe_content}</textarea> </div>
+				<div class="panel-body">COUTENT : <textarea name="board_recipe_content" id="smarteditor" rows="10" cols="100" style="width:900px; height:500px;">${boardRecipeDTO.board_recipe_content}</textarea></div>
 				<button type="submit" class="btn btn-default"  style="background-color:#18bc9c">write</button> &nbsp;<button type="button" id="recipe_goback" class="btn btn-default" style="background-color:#18bc9c">list</button>
 			</div>
 		</div>

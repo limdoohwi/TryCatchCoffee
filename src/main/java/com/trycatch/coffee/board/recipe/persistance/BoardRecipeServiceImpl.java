@@ -30,8 +30,8 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 	}
 
 	@Override
-	public BoardRecipeDTO readBoardRecipe(Integer bno) throws Exception {
-		return dao.readBoardRecipe(bno);
+	public BoardRecipeDTO readBoardRecipe(Integer board_recipe_no) throws Exception {
+		return dao.readBoardRecipe(board_recipe_no);
 	}
 
 	@Override
@@ -40,14 +40,37 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 	}
 
 	@Override
-	public void deleteBoardRecipe(Integer bno) throws Exception {
-		dao.deleteBoardRecipe(bno);
+	public void deleteBoardRecipe(Integer board_recipe_no) throws Exception {
+		dao.deleteBoardRecipe(board_recipe_no);
+	}
+
+	@Override
+	public List<BoardRecipeDTO> listAllBoardRecipe(Integer limit) throws Exception {
+		return dao.listAllBoardRecipe(limit);
+	}
+
+	@Override
+	public void updateBoardRecipeCount(Integer board_recipe_no) throws Exception {
+		dao.updateBoardRecipeCount(board_recipe_no);
+	}
+
+	@Override
+	public void updateBoardRecipeLikes(Integer board_recipe_no) throws Exception {
+		dao.updateBoardRecipeLikes(board_recipe_no);
+	}
+
+	@Override
+	public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search,int limit) throws Exception {
+		return dao.searchBoardRecipe(board_recipe_search,limit);
 	}
 
 	@Override
 	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
+		
 		return dao.listAllBoardRecipe();
 	}
+
+
 
 
 
