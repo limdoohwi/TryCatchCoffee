@@ -13,4 +13,6 @@ public interface OrderDAO {
 	public void deleteCart(int member_no, int menu_no);
 	public List<Menu_PaymentDTO> getMenu_Payment_withMember_no(int member_no, int start_page, String date);
 	public List<Menu_PaymentDTO> getMenu_DetailList_withMenu_Payment_no(int menu_payment_no);
+	public List<Menu_PaymentDTO> getMemberMenuPaymentList(int member_no, int start_page, String date);
+
 }

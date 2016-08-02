@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
@@ -17,6 +19,8 @@ import com.trycatch.coffee.member.persitance.MemberDAO;
 public class MemberServiceImpl implements MemberService {
 	@Inject
 	private MemberDAO dao;
+	
+	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	@Override
 	public boolean register(MemberDTO dto) throws Exception {
 		if(dto.getMember_code() == 0){
@@ -42,8 +46,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberDTO> getMemberList() throws Exception {
-		List<MemberDTO> memberList = dao.getMemberList();
+	public List<MemberDTO> getMemberList(int start_page, String member_email_search) throws Exception {
+		List<MemberDTO> memberList = dao.getMemberList(start_page, member_email_search);
+		logger.info("memberList의 size : " + memberList.size());
 		return memberList;
 	}
 

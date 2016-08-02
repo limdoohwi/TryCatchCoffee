@@ -83,4 +83,11 @@ public class OrderServiceImpl implements OrderService {
 			return null;
 		}
 	}
+	
+	@Override
+	public JSONObject getMemberMenuPaymentList(int member_no, int start_page, String date) {
+		JSONObject jsonRoot = new JSONObject();
+		jsonRoot.put("memberDrinkReservationList", dao.getMemberMenuPaymentList(member_no, start_page, date));
+		return jsonRoot;
+	}
 }

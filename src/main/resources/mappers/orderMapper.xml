@@ -29,4 +29,12 @@
 		select m.menu_name, o.menu_count, m.menu_price from menu_order o, menu m where o.menu_no = m.menu_num 
 		and o.menu_payment_no = #{menu_payment_no}
 	</select>
+	<select id="getMemberMenuPaymentList" parameterType="hashMap" resultType="Menu_PaymentDTO">
+	    select p.menu_payment_no, p.menu_payment_date, p.menu_total_price, s.store_name, p.menu_payment_style
+        from menu_payment p, store s where p.store_no = s.store_no and 
+        p.member_no = #{member_no}
+        <if test="date != ''">
+            and date(p.menu_payment_date) = #{date}
+        </if>
+	</select>
 </mapper>
