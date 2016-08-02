@@ -3,6 +3,7 @@ package com.trycatch.coffee.order.service;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -69,5 +70,12 @@ public class OrderServiceImpl implements OrderService {
 			transactionManager.rollback(status);
 			return false;
 		}
+	}
+	
+	@Override
+	public JSONObject getMemberMenuPaymentList(int member_no, int start_page, String date) {
+		JSONObject jsonRoot = new JSONObject();
+		jsonRoot.put("memberDrinkReservationList", dao.getMemberMenuPaymentList(member_no, start_page, date));
+		return jsonRoot;
 	}
 }

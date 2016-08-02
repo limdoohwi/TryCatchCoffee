@@ -65,7 +65,7 @@ public class MeetingRoomDAOImpl implements MeetingRoomDAO {
 		map.put("member_no", member_no);
 		map.put("date", date);
 		int end_page = start_page + 5;
-		RowBounds row = new RowBounds(start_page, end_page);
+		RowBounds row = new RowBounds(start_page, 3);
 		try {
 			return sqlSession.selectList(NAMESPACE + ".getMember_MeetingRoom_ReservationList", map, row);
 		} catch (Exception err) {

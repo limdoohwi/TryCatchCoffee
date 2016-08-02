@@ -1,6 +1,5 @@
 package com.trycatch.coffee.member.persitance;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +8,10 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -34,7 +31,6 @@ public class MemberDAOImpl implements MemberDAO {
 		catch(Exception err){
 			return false;
 		}
-		
 	}
 
 	@Override
@@ -50,10 +46,14 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<MemberDTO> getMemberList() {
+	public List<MemberDTO> getMemberList(int start_page, String member_email_search) {
+		Map<String, String> map = new HashMap<>();
+		map.put("member_email_search", member_email_search);
+		RowBounds row = new RowBounds(start_page, 5);
 		try{
-			return sqlSession.selectList(NAMESPACE + ".getMemberList");
+			return sqlSession.selectList(NAMESPACE + ".getMemberList", map, row);
 		}catch(Exception err){
+			err.printStackTrace();
 			return null;
 		}
 	}

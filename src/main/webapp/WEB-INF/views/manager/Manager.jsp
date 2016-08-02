@@ -68,10 +68,7 @@
 </c:if>
 <c:if test="${check == 'menu'}">
 	<%-- Menu --%>
-		<jsp:include page="Menu_Management.jsp" />
+<jsp:include page="Menu_Management.jsp" />
 </c:if>
-<jsp:include page="Member_Management.jsp" />
-<jsp:include page="Store_Management.jsp" />
-<jsp:include page="Store_Management.jsp" />
 <!-- Footer -->
 <jsp:include page="/WEB-INF/views/layout/Footer.jsp" />

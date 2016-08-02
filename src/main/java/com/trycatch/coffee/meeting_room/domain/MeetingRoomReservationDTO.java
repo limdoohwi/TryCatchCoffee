@@ -10,8 +10,15 @@ public class MeetingRoomReservationDTO {
 	private int store_no;
 	private String member_name;
 	private String store_name;
-	
-	
+	private String menu_payment_style;
+
+	public String getMenu_payment_style() {
+		return menu_payment_style;
+	}
+
+	public void setMenu_payment_style(String menu_payment_style) {
+		this.menu_payment_style = menu_payment_style;
+	}
 
 	public String getMember_name() {
 		return member_name;
