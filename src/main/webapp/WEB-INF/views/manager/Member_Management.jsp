@@ -34,10 +34,32 @@
 	var drink_start_index = 0;
 	var drink_date_search = "";
 	var drink_pagePer_num = 3;
+	var board_start_page = 1;
+	var board_start_index = 0;
+	var board_date_search = "";
+	var board_pagePer_num = 3;
+	var board_category = "recipe";
 	$(function() {
+		$("#Show-Detail-Purchase-List").hide();
 		//처음 페이지 시작시 회원 리스트 호출
 		callMemberListAjax();
-		
+		//회원 리스트 페이지 초기화
+		var memberPage = $(".Member_Page_Num").length;
+		for(var i=0; i<memberPage; i++){
+			$(".Member_Page_Num").eq(i).text(i+1);
+		}
+		//구매내역 리스트 페이지 초기화
+		var drinkReservationPage = $(".Member_Drink_Page_Num").length;
+		for(var i=0; i<drinkReservationPage; i++){
+			$(".Member_Drink_Page_Num").eq(i).text(i+1);
+		}
+		//미팅룸 예약 내역 리스트 페이지 초기화
+		var meetingRoomReservationPage = $(".Member_MeetingRoom_Page_Num").length;
+		for(var i=0; i<meetingRoomReservationPage; i++){
+			$(".Member_MeetingRoom_Page_Num").eq(i).text(i+1);
+		}
+		//게시판 리스트 페이지 초기화
+		boardPageInit();
 		//회원 리스트 페이징
 		$(".Member_Page_Num").click(function(){
 			var index = $(".Member_Page_Num").index(this);
@@ -45,6 +67,96 @@
 			member_start_index = (member_start_page -1) * member_pagePer_num;
 			$("#Member-List-Table tbody").html('');
 			callMemberListAjax();
+		});
+		//회원 리스트 페이징 < 버튼 클릭
+		$("#Previous-Page-Member-Manage").click(function(){
+			var firstPage = $(".Member_Page_Num").eq(0).text();
+			if(firstPage > 1 ){
+				var start_index = firstPage - 5;
+				$(".Member_Page_Num").eq(0).text(start_index);
+				$(".Member_Page_Num").eq(1).text(start_index+1);
+				$(".Member_Page_Num").eq(2).text(start_index+2);
+				$(".Member_Page_Num").eq(3).text(start_index+3);
+				$(".Member_Page_Num").eq(4).text(start_index+4);
+			}
+		});
+		//회원 리스트 페이징 > 버튼 클릭
+		$("#Next-Page-Member-Manage").click(function(){
+			var firstPage = $(".Member_Page_Num").eq(0).text();
+			var start_page = Number(firstPage) + 5;
+			$(".Member_Page_Num").eq(0).text(start_page);
+			$(".Member_Page_Num").eq(1).text(start_page + 1);
+			$(".Member_Page_Num").eq(2).text(start_page + 2);
+			$(".Member_Page_Num").eq(3).text(start_page + 3);
+			$(".Member_Page_Num").eq(4).text(start_page + 4);
+		});
+		//구매 내역 리스트 페이징 < 버튼 클릭
+		$("#Pre-Page-Member-Drink-Manage").click(function(){
+			var firstPage = $(".Member_Drink_Page_Num").eq(0).text();
+			if(firstPage > 1 ){
+				var start_index = firstPage - 5;
+				$(".Member_Drink_Page_Num").eq(0).text(start_index);
+				$(".Member_Drink_Page_Num").eq(1).text(start_index+1);
+				$(".Member_Drink_Page_Num").eq(2).text(start_index+2);
+				$(".Member_Drink_Page_Num").eq(3).text(start_index+3);
+				$(".Member_Drink_Page_Num").eq(4).text(start_index+4);
+			}
+		});
+		//구매 내역 리스트 페이징 > 버튼 클릭
+		$("#Next-Page-Member-Drink-Manage").click(function(){
+			var firstPage = $(".Member_Drink_Page_Num").eq(0).text();
+			var start_page = Number(firstPage) + 5;
+			$(".Member_Drink_Page_Num").eq(0).text(start_page);
+			$(".Member_Drink_Page_Num").eq(1).text(start_page + 1);
+			$(".Member_Drink_Page_Num").eq(2).text(start_page + 2);
+			$(".Member_Drink_Page_Num").eq(3).text(start_page + 3);
+			$(".Member_Drink_Page_Num").eq(4).text(start_page + 4);
+		});
+		
+		//미팅룸 예약 내역 리스트 페이징 < 버튼 클릭
+		$("#Pre-Page-Member-MeetingRoom-Manage").click(function(){
+			var firstPage = $(".Member_MeetingRoom_Page_Num").eq(0).text();
+			if(firstPage > 1 ){
+				var start_index = firstPage - 5;
+				$(".Member_MeetingRoom_Page_Num").eq(0).text(start_index);
+				$(".Member_MeetingRoom_Page_Num").eq(1).text(start_index+1);
+				$(".Member_MeetingRoom_Page_Num").eq(2).text(start_index+2);
+				$(".Member_MeetingRoom_Page_Num").eq(3).text(start_index+3);
+				$(".Member_MeetingRoom_Page_Num").eq(4).text(start_index+4);
+			}
+		});
+		//미팅룸 예약 내역 리스트 페이징 > 버튼 클릭
+		$("#Next-Page-Member-MeetingRoom-Manage").click(function(){
+			var firstPage = $(".Member_MeetingRoom_Page_Num").eq(0).text();
+			var start_page = Number(firstPage) + 5;
+			$(".Member_MeetingRoom_Page_Num").eq(0).text(start_page);
+			$(".Member_MeetingRoom_Page_Num").eq(1).text(start_page + 1);
+			$(".Member_MeetingRoom_Page_Num").eq(2).text(start_page + 2);
+			$(".Member_MeetingRoom_Page_Num").eq(3).text(start_page + 3);
+			$(".Member_MeetingRoom_Page_Num").eq(4).text(start_page + 4);
+		});
+		
+		//게시판 리스트 페이징 < 버튼 클릭
+ 		$("#Pre-Page-Member-Board-Manage").click(function(){
+			var firstPage = $(".Member_Board_Page_Num").eq(0).text();
+			if(firstPage > 1 ){
+				var start_index = firstPage - 5;
+				$(".Member_Board_Page_Num").eq(0).text(start_index);
+				$(".Member_Board_Page_Num").eq(1).text(start_index+1);
+				$(".Member_Board_Page_Num").eq(2).text(start_index+2);
+				$(".Member_Board_Page_Num").eq(3).text(start_index+3);
+				$(".Member_Board_Page_Num").eq(4).text(start_index+4);
+			}
+		});
+		//게시판 예약 내역 리스트 페이징 > 버튼 클릭
+		$("#Next-Page-Member-Board-Manage").click(function(){
+			var firstPage = $(".Member_Board_Page_Num").eq(0).text();
+			var start_page = Number(firstPage) + 5;
+			$(".Member_Board_Page_Num").eq(0).text(start_page);
+			$(".Member_Board_Page_Num").eq(1).text(start_page + 1);
+			$(".Member_Board_Page_Num").eq(2).text(start_page + 2);
+			$(".Member_Board_Page_Num").eq(3).text(start_page + 3);
+			$(".Member_Board_Page_Num").eq(4).text(start_page + 4);
 		});
 		
 		//회원 구매내역 페이징
@@ -56,7 +168,6 @@
 			var drinkReservationData = {member_no : member_no, start_page : drink_start_index, date : drink_date_search};
 			callMemberDrinkReservationListAjax(drinkReservationData);
 		});
-		
 		//회원 미팅룸 예약 내역 페이징
 		$(".Member_MeetingRoom_Page_Num").click(function(){
 			var index = $(".Member_MeetingRoom_Page_Num").index(this);
@@ -67,14 +178,30 @@
 			callMemberMeetingRoomReservationListAjax(meetingRoomReservationData);
 		});
 		
+		//회원 게시판 페이징
+		$(".Member_Board_Page_Num").click(function(){
+			var index = $(".Member_Board_Page_Num").index(this);
+			board_start_page = $(".Member_Board_Page_Num").eq(index).text();
+			board_start_index = (board_start_page -1) * board_pagePer_num;
+			var boardHistoryData = {member_no : member_no, start_page : board_start_index, date : board_date_search};
+			callMemberBoardHistoryListAjax(boardHistoryData);
+		});
+		
 		//상세 보기 클릭
 		$(document).on("click", ".Show-Detail-Member-Btn", function(){
+			//값 초기화
+			$(".form-control").val("");
+			drink_date_search = "";
+			meetingRoom_date_search = "";
+			board_date_search = "";
 			var index = $(".Show-Detail-Member-Btn").index(this);
 			member_no = $(".Member-Table-Num-td").eq(index).text();
 			var meetingRoomReservationData = {member_no : member_no, start_page : meetingRoom_start_index, date : meetingRoom_date_search};
 			var drinkReservationData = {member_no : member_no, start_page : drink_start_index, date : drink_date_search};
+			var boardHistoryData = {member_no : member_no, start_page : board_start_index, date : board_date_search};
 			callMemberMeetingRoomReservationListAjax(meetingRoomReservationData);
 			callMemberDrinkReservationListAjax(drinkReservationData);
+			callMemberBoardHistoryListAjax(boardHistoryData);
 		});
 		
 		//회원 이메일 검색
@@ -90,12 +217,94 @@
 			 callMemberDrinkReservationListAjax(drinkReservationData);
 		});
 		
+		//회원 구매내역 상세보기 클릭
+		$(document).on("click", ".Member-Detail-Drink-Reservation-Btn", function(){
+			var index = $(".Member-Detail-Drink-Reservation-Btn").index(this);
+			var menu_payment_no = $(".Member-Detail-Drink-Reservation-Btn").eq(index).attr("id");
+			callMyDrinkDetailListAjax(menu_payment_no);
+		});
+		
+		//상세 보기 클릭시 해당 메뉴 리스트 호출
+		function callMyDrinkDetailListAjax(menu_payment_no){
+			var jsonData = {menu_payment_no : menu_payment_no};
+			callList_Ajax("/my_page.drinkDetailList.member", successMyDrinkDetailList, errorMyDrinkDetailList, jsonData);
+			function successMyDrinkDetailList(data){
+				//초기화
+				$("#My-Page-Detail-Menu-List-Table tbody").html('');
+				var total_price = 0;
+				$.each(data.menuDetailList, function(index, list){
+					var menu_count = list.menu_count.split(",");
+					total_price += list.menu_price * menu_count[0];
+					var html =	'<tr>';
+					html += '<td>'+list.menu_name+'</td>';
+					html += '<td>'+menu_count[0]+'</td>';
+					html += '<td>'+list.menu_price+'원</td>';
+					html += '<td>'+list.menu_price * menu_count[0]+'원</td>';
+					$("#My-Page-Detail-Menu-List-Table tbody").append(html);
+				});
+				var html = '</tr><tr><td colspan="2">합계</td><td colspan="2">'+total_price+'원</td></tr>';
+				$("#My-Page-Detail-Menu-List-Table tbody").append(html);
+				$("#Show-Detail-Purchase-List").show();
+			}
+			function errorMyDrinkDetailList(){
+				alert("ajax 예외 발생 My_Page : errorMyDrinkDetailList");
+			}
+		}
+		
+		//회원 구매내역 상세 보기 닫기 클릭
+		$("#Show-Detail-Purchase-List-Modal-Hide-Btn").click(function(){
+			$("#Show-Detail-Purchase-List").hide();
+		});
+		
 		//회원 미팅룸 예약내역 검색
 		$("#Member-MeetingRoom-Search-Btn").click(function(){
 			 meetingRoom_date_search = $("#Search-Member-MeetingRoom-Value").val();
 			 var meetingRoomReservationData = {member_no : member_no, start_page : meetingRoom_start_index, date : meetingRoom_date_search};
 			 callMemberMeetingRoomReservationListAjax(meetingRoomReservationData);
 		});
+		
+		//게시판 검색
+		$("#Member-Board-Search-Btn").click(function(){
+			 board_date_search = $("#Search-Member-Board-Value").val();
+			 var boardHistoryData = {member_no : member_no, start_page : board_start_index, date : board_date_search};
+			 callMemberBoardHistoryListAjax(boardHistoryData);
+		});
+		
+		//게시판 카테고리 클릭
+		$("#Board-History-Category-Btn").click(function(){
+			if(board_category == "recipe")
+				board_category = "clientSound";
+			else
+				board_category = "recipe"
+			
+			
+			//값 초기화
+			$("#Search-Member-Board-Value").val("");
+			board_date_search = "";
+			var boardHistoryData = {member_no : member_no, start_page : board_start_index, date : board_date_search};
+			callMemberBoardHistoryListAjax(boardHistoryData);
+			//페이지 초기화
+			boardPageInit();
+			$(".Member_Board_Page_Num").eq(0).trigger("click");
+		});
+		
+		//게시판 - 레시피 상세보기 클릭
+		$(document).on("click", ".Member-Detail-Recipe-Btn", function(){
+			var index = $(".Member-Detail-Recipe-Btn").index(this);
+			var board_recipe_no = $(".Member-Detail-Recipe-Btn").attr("id");
+			var url = "/community.recipe_read?board_recipe_no="+board_recipe_no;
+			window.open(url, "_blank");  
+		});
+		
+		//게시판 - 고객의 소리 상세보기 클릭
+		$(document).on("click", ".Member-Detail-Client-Board-Btn", function(){
+			var index = $(".Member-Detail-Client-Board-Btn").index(this);
+			var board_num = $(".Member-Detail-Client-Board-Btn").attr("id");
+			alert(board_num);
+			var url = "/read.client.board?board_num="+board_num;
+			window.open(url, "_blank");  
+		});
+		
 		//전체 선택 MouseEnter
 		$("#Member-List-Table-Check-All-th").mouseenter(function() {
 			$(this).html("<a id='Member-List-Table-Check-All-Btn' class='btn btn-success'><em class='fa fa-check-circle'></em></a>");
@@ -131,29 +340,44 @@
 			div.hide();
 			$(div).siblings(".Select-Single-Check-Div").show();
 		});
-		//Member-Table-Delete-Btn Click Delete Member
-		$("#Member-List-Table-Delete-Btn").click(
+		//회원 삭제
+		$("#Member-Table-Delete-Btn").click(
 				function() {
+					var member_no = new Array();
 					var delete_count = 0;
-					$("#Member-List-Table #Show-Check-Icon-Div").each(
+					$("#Member-List-Table .Show-Check-Icon-Div").each(
 							function() {
 								//Find Check-Icon
 								if ($(this).css("display") == "block") {
-									var member_num = $(this).parent().siblings(
-											"#Member-List-Table-Num-td").text();
+									member_no.push($(this).parent().siblings(
+											".Member-Table-Num-td").text());
 									delete_count++;
 
 								}
 							});
 					if (delete_count != 0) {
 						if (confirm("체크 된 항목들을 정말 삭제하시겠습니까?")) {
-
+							alert(member_no.length);
+							for(var i=0; i<member_no.length; i++){
+								var jsonData = {member_no : member_no[i]};
+								callList_Ajax("/delete.member.manage", successDeleteMember, null, jsonData);
+							}
 						}
 					} else {
 						alert("선택된 항목이 없습니다.");
 					}
 				});
 	});
+	
+	function successDeleteMember(data){
+		
+		if(data == false){
+			alert("회원 삭제중 오류가 발생하였습니다.\n해당 회원은 점장이므로 매장을 삭제하시거나 해당 매장의 점장을 변경 후 삭제해주세요.");
+			return false;
+		}
+		location.reload();
+	}
+	
 	function callMemberListAjax(){
 		//회원 리스트 호출
 		var jsonData = {start_page : member_start_index, member_email_search : member_email_search};
@@ -172,7 +396,7 @@
 						'<a class="Member-List-Table-Show-Icon-Btn" href="#" style="text-decoration: none">선택</a>' +
 					'</div>' +
 					'<div class="Show-Check-Icon-Div" style="display: none">' +
-						'<a class="Member-List-Table-Check-Btn" class="btn btn-success"><em class="fa fa-check-circle"></em></a>' +
+						'<a class="Member-List-Table-Check-Btn" class="btn btn-success"><em class="fa fa-check-circle fa-1x"></em></a>' +
 					'</div>' +
 				'</td>' +
 				'<td class="Member-Table-Num-td">'+list.member_no+'</td>' +
@@ -228,7 +452,7 @@
 			$("#Member-Drink-Reservation-List-Table tbody").html("");
 			$.each(data.memberDrinkReservationList, function(index, list){
 				var html = '<tr><td>'+list.menu_payment_date+'</td>' +
-					'<td><a href="#" class="Member-Detail-Drink-Reservation-Btn">상세보기</a></td>' +
+					'<td><a href="#" id="'+list.menu_payment_no+'" class="Member-Detail-Drink-Reservation-Btn">상세보기</a></td>' +
 					'<td>'+list.store_name+'</td>' +
 					'<td>'+list.menu_payment_style+'</td>' +
 					'<td>'+list.menu_total_price+'원</td></tr>';
@@ -236,13 +460,51 @@
 			});
 		}
 	}
-	function callMemberBoardHistoryListAjax(){
-		callList_Ajax("/find.boardHistoryList.member.manage", successMemberBoardHistoryList, null, null);
-		//게시판 리스트
+	//게시판 리스트
+	function callMemberBoardHistoryListAjax(boardHistoryData){
+		callList_Ajax("/find.boardHistoryList.member.manage", successMemberBoardHistoryList, null, boardHistoryData);
 		function successMemberBoardHistoryList(data){
-			
+			$("#Member-Board-History-List-Table tbody").html("");
+			if(board_category == "recipe")
+				memberRecipeHistory(data);
+			else
+				memberClientHistory(data);
 		}
 	}
+	//게시판 - 레시피
+	function memberRecipeHistory(data){
+		$.each(data.memberBoardRecipeHistoryList, function(index, list){
+			var html = '<tr>' + 
+				'<td>'+String(list.board_recipe_date).substring(0,10)+'</td>' + 
+				'<td>'+list.board_recipe_title+'</td>' + 
+				'<td><a href="#" id="'+list.board_recipe_no+'" class="Member-Detail-Recipe-Btn">상세보기</a></td>' + 
+				'<td>레시피</td>' + 
+			'</tr>';
+			$("#Member-Board-History-List-Table tbody").append(html);
+		});
+	}
+	//게시판 - 고객의 소리
+	function memberClientHistory(data){
+		$.each(data.memberBoardClientHistroyList, function(index, list){
+			var html = '<tr>' + 
+				'<td>'+String(list.board_date).substring(0,10)+'</td>' + 
+				'<td>'+list.board_subject+'</td>' + 
+				'<td><a href="#" id="'+list.board_num+'" class="Member-Detail-Client-Board-Btn">상세보기</a></td>' + 
+				'<td>고객의 소리</td>' + 
+			'</tr>';
+			$("#Member-Board-History-List-Table tbody").append(html);
+		});
+	}
+	
+	//게시판 페이징 초기화
+	function boardPageInit(){
+		//게시판 리스트 페이지 초기화
+		var boardHistoryPage = $(".Member_Board_Page_Num").length;
+		for(var i=0; i<boardHistoryPage; i++){
+			$(".Member_Board_Page_Num").eq(i).text(i+1);
+		}
+	}
+	
 </script>
 <style>
 #Member-Search-Btn {
@@ -255,9 +517,10 @@
 .pagination li a:hover{
 	background-color: #0F7864;
 }
+
 </style>
 <div id="Member-Management-Div" class="div-fade"
-	style="padding-top: 0px; color: black; margin-top: 100px">
+	style="padding-top: 0px; color: black;">
 	<div>
 		<div>
 			<div class="panel panel-default panel-table">
@@ -314,11 +577,11 @@
 								<li id="Previous-Page-Member-Manage"><a href="#" aria-label="Previous"> <span
 										aria-hidden="true">&laquo;</span>
 								</a></li>
-								<li><a class="Member_Page_Num">1</a></li>	
-								<li><a class="Member_Page_Num">2</a></li>	
-								<li><a class="Member_Page_Num">3</a></li>	
-								<li><a class="Member_Page_Num">4</a></li>	
-								<li><a class="Member_Page_Num">5</a></li>	
+								<li><a class="Member_Page_Num"></a></li>	
+								<li><a class="Member_Page_Num"></a></li>	
+								<li><a class="Member_Page_Num"></a></li>	
+								<li><a class="Member_Page_Num"></a></li>	
+								<li><a class="Member_Page_Num"></a></li>	
 								<li id="Next-Page-Member-Manage"><a href="#" aria-label="Next"> <span
 										aria-hidden="true">&raquo;</span>
 								</a></li>
@@ -377,15 +640,15 @@
 			<div class="col-sm-offset-4">
 				<nav>
 					<ul class="pagination pagination-sm">
-						<li><a href="#" aria-label="Previous"> <span
+						<li><a href="#" id="Pre-Page-Member-Drink-Manage" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>
-						<li><a class="Member_Drink_Page_Num">1</a></li>
-						<li><a class="Member_Drink_Page_Num">2</a></li>
-						<li><a class="Member_Drink_Page_Num">3</a></li>
-						<li><a class="Member_Drink_Page_Num">4</a></li>
-						<li><a class="Member_Drink_Page_Num">5</a></li>
-						<li><a aria-label="Next"> <span
+						<li><a class="Member_Drink_Page_Num"></a></li>
+						<li><a class="Member_Drink_Page_Num"></a></li>
+						<li><a class="Member_Drink_Page_Num"></a></li>
+						<li><a class="Member_Drink_Page_Num"></a></li>
+						<li><a class="Member_Drink_Page_Num"></a></li>
+						<li><a id="Next-Page-Member-Drink-Manage" aria-label="Next"> <span
 								aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>
@@ -441,15 +704,15 @@
 			<div class="col-sm-offset-4">
 				<nav>
 					<ul class="pagination pagination-sm">
-						<li><a href="#" aria-label="Previous"> <span
+						<li><a id="Pre-Page-Member-MeetingRoom-Manage" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>
-						<li><a class="Member_MeetingRoom_Page_Num">1</a></li>
-						<li><a class="Member_MeetingRoom_Page_Num">2</a></li>
-						<li><a class="Member_MeetingRoom_Page_Num">3</a></li>
-						<li><a class="Member_MeetingRoom_Page_Num">4</a></li>
-						<li><a class="Member_MeetingRoom_Page_Num">5</a></li>
-						<li><a aria-label="Next"> <span
+						<li><a class="Member_MeetingRoom_Page_Num"></a></li>
+						<li><a class="Member_MeetingRoom_Page_Num"></a></li>
+						<li><a class="Member_MeetingRoom_Page_Num"></a></li>
+						<li><a class="Member_MeetingRoom_Page_Num"></a></li>
+						<li><a class="Member_MeetingRoom_Page_Num"></a></li>
+						<li><a id="Next-Page-Member-MeetingRoom-Manage" aria-label="Next"> <span
 								aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>
@@ -474,7 +737,7 @@
 				<div class="form-group">
 					<div class="input-group">
 						<!-- 입력  -->
-						<input type="text" class="form-control" id="exampleInputAmount"
+						<input type="text" class="form-control" id="Search-Member-Board-Value"
 							placeholder="YYYY/MM/DD">
 						<!-- 검색 버튼 -->
 						<div id="Member-Board-Search-Btn" class="input-group-addon"
@@ -485,7 +748,7 @@
 				</div>
 			</form>
 			<!-- Member-Table -->
-			<table id="Member-Table"
+			<table id="Member-Board-History-List-Table"
 				class="table table-striped table-bordered table-list"
 				style="font-size: 8pt">
 				<!-- Member-Table-Header -->
@@ -494,32 +757,25 @@
 						<th>작성 날짜</th>
 						<th>제목</th>
 						<th>내용</th>
-						<th>카테고리</th>
+						<th id="Board-History-Category-Btn" style="cursor: pointer;">카테고리</th>
 					</tr>
 				</thead>
-				<!-- Member-Table-Body -->
 				<tbody>
-					<tr>
-						<td>2016년 6월 30일</td>
-						<td>테스트</td>
-						<td><a href="#">상세보기</a></td>
-						<td>고객의 소리</td>
-					</tr>
 				</tbody>
 			</table>
 			<!-- Pagination -->
 			<div class="col-sm-offset-4">
 				<nav>
-					<ul class="pagination pagination-sm">
-						<li id="Previous-Page-Member-Manage"><a href="#" aria-label="Previous"> <span
+					<ul class="board_pagination pagination pagination-sm">
+						<li id="Pre-Page-Member-Board-Manage"><a href="#" aria-label="Previous"> <span
 								aria-hidden="true">&laquo;</span>
 						</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#" aria-label="Next"> <span
+						<li><a class="Member_Board_Page_Num"></a></li>
+						<li><a class="Member_Board_Page_Num"></a></li>
+						<li><a class="Member_Board_Page_Num"></a></li>
+						<li><a class="Member_Board_Page_Num"></a></li>
+						<li><a class="Member_Board_Page_Num"></a></li>
+						<li><a id="Next-Page-Member-Board-Manage" href="#" aria-label="Next"> <span
 								aria-hidden="true">&raquo;</span>
 						</a></li>
 					</ul>
@@ -529,3 +785,5 @@
 	</div>
 </div>
 
+<!-- Meber_Purchase_List_Modal -->
+<jsp:include page="../mypage/Member_Purchase_List_Modal.jsp" />

@@ -4,16 +4,17 @@
  * 
  */
 
-package com.trycatch.coffee.board.recipe.persistance;
+package com.trycatch.coffee.board.recipe.service;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.trycatch.coffee.board.recipe.domain.BoardRecipeDTO;
-import com.trycatch.coffee.board.recipe.service.BoardRecipeService;
+import com.trycatch.coffee.board.recipe.persistance.BoardRecipeDAO;
 
 
 @Service
@@ -66,11 +67,13 @@ public class BoardRecipeServiceImpl implements BoardRecipeService {
 
 	@Override
 	public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception {
-		
 		return dao.listAllBoardRecipe();
 	}
 
-
+	@Override
+	public List<BoardRecipeDTO> boardrecipelistall_with_memberNo_date(int member_no, int start_page, String date) throws Exception {
+		return dao.boardrecipelistall_with_memberNo_date(member_no, start_page, date);
+	}
 
 
 

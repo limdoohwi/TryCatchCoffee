@@ -6,52 +6,22 @@ public class BoardRecipeDTO {
 	private String board_recipe_title;
 	private String board_recipe_content;
 	private String board_recipe_writer;
-	private Date board_recipe_date;
+	private String board_recipe_date;
 	private int board_recipe_no,board_recipe_likes,board_recipe_count;
 	private String board_recipe_file;
+	private int member_no;
+
 	
-	private int totalpage;
-	private int nowperpage;
-	
-	private int totalblock;
-	private int nowblock;
-	private int nowperblock;
-	
-	
-	public int getTotalpage() {
-		return totalpage;
-	}
-	public void setTotalpage(int totalpage) {
-		this.totalpage = totalpage;
-	}
-	public int getNowperpage() {
-		return nowperpage;
-	}
-	public void setNowperpage(int nowperpage) {
-		this.nowperpage = nowperpage;
-	}
-	public int getTotalblock() {
-		return totalblock;
-	}
-	public void setTotalblock(int totalblock) {
-		this.totalblock = totalblock;
-	}
-	public int getNowblock() {
-		return nowblock;
-	}
-	public void setNowblock(int nowblock) {
-		this.nowblock = nowblock;
-	}
-	public int getNowperblock() {
-		return nowperblock;
-	}
-	public void setNowperblock(int nowperblock) {
-		this.nowperblock = nowperblock;
-	}
 
 	
 
 
+	public int getMember_no() {
+		return member_no;
+	}
+	public void setMember_no(int member_no) {
+		this.member_no = member_no;
+	}
 	public String getBoard_recipe_file() {
 		return board_recipe_file;
 	}
@@ -82,10 +52,10 @@ public class BoardRecipeDTO {
 	public void setBoard_recipe_writer(String board_recipe_writer) {
 		this.board_recipe_writer = board_recipe_writer;
 	}
-	public Date getBoard_recipe_date() {
+	public String getBoard_recipe_date() {
 		return board_recipe_date;
 	}
-	public void setBoard_recipe_date(Date board_recipe_date) {
+	public void setBoard_recipe_date(String board_recipe_date) {
 		this.board_recipe_date = board_recipe_date;
 	}
 	public int getBoard_recipe_likes() {

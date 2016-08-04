@@ -17,6 +17,7 @@ public interface BoardRecipeDAO {
 	  public void deleteBoardRecipe(Integer board_recipe_no) throws Exception;
 	  public List<BoardRecipeDTO> listAllBoardRecipe(Integer limit) throws Exception;
 	  public List<BoardRecipeDTO> listAllBoardRecipe() throws Exception;
+	  public List<BoardRecipeDTO> boardrecipelistall_with_memberNo_date(int member_no, int start_page, String date) throws Exception;
 	  public void updateBoardRecipeCount(Integer board_recipe_no) throws Exception;
 	  public void updateBoardRecipeLikes(Integer board_recipe_no) throws Exception;
 	  public List<BoardRecipeDTO> searchBoardRecipe(String board_recipe_search,int limit) throws Exception;

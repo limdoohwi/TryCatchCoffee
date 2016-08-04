@@ -9,6 +9,14 @@
 		select * from board order by board_pos
 	</select>
 	
+	<select id="listAll_withMember_no_Date"  resultType="BoardDTO">
+		select * from board where member_no = #{member_no}
+		<if test="date != ''">
+		    and board_date = #{date}
+		</if>
+		order by board_pos
+	</select>
+	
 	<update id="pos_up">
 		update board set board_pos=board_pos+1
 	</update>

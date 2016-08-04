@@ -34,9 +34,13 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void deleteMember(int member_no) {
-		// TODO Auto-generated method stub
-
+	public boolean deleteMember(int member_no) {
+		try {
+			sqlSession.delete(NAMESPACE + ".deleteMember", member_no);
+			return true;
+		} catch (Exception err) {
+			return false;
+		}
 	}
 
 	@Override

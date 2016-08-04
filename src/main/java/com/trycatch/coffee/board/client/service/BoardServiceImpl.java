@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 
@@ -58,5 +59,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> search(String keyValue, String keyWord) throws Exception {
 		return dao.search(keyValue, keyWord);
+	}
+	
+	@Override
+	public List<BoardDTO> listAll_withMember_no_Date(int member_no, int start_page, String date) throws Exception {
+		return dao.listAll_withMember_no_Date(member_no, start_page, date);
 	}
 }

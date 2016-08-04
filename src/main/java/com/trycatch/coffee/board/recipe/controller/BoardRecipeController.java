@@ -67,6 +67,7 @@ public class BoardRecipeController {
 		dto.setBoard_recipe_title(req.getParameter("board_recipe_title"));		 
 		MemberDTO mdto = (MemberDTO) (req.getSession().getAttribute("member_dto"));
 		String writer = mdto.getMember_name();
+		dto.setMember_no(mdto.getMember_no());
 		dto.setBoard_recipe_writer(writer);
 		 	ServletContext ctx;
 			ctx = req.getServletContext();
@@ -99,7 +100,7 @@ public class BoardRecipeController {
 	//read (GET) 게시글 읽기
 	@RequestMapping("/community.recipe_read")
 	public String ReadBoardRecipe(int board_recipe_no , Model model,HttpServletRequest req) throws Exception{
-		
+		System.out.println(board_recipe_no);
 		MemberDTO mdto = (MemberDTO) (req.getSession().getAttribute("member_dto"));
 		service.updateBoardRecipeCount(board_recipe_no);
 		model.addAttribute(service.readBoardRecipe(board_recipe_no));

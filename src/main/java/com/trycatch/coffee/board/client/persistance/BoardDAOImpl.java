@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -84,5 +85,18 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("keyValue", keyValue);
 		map.put("keyWord", keyWord);
 		return sqlSession.selectList(NAMESPACE +".search", map);
+	}
+	
+	@Override
+	public List<BoardDTO> listAll_withMember_no_Date(int member_no, int start_page, String date) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("member_no", member_no);
+		map.put("date", date);
+		RowBounds row = new RowBounds(start_page, 3);
+		try {
+			return sqlSession.selectList(NAMESPACE + ".listAll_withMember_no_Date", map, row);
+		} catch (Exception err) {
+			return null;
+		}
 	}
 }

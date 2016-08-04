@@ -17,4 +17,5 @@ public interface MemberService {
 	public JSONObject getSearchOnwerList(String member_email) throws Exception;
 	public boolean isExistEmail(String member_email) throws Exception;
 	public boolean updateMember_pw(MemberDTO dto) throws Exception;
+	public boolean deleteMember(int member_no) throws Exception;
 }

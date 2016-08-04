@@ -7,13 +7,20 @@
 <mapper namespace="com.trycatch.coffee.mappers.boardrecipeMapper">
 
 	<insert id="boardrecipeinsert" parameterType="BoardRecipeDTO">
-		insert into board_recipe(board_recipe_title, board_recipe_content, board_recipe_writer, board_recipe_date,board_recipe_likes,board_recipe_count,board_recipe_file)
-		values(#{board_recipe_title},#{board_recipe_content},#{board_recipe_writer},now(),0,0,#{board_recipe_file})
+		insert into board_recipe(board_recipe_title, board_recipe_content, board_recipe_writer, board_recipe_date,board_recipe_likes,board_recipe_count,board_recipe_file,member_no)
+		values(#{board_recipe_title},#{board_recipe_content},#{board_recipe_writer},now(),0,0,#{board_recipe_file},#{member_no})
 		
 	</insert>
 	
 	<select id= "boardrecipelistall" resultType="BoardRecipeDTO">
-		select * from board_recipe 
+		select * from board_recipe
+	</select>
+	
+	<select id= "boardrecipelistall_with_memberNo_date" parameterType="hashMap" resultType="BoardRecipeDTO">
+		select * from board_recipe where member_no = #{member_no}
+		<if test="date != ''">
+		    and date(board_recipe_date) = #{date}
+		</if>
 	</select>
 	
 	<select id="boardrecipelist" resultType="BoardRecipeDTO">

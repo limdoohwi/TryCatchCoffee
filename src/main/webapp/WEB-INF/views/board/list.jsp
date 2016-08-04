@@ -129,7 +129,7 @@
 									<td class="board_num_td" width="10%">${board.board_num }</td>
 									<td>${member_dto.member_name }</td>
 									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+									<td>${board.board_date}</td>
 									<td class="board_hits_td" width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
@@ -139,7 +139,7 @@
 										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left">비밀글 입니다.</td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+										<td>${board.board_date}</td>
 										<td class="pass_board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>
@@ -148,7 +148,7 @@
 										<td class="board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left">${board.board_subject}</td>						
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+										<td>"${board.board_date}</td>
 										<td class="board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>	
 								</c:if>
@@ -160,7 +160,7 @@
 									<td class="board_num_td" width="10%">${board.board_num }</td>
 									<td>${member_dto.member_name }</td>
 									<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="/resources/img/re.gif" />${board.board_subject}</td>
-									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+									<td>${board.board_date}</td>
 									<td class="board_hits_td"width="10%">${board.board_hits }</td>
 								</tr>
 							</c:if>
@@ -170,7 +170,7 @@
 										<td class="pass_board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_password_td" width="25%" style="cursor:pointer;" align="left"><img src="/resources/img/re.gif"/>비밀글 답변 입니다.</td>				
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+										<td>${board.board_date}</td>
 										<td class="pass_board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>
@@ -179,7 +179,7 @@
 										<td class="board_num_td" width="10%">${board.board_num }</td>
 										<td>${member_dto.member_name }</td>
 										<td class="board_subject_td" width="25%" style="cursor:pointer;" align="left"><img src="/resources/img/re.gif" />${board.board_subject}</td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.board_date}" /></td>
+										<td>${board.board_date}</td>
 										<td class="board_hits_td" width="10%">${board.board_hits }</td>
 									</tr>
 								</c:if>

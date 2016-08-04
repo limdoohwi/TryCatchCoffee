@@ -2,6 +2,8 @@ package com.trycatch.coffee.board.client.service;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 import com.trycatch.coffee.board.client.domain.BoardDTO;
 
 public interface BoardService {
@@ -14,4 +16,5 @@ public interface BoardService {
 	  public BoardDTO check_password(String board_password, String board_num) throws Exception;
 	  public void reply(BoardDTO board, int member_no, int parent_board_num, int board_group) throws Exception;
 	  public List<BoardDTO> search(String keyValue, String keyWord) throws Exception;
+	  public List<BoardDTO> listAll_withMember_no_Date(int member_no, int start_page, String date) throws Exception;
 }
