@@ -31,8 +31,9 @@ public class InsertMenuPaymentController {
 		SimpleDateFormat formatToday = null;
 		String resultToday = null;
 		if(order_style.equals("direct")){
-			formatToday = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			formatToday = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			resultToday = formatToday.format(today);
+			System.out.println(resultToday);
 			int hour = Integer.parseInt(resultToday.substring(11, 13));
 			int minute = Integer.parseInt(resultToday.substring(14,16)) + 10;
 			if(minute >= 60){
