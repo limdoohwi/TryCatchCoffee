@@ -15,6 +15,7 @@ import com.trycatch.coffee.cart.domain.CartDTO;
 import com.trycatch.coffee.cart.persitance.CartDAO;
 import com.trycatch.coffee.order.domain.Menu_OrderDTO;
 import com.trycatch.coffee.order.domain.Menu_PaymentDTO;
+import com.trycatch.coffee.order.domain.Order_AlarmDTO;
 import com.trycatch.coffee.order.persitance.OrderDAO;
 
 @Service
@@ -23,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderDAO dao;
 	@Inject
 	private CartDAO cartDao;
+	@Inject
+	private OrderAlarmService alarmService;
 
 	private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -36,18 +39,21 @@ public class OrderServiceImpl implements OrderService {
 			dao.insertMenu_Payment(menuPaymentDto);
 			Menu_PaymentDTO dto = dao.getNowInsert_Menu_Payment();
 			menuOrderDto.setMenu_payment_no(dto.getMenu_payment_no());
-			Menu_PaymentDTO recentMenuPayment_dto = dao.getNowInsert_Menu_Payment();
-			Menu_OrderDTO orderDto = new Menu_OrderDTO();
+			//Menu_PaymentDTO recentMenuPayment_dto = dao.getNowInsert_Menu_Payment();
+			//Menu_OrderDTO orderDto = new Menu_OrderDTO();
 			//MENU 파싱
-			String[] parseMenu_no = menuOrderDto.getMenu_no().split(",");
-			String[] parseMenu_count = menuOrderDto.getMenu_count().split(",");
-			String[] parseMenu_option = menuOrderDto.getMenu_option().split(",");
 			CartDTO cartDto = new CartDTO();
 			cartDto.setMember_no(dto.getMember_no());
 			String[] menu_nums = menuOrderDto.getMenu_no().split(",");
-			System.out.println(menu_nums.length + "((**()#@*$)(#@*$)(@#*$)");
+			String[] menu_names = menuOrderDto.getMenu_name().split(",");
 			String[] menu_counts = menuOrderDto.getMenu_count().split(",");
 			String[] menu_options = menuOrderDto.getMenu_option().split(",");
+			
+			//order_Alarm 생성
+			Order_AlarmDTO alarmDto = new Order_AlarmDTO();
+			alarmDto.setOrder_category_no(1);
+			alarmDto.setStore_no(menuPaymentDto.getStore_no());
+			String order_content = "";
 			for(int i=0; i<menu_nums.length; i++){
 				cartDto.setMenu_num(Integer.parseInt(menu_nums[i]));
 				cartDao.deleteCart(cartDto);
@@ -55,7 +61,10 @@ public class OrderServiceImpl implements OrderService {
 				menuOrderDto.setMenu_count(menu_counts[i]);
 				menuOrderDto.setMenu_option(menu_options[i]);
 				dao.insertMenu_Order(menuOrderDto);
+				order_content += "음료명 : " + menu_names[i]+"/" + menu_counts[i] + "잔/옵션:" + menu_options[i] + ", ";
 			}
+			alarmDto.setOrder_content(order_content);
+			alarmService.insertAlarm(alarmDto);
 			return true;
 		} catch (Exception err) {
 			return false;

@@ -37,4 +37,7 @@
             and date(p.menu_payment_date) = #{date}
         </if>
 	</select>
+	<insert id="insertOrder_Alarm">
+	    insert into order_alarm (order_category_no,order_content,store_no) values(#{order_category_no},#{order_content},#{store_no})
+	</insert>
 </mapper>

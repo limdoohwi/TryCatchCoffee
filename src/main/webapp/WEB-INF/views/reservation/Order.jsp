@@ -94,6 +94,7 @@ var menu_reserve_time;
 			var flag = true;
 			if(confirm("위 내용대로 결제 하시겠습니까?")){
 				var menu_no = "";
+				var menu_name = "";
 				var menu_count = "";
 				var menu_option = "";
 				var order_name = $("#order_name").val();
@@ -104,7 +105,8 @@ var menu_reserve_time;
 				//메뉴 정보 가져오기
 				$("#selected_option_table .cart_list_tr").each(function(){
 					menu_no += $(this).find(".cart_menu_no").val() + ",";
-					alert(menu_no);
+					menu_name += $(this).find(".cart_menu_name1").val() + ",";
+					alert(menu_name);
 					menu_count += $(this).find(".cart_menu_count").text() + ",";
 					if($(this).find(".cart_menu_option").val() == ""){
 						menu_option += "없음,";
@@ -121,11 +123,11 @@ var menu_reserve_time;
 					dataType:"json",
 					data:{order_name:order_name, order_tel:order_tel, menu_reserve_time:menu_reserve_time, 
 						  menu_payment_style:menu_payment_style, menu_total_price:menu_total_price, menu_total_mileage:menu_total_mileage,
-						  menu_no:menu_no, menu_count:menu_count, menu_option:menu_option, order_style:order_style},
+						  menu_no:menu_no,menu_name:menu_name, menu_count:menu_count, menu_option:menu_option, order_style:order_style},
 					success:function(data){
 							if(data == true){
 								alert("주문이 완료되었습니다.");
-								//sendName(store_no, webCk);
+								sendName('${store_dto.member_no}');
 								location.href="/go.reservation";
 							}
 							else{
@@ -152,15 +154,6 @@ var menu_reserve_time;
 	});
 });
 	
-	function successInsertMenuOrder(data){
-		if(data == true){
-			alert("주문이 완료되었습니다.");
-			location.href="/go.reservation";
-		}
-		else{
-			alert("주문에 실패하였습니다.");
-		}
-	}
 	
 	function errorInsertMenuOrder(){
 		alert("ajax 오류");
@@ -180,12 +173,6 @@ var menu_reserve_time;
 			socket.onclose = function() {
 				console.log('Disconnecting connection');
 			}
-			socket.onmessage = function(evt) {
-				var received_msg = evt.data;
-				console.log(received_msg);
-				console.log('message received!');
-				showMessage(received_msg);
-			}
 		} else {
 			console.log('Websocket not supported');
 		}
@@ -193,15 +180,8 @@ var menu_reserve_time;
 	function disconnect() {
 		console.log("Disconnected");
 	}
-	function sendName(store_no, webCk) {
-		socket.send(JSON.stringify({'store_no' : store_no, 'webCk' : webCk}));
-	}
-	function showMessage(message) {
-		alert(meessage);
-		
-	}
-	function showmyMessage(message){
-		alert(message);
+	function sendName(member_no) {
+		socket.send(JSON.stringify({'member_no' : member_no, 'type' : 'orderalarm'}));
 	}
 	
 </script>
@@ -299,6 +279,7 @@ var menu_reserve_time;
 							<td class="cart_menu_count">${cart_menu.menu_count }</td>
 							<td class="cart_menu_total_price">${cart_menu.menu_count*cart_menu.menu_price}</td>
 							<td><input class="cart_menu_option" type="text" placeholder="[해당 옵션]&nbsp;&nbsp;예)1shot추가"/></td>
+							<input type="hidden" class="cart_menu_name1" value="${cart_menu.menu_name}"/>
 							<input type="hidden" class="cart_menu_no" value="${cart_menu.menu_num}"/>
 							<input type="hidden" name="menu_counts" value="${cart_menu.menu_count}"/>
 							<c:set var="total_price" value="${total_price+cart_menu.menu_count*cart_menu.menu_price}"/>
