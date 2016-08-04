@@ -227,7 +227,6 @@ h2 {
 			<li><c:if test="${member_dto!=null}">
 					<a id="My-Page-Btn" href="my_page.member">My Page</a>
 				</c:if></li>
-			<li><a href="#" id="OurStore-Btn">Our Store</a></li>
 		</ul>
 		<br />
 		<ul class="nav navbar-nav">
@@ -255,7 +254,7 @@ h2 {
 				<hr />
 			</div>
 			<!-- 심플 가이드 -->
-			<div id="Simple-Explain-Div" class="col-md-6"
+			<div id="Simple-Explain-Div" class="col-md-4
 				style="visibility: hidden; display: inline-block;">
 				<h2>
 					<i class="fa fa-lightbulb-o" aria-hidden="true"
@@ -287,12 +286,13 @@ h2 {
 						<a name="Client" role="menuitem" tabindex="-1" href="/board.list">고객의 소리</a><br />
 					</div>
 					<!-- Manager Menu -->
-					<div  style="display: inline-block; margin-left: 30px">
-						<a name="Member-Manage" role="menuitem" tabindex="-1" href="member.manager">회원 관리</a><br /> <a
-							name="Store-Manage" role="menuitem" tabindex="-1" href="store.manager">매장 관리</a><br /> <a
-							name="Board-Manage" role="menuitem" tabindex="-1" href="board.manager">게시판 관리</a><br /> <a
-							name="Menu-Manage" role="menuitem" tabindex="-1" href="menu.manager">메뉴 관리</a><br />
-					</div>
+					<c:if test="${member_dto.member_code == 3}">
+						<div  style="display: inline-block; margin-left: 30px">
+							<a name="Member-Manage" role="menuitem" tabindex="-1" href="member.manager">회원 관리</a><br /> <a
+								name="Store-Manage" role="menuitem" tabindex="-1" href="store.manager">매장 관리</a><br /> <a
+								name="Menu-Manage" role="menuitem" tabindex="-1" href="menu.manager">메뉴 관리</a><br />
+						</div>
+					</c:if>
 			</div>
 		</ul>
 	</nav>

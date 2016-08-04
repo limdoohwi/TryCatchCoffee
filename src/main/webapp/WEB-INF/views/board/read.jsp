@@ -89,7 +89,7 @@ $(document).ready(function(){
 			 <td align=center bgcolor=#dddddd width=10%> 이 름 </td>
 			 <td bgcolor=#ffffe8>${member_dto.member_name }</td>
 			 <td align=center bgcolor=#dddddd width=15%> 등록날짜 </td>
-			 <td bgcolor=#ffffe8><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${board.board_date}" /></td>
+			 <td bgcolor=#ffffe8>${board.board_date}</td>
 			</tr>
 		    <tr> 
 		     <td align=center bgcolor=#dddddd> 제 목</td>

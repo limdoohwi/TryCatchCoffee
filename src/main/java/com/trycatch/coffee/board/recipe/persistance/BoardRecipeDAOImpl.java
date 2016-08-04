@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -83,8 +84,18 @@ public class BoardRecipeDAOImpl implements BoardRecipeDAO {
 		return sqlSession.selectList(NAMESPACE+".boardrecipelistall");
 	}
 
-
-	
-
-
+	//여기부터 하렴
+	@Override
+	public List<BoardRecipeDTO> boardrecipelistall_with_memberNo_date(int member_no, int start_page, String date)
+			throws Exception {
+		Map map = new HashMap();
+		map.put("member_no", member_no);
+		map.put("date", date);
+		RowBounds row = new RowBounds(start_page, 3);
+		try {
+			return sqlSession.selectList(NAMESPACE + ".boardrecipelistall_with_memberNo_date", map);
+		} catch (Exception err) {
+		}
+		return null;
+	}
 }

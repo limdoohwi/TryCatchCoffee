@@ -59,6 +59,7 @@ public class BoardController {
 	public String registerPOST(HttpServletRequest req, BoardDTO board, RedirectAttributes rttr, int member_no) throws Exception{
 		board.setBoard_ip(req.getRemoteAddr());
 		service.insert(board, member_no);
+		
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/board.list";
 	}
@@ -70,8 +71,8 @@ public class BoardController {
 		String board_content = dto.getBoard_content();
 		String replace_board_content = board_content.replace("\n", "<br/>");
 		model.addAttribute("board_content", replace_board_content);
-		model.addAttribute("board", service.read(board));
-		model.addAttribute("board_password", board);
+		model.addAttribute("board", dto);
+		model.addAttribute("board_password", dto.getBoard_password());
 		return "/board/read";
 	}
 	

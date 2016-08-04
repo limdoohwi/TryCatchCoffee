@@ -115,4 +115,9 @@ public class MemberServiceImpl implements MemberService {
 	public boolean updateMember_pw(MemberDTO dto) throws Exception {
 		return dao.updateMember_pw(dto);
 	}
+	
+	@Override
+	public boolean deleteMember(int member_no) throws Exception {
+		return dao.deleteMember(member_no);
+	}
 }

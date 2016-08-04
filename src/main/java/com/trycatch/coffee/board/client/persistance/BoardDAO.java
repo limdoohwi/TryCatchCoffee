@@ -14,4 +14,5 @@ public interface BoardDAO {
 	  public BoardDTO check_password(String board_password, String board_num) throws Exception;
 	  public void reply(BoardDTO board, int member_no, int parent_board_num, int board_group) throws Exception;
 	  public List<BoardDTO> search(String keyValue, String keyWord) throws Exception;
+	  public List<BoardDTO> listAll_withMember_no_Date(int member_no, int start_page, String date);
 }

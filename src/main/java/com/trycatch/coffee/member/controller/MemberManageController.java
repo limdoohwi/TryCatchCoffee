@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.trycatch.coffee.board.client.service.BoardService;
+import com.trycatch.coffee.board.recipe.service.BoardRecipeService;
 import com.trycatch.coffee.meeting_room.service.MeetingRoomService;
 import com.trycatch.coffee.member.domain.MemberDTO;
 import com.trycatch.coffee.member.service.MemberService;
@@ -22,6 +24,10 @@ public class MemberManageController {
 	private MeetingRoomService meetingRoomService;
 	@Inject
 	private OrderService orderService;
+	@Inject
+	private BoardRecipeService recipeService;
+	@Inject
+	private BoardService boardClientService;
 	
 	@RequestMapping("/member.manager")
 	public String managerGet(Model model) throws Exception{
@@ -47,6 +53,14 @@ public class MemberManageController {
 	@RequestMapping("/find.drinkReservationList.member.manage")
 	public @ResponseBody Object findMemberMeetingRoomReservationList(int member_no, int start_page, String date) throws Exception{
 		JSONObject jsonRoot = orderService.getMemberMenuPaymentList(member_no, start_page, date);
+		return jsonRoot;
+	}
+	
+	@RequestMapping("/find.boardHistoryList.member.manage")
+	public @ResponseBody Object findMemberBoardHistoryReservationList(int member_no, int start_page, String date) throws Exception{
+		JSONObject jsonRoot = new JSONObject();
+		jsonRoot.put("memberBoardRecipeHistoryList", recipeService.boardrecipelistall_with_memberNo_date(member_no, start_page, date));
+		jsonRoot.put("memberBoardClientHistroyList", boardClientService.listAll_withMember_no_Date(member_no, start_page, date));
 		return jsonRoot;
 	}
 	

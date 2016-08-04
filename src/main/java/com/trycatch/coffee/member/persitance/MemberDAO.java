@@ -9,7 +9,7 @@ import com.trycatch.coffee.member.domain.MemberDTO;
 
 public interface MemberDAO {
 	public boolean insertMember(MemberDTO dto);
-	public void deleteMember(int member_no);
+	public boolean deleteMember(int member_no);
 	public void updateMember(MemberDTO dto);
 	public List<MemberDTO> getMemberList(int start_page, String member_email_search);
 	public MemberDTO getMember_no(int member_no);
@@ -18,5 +18,4 @@ public interface MemberDAO {
 	public MemberDTO getCreate_owner();
 	public MemberDTO getMember_WithPW(String member_email,String member_pw);
 	public boolean updateMember_pw(MemberDTO dto);
-
 }
