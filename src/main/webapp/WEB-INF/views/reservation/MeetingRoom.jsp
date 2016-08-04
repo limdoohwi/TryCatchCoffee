@@ -107,6 +107,7 @@ var store_no = "${store_dto.store_no}";
 var member_no = "${member_dto.member_no}";
 
 	$(document).ready(function(){
+		connect();
 		$("#Meeting-Reservation-List-Div").hide();
 		
 		//모달창 닫기 버튼 클릭시 Meeting-Reservation-List-Div hide
@@ -281,13 +282,14 @@ var member_no = "${member_dto.member_no}";
 							url:"/insert.meeting_room.order",
 							type:"post",
 							dataType:"json",
-							data:{meeting_reservation_time:selectedTime, meeting_reservation_date:post_date, meeting_order_date:sysdate, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no, store_no:store_no},
+							data:{meeting_reservation_time:selectedTime, meeting_reservation_date:post_date, meeting_order_date:sysdate, meeting_no:$("#client_select_meeting_room").val(), member_no:member_no,member_name:'${member_dto.member_name}', store_no:store_no},
 							success:function(data){
 								var time = selectedTime;
 								if(data == false){
 									alert("예약 진행 중 서버 오류 발생 :: 다시 한번 시도해주세요");
 									return;
 								}
+								sendName('${store_dto.member_no}');
 								//예약된 time과 일치하는 button을 찾아 불가로 변경
 								$("#Meeting-Reservation-List-Div").find("#meeting_time_table input[type=hidden]").each(
 										function(){
@@ -320,7 +322,30 @@ var member_no = "${member_dto.member_no}";
 		$("#client_select_meeting_room").val("미팅룸 선택");
 		$("#meeting_calendar_work_div").hide();
 	}
-
+	/*
+	WebSocket
+	*/
+	function connect() {
+		if ('WebSocket' in window) {
+			console.log('Websocket supported');
+			socket = new WebSocket('ws://' + document.location.hostname+ ':8080/owner//websocket');
+			console.log('Connection attempted');
+			socket.onopen = function() {
+				console.log('Connection open!');
+			}
+			socket.onclose = function() {
+				console.log('Disconnecting connection');
+			}
+		} else {
+			console.log('Websocket not supported');
+		}
+	}
+	function disconnect() {
+		console.log("Disconnected");
+	}
+	function sendName(member_no) {
+		socket.send(JSON.stringify({'member_no' : member_no, 'type' : 'orderalarm'}));
+	}
 </script>
 
 <style>

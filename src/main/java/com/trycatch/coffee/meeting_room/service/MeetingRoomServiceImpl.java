@@ -16,11 +16,15 @@ import com.trycatch.coffee.meeting_room.domain.MeetingRoomReservationDTO;
 import com.trycatch.coffee.meeting_room.persitance.MeetingRoomDAO;
 import com.trycatch.coffee.member.domain.MemberDTO;
 import com.trycatch.coffee.member.persitance.MemberDAO;
+import com.trycatch.coffee.order.domain.Order_AlarmDTO;
+import com.trycatch.coffee.order.service.OrderAlarmService;
 
 @Service
 public class MeetingRoomServiceImpl implements MeetingRoomService {
 	@Inject
 	private MeetingRoomDAO dao;
+	@Inject
+	private OrderAlarmService alarmService;
 
 	private static final Logger logger = LoggerFactory.getLogger(MeetingRoomServiceImpl.class);
 	
@@ -54,9 +58,18 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 		jsonRoot.put("meetingReservationTimeList", jsonArry);
 		return jsonRoot;
 	}
-	
+	/**
+	 * @author LimDooHwi 2016-08-04
+	 * 알람 테이블 저장 추가
+	 */
 	@Override
 	public boolean insertMeetingRoomReservation(MeetingRoomReservationDTO dto) throws Exception {
+		Order_AlarmDTO alarmDto = new Order_AlarmDTO();
+		alarmDto.setOrder_category_no(2);
+		alarmDto.setStore_no(dto.getStore_no());
+		String meeting_content = "예약자 : " +dto.getMember_name()+"/" + dto.getMeeting_reservation_date() + "/" + dto.getMeeting_reservation_time() +"/" + dto.getMeeting_no() +"번 방"+ "/";
+		alarmDto.setOrder_content(meeting_content);
+		alarmService.insertAlarm(alarmDto);
 		return dao.insertMeetingRoomReservation(dto);
 	}
 	

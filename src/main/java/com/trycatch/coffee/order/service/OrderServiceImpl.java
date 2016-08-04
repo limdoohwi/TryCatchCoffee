@@ -32,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * @author 김준혁 1. Menu_Payment DB 등록 2. 방금 등록한 Menu_Payment_no을 검색 3.
 	 *         Menu_Order DB 등록 1~3번중 하나라도 예외가 발생한다면 rollback
+	 * @author LimDooHwi
+	 * 		Alarm 정보 저장 추가 2016-08-04
 	 */
 	@Override
 	public boolean insertMenuPayment(Menu_PaymentDTO menuPaymentDto,  Menu_OrderDTO menuOrderDto) {
